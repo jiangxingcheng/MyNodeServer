@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS User_account;
+DROP DOMAIN IF EXISTS username;
+DROP TYPE IF EXISTS permissionlevel;
+DROP TYPE IF EXISTS userlevel;
