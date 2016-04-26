@@ -1,21 +1,26 @@
 -- Script to create all of the required stuff for MyNodeServer
 --
 -- Created by Wesley Van Pelt on 25 April 2016
--- Last modified by Wesley Van Pelt on 25 April 2016
+-- Last modified by Zachary Schafer on 26 April 2016
 
 
 ------------ Create Data Types ------------
-CREATE TYPE username FROM VARCHAR(16) NOT NULL;
-CREATE TYPE name FROM VARCHAR(64) NOT NULL;
-CREATE TYPE path FROM TEXT NOT NULL;
-CREATE TYPE permissionLevel FROM ENUM('r', 'w', 'rw');
-
+-- As it turns out these should be domains in postgres not types
+CREATE DOMAIN username VARCHAR(16) NOT NULL;
+CREATE DOMAIN name VARCHAR(64) NOT NULL;
+CREATE DOMAIN path TEXT NOT NULL;
+CREATE TYPE permissionLevel AS ENUM('r', 'w', 'rw');
+create TYPE userLevel as ENUM('Admin', 'Mod', 'User');
+--CREATE TYPE path must be implemented
 
 ------------ Create Tables ------------
-CREATE TABLE User(
-	Username username CHECK(LEN(Username) > 1),
-	Password VARCHAR(32) CHECK(LEN(Password) > 7),
-	UserLevel ENUM('Admin', 'Mod', 'User') NOT NULL,
+--User is a reserved word so we must another
+--CREATE TABLE User(
+CREATE TABLE User_account(
+        --LEN changed to LENGTH
+	Username username CHECK(LENGTH(Username) > 1),
+	Password VARCHAR(32) CHECK(LENGTH(Password) > 7),
+	UserLevel userLevel NOT NULL,
 	LastAccessDate TIMESTAMP NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	PRIMARY KEY(Username)
