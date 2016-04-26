@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>100</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;taSelection&gt;&gt;
+/app.js/
+-
+--studentDataService
+--classesService</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>330</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>/classesService/
+classesService.js
+-
++Loads class data for
+*self.classes*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>450</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>/studentDataService/
+studentDataService.js
+-
++Loads student data for
+*self.students*
++Adds classes to students</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>590</y>
+      <w>200</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=.
+bg=pink
+/taCollectionsService/
+taCollectionsService.js
+-
+/deprecated/
+/loads student data for/
+/self.students/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>560</y>
+      <w>200</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>*TACollectionCtrl*
+TACollectionCtrl.js
+-
+classesService:
+-getNextClasses()
+studentDataService:
+-$scope.goTO() </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>390</y>
+      <w>130</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;210.0;50.0;210.0;50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>520</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;110.0;40.0;110.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>660</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+bg=pink</panel_attributes>
+    <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>350</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>*StudentDetailCtrl*
+StudentDetailCtrl.js
+-
+studentDataService:
+-detailStudent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>370</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;70.0;10.0;70.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>210</y>
+      <w>200</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>*ClassesCtrl*
+ClassesCtrl.js
+-
+classesService:
+*-$scope.courses*
+studentDataService:
+-$scope.goTo()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>250</y>
+      <w>130</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;40.0;10.0;40.0;90.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>170</y>
+      <w>120</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;200.0;10.0;200.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>170</y>
+      <w>140</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;320.0;10.0;320.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>170</y>
+      <w>160</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+bg=pink</panel_attributes>
+    <additional_attributes>140.0;460.0;10.0;460.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>220</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>bg=light_gray
+/jsonLoaderService/
+jsonLoaderService.js
+-
+/Temporary Service/
+Returns relevant JSON data
+*Used by all other services*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>230</x>
+      <y>30</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Modules
+--
+style=wordwrap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>460</x>
+      <y>30</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Services
+--
+style=wordwrap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>760</x>
+      <y>30</y>
+      <w>450</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Controllers
+--
+style=wordwrap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>100</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>bg=light_gray
+lt=.
+/csvParse/
+csvParse.js
+-
+/Unused Service/
+Returns JSON data from CSV
+*Req: Work Study Students*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1010</x>
+      <y>430</y>
+      <w>200</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>*StudentDataCtrl*
+StudentDataCtrl.js
+-
+TACollectionCtrl/ClassesCtrl:
+*-$scope.className*
+StudentDataService:
+*-$scope.class*
+*-$scope.studentData*
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>250</y>
+      <w>100</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;180.0;80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>550</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;80.0;60.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>480</y>
+      <w>380</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>360.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>110</x>
+      <y>0</y>
+      <w>1250</w>
+      <h>710</h>
+    </coordinates>
+    <panel_attributes>Project Hierarchy
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>110</x>
+      <y>720</y>
+      <w>1250</w>
+      <h>430</h>
+    </coordinates>
+    <panel_attributes>Information Flow
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>820</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=[Server.js]-&gt;
+</panel_attributes>
+    <additional_attributes>30.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>820</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;taselection&gt;&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>850</y>
+      <w>130</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Initializes</panel_attributes>
+    <additional_attributes>110.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>880</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>classesService</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>820</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Request Data</panel_attributes>
+    <additional_attributes>150.0;60.0;150.0;20.0;10.0;20.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>880</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>jsonLoaderService</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>920</y>
+      <w>220</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+Recieve Data</panel_attributes>
+    <additional_attributes>120.0;10.0;120.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>930</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>studentDataService</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>860</y>
+      <w>160</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>780</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>ClassesCtrl</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>770</y>
+      <w>370</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Passes Next Quarter's classes to controller</panel_attributes>
+    <additional_attributes>350.0;20.0;10.0;20.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>950</y>
+      <w>370</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Passes students and classes taken to controller</panel_attributes>
+    <additional_attributes>350.0;140.0;10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>1080</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>StudentDetailCtrl</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>770</y>
+      <w>240</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=[Modify Scope - courses]&lt;-
+
+
+</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>1070</y>
+      <w>260</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=[Modify Scope - detailStudent]&lt;-
+
+</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>900</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>TACollectionCtrl</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>780</y>
+      <w>120</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>920</y>
+      <w>390</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Passes class to display to service (for StudentData)</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;80.0;370.0;80.0;370.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>900</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>StudentDataCtrl</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>920</y>
+      <w>600</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+Passes [some_class in classes] to display to controller (to:class)</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;120.0;580.0;120.0;580.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>880</y>
+      <w>250</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+bg=red
+fg=red
+Can set some_class (to:className)</panel_attributes>
+    <additional_attributes>160.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>800</y>
+      <w>240</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+bg=red
+fg=red
+Can set some_class (to:className)</panel_attributes>
+    <additional_attributes>210.0;100.0;210.0;70.0;20.0;70.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1220</x>
+      <y>970</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Modify Scope -
+className
+class
+studentData</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>900</y>
+      <w>130</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>110.0;70.0;110.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

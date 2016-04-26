@@ -1,0 +1,17 @@
+<!-- <tr  ng-form="taform_{{some_class.Name}}"  ng-repeat="some_class in classes" > -->
+<tr  ng-form="taform_{{some_class.Name}}"   >
+            <td><a href ng-click="goTo('/list-students/' + some_class.Name)">{{some_class.Name}}</a></td>
+            <td>{{some_class.Description}}</td>
+            <td>{{some_class.Instructor | lowercase}}</td>
+            <td>{{some_class.sizemin}} / {{some_class.sizemax}}</td>
+            <td ng-class="{'has-error' : !taform.grades.$valid}">
+                <input type="number" name="graders" min="0" ng-model="some_class.Needs.Graders" class="text-center"></input>
+            </td>
+            <td>
+                <input type="number" name="classass" min="0" ng-model="some_class.Needs.ClassAssistants" class="text-center"></input>
+            </td>
+            <td>
+                <input type="number" name="labass" min="0" ng-model="some_class.Needs.LabAssistants" class="text-center"></input>
+            </td>
+            <td><textarea type="text" auto-grow ng-model="some_class.Notes" class="text-center"></textarea></td>
+            <!-- </tr> -->

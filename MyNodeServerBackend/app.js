@@ -9,6 +9,12 @@ var app = module.exports = express();
 var dbExport = require('./dbinfo');
 var dbInstance = dbExport.dbInstance;
 app.set('db',dbInstance);
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

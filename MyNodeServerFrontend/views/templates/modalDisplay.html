@@ -1,0 +1,14 @@
+<div class="modal-header">Choose a TA position </div>
+<div class="modal-body">
+    <div class="btn-group btn-group-lg">
+        <button ng-click="press(1)" type="button" class="btn" ng-class="(1 == selectedButton) ? 'btn-primary' : 'btn-default'">Graders</button>
+  <button ng-click="press(2)" type="button" class="btn " ng-class="(2 == selectedButton) ? 'btn-primary' : 'btn-default'">Class Assistant</button>
+  <button ng-click="press(3)" type="button" class="btn " ng-class="(3 == selectedButton) ? 'btn-primary' : 'btn-default'">Lab Assistant</button>
+</div>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="ok()" class="btn btn-primary">Submit</button>
+    <button ng-click="cancel()" class="btn btn-warning">Cancel</button>
+</div>
+
