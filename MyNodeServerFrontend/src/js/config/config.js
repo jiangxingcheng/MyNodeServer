@@ -8,6 +8,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/usersearch.html',
             controller: 'UserCtrl'
         })
+        .when('/forum', {
+            templateUrl: 'views/forum.html',
+            controller: 'ForumCtrl'
+        })
         .otherwise({
             redirectTo: '/home'
         });
