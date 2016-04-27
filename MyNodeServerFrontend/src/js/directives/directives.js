@@ -13,3 +13,12 @@ app.directive('navigator', ['$location', function($location)
         }
     };
 }]);
+app.directive('navBar', ['$location', function(location)
+                         {
+    return {
+        restrict: 'E',
+        templateUrl: 'views/topbar.html',
+        replace: true
+    };
+
+}]);
