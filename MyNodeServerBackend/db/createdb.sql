@@ -33,13 +33,16 @@ PRIMARY KEY(FPath)
 );
 CREATE TABLE Category(
 Title title NOT NULL,
+Username username NOT NULL,
 TimeOfCreation TIMESTAMP NOT NULL,
 PRIMARY KEY(Title)
 );
 CREATE TABLE Thread(
 Title title NOT NULL,
+Username username NOT NULL,
 TimeOfCreation TIMESTAMP NOT NULL,
-PRIMARY KEY(Title)
+PRIMARY KEY(Title),
+FOREIGN KEY(Username) REFERENCES User_account(Username)
 );
 CREATE TABLE Comment(
 Username username NOT NULL,

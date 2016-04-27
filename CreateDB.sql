@@ -101,7 +101,6 @@ CREATE TABLE ThreadComment(
 	--FOREIGN KEY(Username) REFERENCES Thread(Username),
         --Username should reference a user_account's username
         FOREIGN KEY(Username) REFERENCES User_account(Username),
-	FOREIGN KEY(TimeOfCreation) REFERENCES Thread(TimeOfCreation),
 	FOREIGN KEY(TTitle) REFERENCES Thread(Title)
 );
 
