@@ -49,9 +49,9 @@ PRIMARY KEY(Username, TimeOfCreation),
 FOREIGN KEY(Username) REFERENCES User_account(Username)
 );
 CREATE TABLE ThreadHasCategory(
-CTitle title NOT NULL,
 TTitle title NOT NULL,
-PRIMARY KEY(CTitle, TTitle),
+CTitle title NOT NULL,
+PRIMARY KEY(CTitle,TTitle),
 FOREIGN KEY(CTitle) REFERENCES Category(Title),
 FOREIGN KEY(TTitle) REFERENCES Thread(Title)
 );
