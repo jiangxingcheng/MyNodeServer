@@ -2,12 +2,15 @@ var express = require('express');
 var router = express.Router();
 var sqlquery = require('../sqlquery.js');
 console.log("Sql query run");
-var destroyAndPopulate = function(){
+var destroyAndPopulate = function(callback){
     sqlquery.destroyDatabase(function(){
         sqlquery.createDatabase(function(){
             sqlquery.populateDatabase(function(){
                 //sqlquery.queryDatabase();
                 sqlquery.findUserByUsername("schafezp",function(err,data){
+                    console.log(data);
+                });
+                sqlquery.getThreadCategories(function(err,data){
                     console.log(data);
                 });
             });
@@ -24,6 +27,9 @@ var destroyAndCreate = function(){
 
         });
     });
+}
+var getThreads = function(){
+
 }
 
 //Leave just destroy to clear the db and start fresh
