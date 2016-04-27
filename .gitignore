@@ -1,1 +1,7 @@
 npm-debug.log
+MyNodeServerBackend/.idea
+MyNodeServerFrontend/.idea
+.idea
+MyNodeServerBackend/node_modules
+MyNodeServerFrontend/node_modules
+
