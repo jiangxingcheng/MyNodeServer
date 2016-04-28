@@ -1,6 +1,6 @@
 app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout', function ($scope,$location, $log,sqlService,$timeout)
 {
-    //$scope.elements = Useraccount.init();
+    $scope.threads = ["General","Help","NSFW","/b/"];
     $scope.isPageCollapsed = true;
     $scope.init = function () {
         //Set the page to uncollapsed when we present it

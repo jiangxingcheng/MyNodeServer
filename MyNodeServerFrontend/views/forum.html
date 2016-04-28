@@ -47,28 +47,10 @@
     </div>
     <div class="threads">
         <div class="row row-centered">
-            <div class="col-lg-3">
+            <div class="col-lg-3" ng-repeat="threadname in threads">
                 <img src="../src/img/wallpaper.png" class="img-responsive"
-                     alt="General" title="General"/>
-                <h3 align = "center">General</h3>
-            </div>
-
-            <div class="col-lg-3">
-                <img src="../src/img/wallpaper.png" class="img-responsive"
-                     alt="Help" title="Help"/>
-                <h3 align = "center">Help</h3>
-
-            </div>
-            <div class="col-lg-3">
-                <img src="../src/img/wallpaper.png" class="img-responsive"
-                     alt="NSFW" title="NSFW"/>
-                <h3 align = "center">NSFW</h3>
-
-            </div>
-            <div class="col-lg-3">
-                <img src="../src/img/wallpaper.png" class="img-responsive"
-                     alt="Random" title="Random"/>
-                <h3 align = "center">/b/</h3>
+                     alt="{{threadname}}" title="{{threadname}}"/>
+                <h3 align = "center">{{threadname}}</h3>
             </div>
     </div>
 </div>
