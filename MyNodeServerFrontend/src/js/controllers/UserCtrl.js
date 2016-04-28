@@ -26,13 +26,4 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService','$timeou
         $scope.users = data;
     });
     $scope.count = 0;
-    $scope.isPageCollapsed = true;
-    $scope.init = function () {
-        //Set the page to uncollapsed when we present it
-        $scope.isPageCollapsed = false;
-    };
-    //Wait short period of time to let the page start as collapsed then open
-    $timeout($scope.init,20);
-    //$scope.elements = Useraccount.init();
-    //$scope.elements = Useraccount.init();
 }]);
