@@ -1,18 +1,24 @@
-<h1> Search for a user </h1>
-<input name="Username" ng-model="searchuser">
-<button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
-<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1> Search for a user </h1>
+            <input name="Username" ng-model="searchuser">
+            <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
+            <hr>
 
-Results: {{user}}
+            Results: {{user}}
 
-<!-- THIS IS THE CAROUSEL ITS NOT WERKING AS INTEDED -->
-<!--<div id="slides_control">-->
-    <!--<carousel interval="myInterval">-->
-        <!--<slide ng-repeat="slide in slides" active="slide.active">-->
+            <!-- THIS IS THE CAROUSEL ITS NOT WERKING AS INTEDED -->
+            <!--<div id="slides_control">-->
+            <!--<carousel interval="myInterval">-->
+            <!--<slide ng-repeat="slide in slides" active="slide.active">-->
             <!--<img ng-src="{{slide.image}}">-->
             <!--<div class="carousel-caption">-->
-                <!--<h4>Slide {{$index+1}}</h4>-->
+            <!--<h4>Slide {{$index+1}}</h4>-->
             <!--</div>-->
-        <!--</slide>-->
-    <!--</carousel>-->
-<!--</div>-->
+            <!--</slide>-->
+            <!--</carousel>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>

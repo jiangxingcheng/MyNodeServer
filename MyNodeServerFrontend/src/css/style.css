@@ -1,17 +1,44 @@
-#slides_control > div{
-    height: 200px;
+html,
+body {
+    height: 100%;
+    font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    font-size:small;
+    color: #000000;
 }
-img{
-    margin:auto;
-    width: 400px;
-}
-#slides_control {
-    position:absolute;
-    width: 400px;
-    left:50%;
-    top:20px;
-    margin-left:-200px;
-}
-.navbar{
+
+/* THIS IS FOR CAROUSEL IT DOESNT WERK LOL */
+/*#slides_control > div{*/
+    /*height: 200px;*/
+/*}*/
+/*img{*/
+    /*margin:auto;*/
+    /*width: 400px;*/
+/*}*/
+/*#slides_control {*/
+    /*position:absolute;*/
+    /*width: 400px;*/
+    /*left:50%;*/
+    /*top:20px;*/
+    /*margin-left:-200px;*/
+/*}*/
+
+.navbar {
     position: relative;
+    left: 0px;
+    right: 0px;
+
+    background-color: #000000;
+    color: #0069ee;
+}
+.navbar-nav>li{
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+}
+
+.navbar-nav>li:hover {
+    color: rgb(0, 0, 0);
+    background-color: #0069ee;
+    text-decoration: none;
 }
