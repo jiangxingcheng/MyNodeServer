@@ -5,6 +5,10 @@ To run the project run the following commands in both MyNodeServerBackend and My
 ```javascript
 npm install
 ```
+In MyNodeServerFrontend also run
+```javascript
+bower install
+```
 Then change the connection string in MyNodeServerBackend/dbinfo.js to be appropriate for your instance of postgres.
 
 ### Running
