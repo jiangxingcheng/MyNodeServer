@@ -1,8 +1,10 @@
-app.controller('HomeCtrl', ['$scope', '$location', '$log', 'sqlService', function ($scope, $location, $log, sqlService) {
+app.controller('HomeCtrl', ['$scope', '$location', '$log', 'sqlService','$timeout', function ($scope, $location, $log, sqlService,$timeout) {
+    $scope.isPageCollapsed = true;
     $scope.init = function () {
-        // check if there is query in url
-        // and fire search in case its value is not empty
-        $('.page-body').removeClass('page-body-collapse');
-
+        //Set the page to uncollapsed when we present it
+        $scope.isPageCollapsed = false;
+        //console.log('Print');
     };
+    //Wait short period of time to let the page start as collapsed then open
+    $timeout($scope.init,20);
 }]);
