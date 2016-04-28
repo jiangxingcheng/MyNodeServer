@@ -21,8 +21,6 @@ app.directive('webpage', ['$timeout','$log', function($timeout,$log)
             scope.isPageCollapsed = true;
             scope.init = function () {
                 element.removeClass("page-body-collapse");
-                $log.log('Element is ');
-                $log.log(element);
             };
             //Wait short period of time to let the page start as collapsed then open
             element.addClass("page-body-collapse");
