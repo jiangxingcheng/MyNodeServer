@@ -21,6 +21,9 @@
                         <a class="active" navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
                     </li>
                     <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'about'})">About</a>
+                    </li>
+                    <li>
                         <a navigator href ng-click="goTo({viewLoc: 'user'})">Users</a>
                     </li>
                     <li>
@@ -34,7 +37,7 @@
     </nav>
 </div>
 
-<div align="center" class="container">
+<div align="center" data-ng-controller="HomeCtrl" data-ng-init="init()" class="container page-body page-body-collapse">
     <div class="row block-1">
         <div class="col-lg-12 jumbotron">
             <h1>Local Node</h1>
@@ -43,9 +46,8 @@
     </div>
     <div class="row block-2">
         <div class="col-lg-8">
-            <h2>About Company Page</h2>
+            <h2>Wtf is this and learn more about this page</h2>
             <h4>We're like a cloud but at your house. it's pretty awesome yo</h4>
-            <p>Lorem ipsum..</p>
             <button class="btn-lg">Learn More</button>
         </div>
         <div class="col-lg-4">
@@ -58,9 +60,7 @@
         </div>
         <div class="col-lg-8">
             <h2>We value security</h2>
-            <h4>We deliver highly secure shit so that 1337h4x0rZ can't hack your shit yo</h4>
-            <h3>basically good stuff cool shit and awesome things store and secure stuff really awesome stuff
-            </h3>
+            <h4>Local Node delivers secure shit so that 1337h4x0rZ can't hack your shit yo</h4>
         </div>
     </div>
 </div>

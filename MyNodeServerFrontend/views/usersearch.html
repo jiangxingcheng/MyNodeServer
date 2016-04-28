@@ -21,6 +21,9 @@
                         <a navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
                     </li>
                     <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'about'})">About</a>
+                    </li>
+                    <li>
                         <a class="active" navigator href ng-click="goTo({viewLoc: 'user'})">Users</a>
                     </li>
                     <li>
@@ -34,13 +37,13 @@
     </nav>
 </div>
 
-<div class="container container-1">
+<div class="container container-1 page-body page-body-collapse">
     <div class="row">
         <div class="col-lg-12">
             <h1> Search for a user </h1>
             <input class="input-1" name="Username" ng-model="searchuser">
             <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
-            <hr>
+            <hr class="hr">
 
             Results: {{user}}
             <!-- THIS IS THE CAROUSEL ITS NOT WERKING AS INTEDED -->
@@ -59,19 +62,18 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="intro-message">
-                <hr>
+                <hr class="hr-fat">
                 <h1> Display all users </h1>
                 <!-- <h3> Display all users or search for user </h3>
                      <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user!</button> -->
 
-                <hr>
+                <hr class="hr">
                 <ol ng-repeat="user in users">
-                    <ul>
-                        <li>Username : {{user.username }}</li>
-                        <li>Permission Level : {{user.userlevel }}</li>
-                        <li>Last Access Date : {{user.lastaccessdate }}</li>
-                        <li>Time of Creation : {{user.timeofcreation }}</li>
-                        <hr class="intro-divider">
+                    <ul class="user-block">
+                        <p>Username : {{user.username }}</p>
+                        <p>Permission Level : {{user.userlevel }}</p>
+                        <p>Last Access Date : {{user.lastaccessdate }}</p>
+                        <p>Time of Creation : {{user.timeofcreation }}</p>
                     </ul>
                 </ol>
             </div>

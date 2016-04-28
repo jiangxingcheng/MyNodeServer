@@ -12,6 +12,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: 'views/forum.html',
             controller: 'ForumCtrl'
         })
+        .when('/about', {
+            templateUrl: 'views/about.html',
+            controller: 'AboutCtrl'
+        })
         .otherwise({
             redirectTo: '/home'
         });
