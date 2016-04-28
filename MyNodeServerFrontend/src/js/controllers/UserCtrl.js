@@ -2,7 +2,7 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService', functio
     $scope.searchuser = "";
     $scope.user = "";
     $scope.onClick = function () {
-        sqlService.getUserByUsername({"username": $scope.searchuser}, function (data) {
+        sqlService.getUserByUsername($scope.searchuser, function (data) {
             $scope.user = data;
         });
     };
@@ -26,9 +26,7 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService', functio
         $scope.users = data;
     });
     $scope.count = 0;
-    $scope.onClick = function(){
-        $location.url('/user');
-    };
+
     //$scope.elements = Useraccount.init();
     //$scope.elements = Useraccount.init();
 }]);

@@ -18,13 +18,13 @@ var app = angular.module('DataManager', []);
     }]);
 
 app.factory('Useraccount', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
-        var url = EnvConfig.api.baseUrl + 'users/:name';
-        // var posturl = EnvConfig.api.baseUrl + 'coursespost/:id' + EnvConfig.api.suffix;
-        return $resource(url,
-            {},
+        var url = EnvConfig.api.baseUrl + 'users/:username';
+      return $resource(url,{},
             {
-                update: {method: 'PUT', params: {name: '@name'}},
-                getSingle: {method: 'GET', params: {name: '@name'}}
+                update: {method: 'PUT', params: {name: '@username'}},
+                getSingle: {method: 'GET', params: {name: '@username'}}
+
+
             }
 
             );

@@ -16,12 +16,11 @@ app.service('sqlService', ['$http','$log' ,'Useraccount',function ($http,$log,Us
         });
     }
     self.getUserByUsername = function(username, callback){
-        Useraccount.getSingle(username,function(data){
-            $log.log(data);
+       Useraccount.query({"username":username},function(data){
             self.users = data;
             callback(data);
         });
-    }
+    };
     /**
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
