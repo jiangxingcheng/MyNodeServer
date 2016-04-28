@@ -22,23 +22,54 @@ body {
     /*margin-left:-200px;*/
 /*}*/
 
-.navbar {
+.navbar-default {
     position: relative;
     left: 0px;
     right: 0px;
-
+    padding: 0px;
+    margin: 0px;
     background-color: #000000;
-    color: #0069ee;
+
 }
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >
+a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: white; /*BACKGROUND color for active*/
+    background-color: #030033;
+
+}
+
 .navbar-nav>li{
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
+
 }
 
-.navbar-nav>li:hover {
+.navbar-nav>li:hover,
+.nav > li > a:focus {
     color: rgb(0, 0, 0);
     background-color: #0069ee;
     text-decoration: none;
+
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff; /*Change active text color here*/
+
+}
+
+.container.container-fluid {
+    padding-right: 0; /*15px in bootstrap.css*/
+    padding-left: 0;  /*idem*/
+    margin-right: 0;
+    margin-left: 0;
+
+}
+
+ul#navigation .active{
+    color: #000000;
+    background-color: #0069ee;
+
 }

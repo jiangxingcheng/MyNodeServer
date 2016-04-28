@@ -14,17 +14,17 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
-                    <img class="logo" src="../src/img/logo.jpg" width=350px alt="Logo">
+                    <a href="#" class="pull-left"><img src="../src/img/logo.jpg"></a>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul id="navigation" class="nav navbar-nav navbar-right">
                     <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
+                        <a class="active" navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
                     </li>
                     <li>
                         <a navigator href ng-click="goTo({viewLoc: 'user'})">Users</a>
                     </li>
                     <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'forum'})">Forums</a>
+                        <a navigator href ng-click="goTo({viewLoc: 'forum'})">Forum</a>
                     </li>
                 </ul>
             </div>
