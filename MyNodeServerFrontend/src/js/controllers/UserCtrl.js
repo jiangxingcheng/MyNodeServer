@@ -21,6 +21,14 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService', functio
             image: 'http://lorempixel.com/400/200/people'
         }
     ];
-
+    $scope.users = sqlService.users;
+    sqlService.getUsers(function(data){
+        $scope.users = data;
+    });
+    $scope.count = 0;
+    $scope.onClick = function(){
+        $location.url('/user');
+    };
+    //$scope.elements = Useraccount.init();
     //$scope.elements = Useraccount.init();
 }]);

@@ -29,6 +29,10 @@ body {
     padding: 0px;
     margin: 0px;
     background-color: #000000;
+    margin-top: 0px;
+    margin-left: -5%;
+    margin-right: -5%;
+    box-shadow: #212121;
 
 }
 
@@ -61,7 +65,8 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 
 .container.container-fluid {
-    padding-right: 0; /*15px in bootstrap.css*/
+    padding-right
+    : 0; /*15px in bootstrap.css*/
     padding-left: 0;  /*idem*/
     margin-right: 0;
     margin-left: 0;
@@ -71,5 +76,24 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 ul#navigation .active{
     color: #000000;
     background-color: #0069ee;
+}
+
+.navbar-brand {
+    max-height: 40px;
+    max-width: 30%;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body {
+    background-image: url(../img/wallpaper.png);
+}
+
+.jumbotron
+{
+    background-color: #0069ee; /* Orange */
+    color: #ffffff;
+    border: 15px solid #000000;
 
 }

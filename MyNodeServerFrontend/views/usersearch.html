@@ -13,9 +13,9 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-left">
-                    <img class="logo img-responsive" src="../src/img/logo.jpg" width=340px alt="Logo">
-                </ul>
+                <a class="navbar-brand">
+                    <img class="logo img-responsive" src="../src/img/logo.png" width=340px alt="Logo">
+                </a>
                 <ul id="navigation" class="nav navbar-nav navbar-right">
                     <li>
                         <a navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
@@ -34,28 +34,52 @@
     </nav>
 </div>
 
+<div class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1> Search for a user </h1>
+                <input name="Username" ng-model="searchuser">
+                <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
+                <hr>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1> Search for a user </h1>
-            <input name="Username" ng-model="searchuser">
-            <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
-            <hr>
+                Results: {{user}}
+                <!-- THIS IS THE CAROUSEL ITS NOT WERKING AS INTEDED -->
+                <!--<div id="slides_control">-->
+                <!--<carousel interval="myInterval">-->
+                <!--<slide ng-repeat="slide in slides" active="slide.active">-->
+                <!--<img ng-src="{{slide.image}}">-->
+                <!--<div class="carousel-caption">-->
+                <!--<h4>Slide {{$index+1}}</h4>-->
+                <!--</div>-->
+                <!--</slide>-->
+                <!--</carousel>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <hr>
+                    <h1> Display all users </h1>
+                    <!-- <h3> Display all users or search for user </h3>
+                         <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user!</button> -->
 
-            Results: {{user}}
-
-            <!-- THIS IS THE CAROUSEL ITS NOT WERKING AS INTEDED -->
-            <!--<div id="slides_control">-->
-            <!--<carousel interval="myInterval">-->
-            <!--<slide ng-repeat="slide in slides" active="slide.active">-->
-            <!--<img ng-src="{{slide.image}}">-->
-            <!--<div class="carousel-caption">-->
-            <!--<h4>Slide {{$index+1}}</h4>-->
-            <!--</div>-->
-            <!--</slide>-->
-            <!--</carousel>-->
-            <!--</div>-->
+                    <hr>
+                    <ol ng-repeat="user in users">
+                        <ul>
+                            <li>Username : {{user.username }}</li>
+                            <li>Permission Level : {{user.userlevel }}</li>
+                            <li>Last Access Date : {{user.lastaccessdate }}</li>
+                            <li>Time of Creation : {{user.timeofcreation }}</li>
+                            <hr class="intro-divider">
+                        </ul>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <!-- /.container -->
+
+
+
