@@ -286,6 +286,16 @@ p {
     margin: 10px 0px 10px;
     margin-left: 15px;
 }
+
+
+.profile {
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-right: 5%;
+
+
+}
+
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
     /*opacity: 1;*/
