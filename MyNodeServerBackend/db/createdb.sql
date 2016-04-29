@@ -21,15 +21,43 @@ TimeOfCreation TIMESTAMP NOT NULL,
 PRIMARY KEY(Username)
 );
 
+CREATE TABLE Friends(
+Username1 username NOT NULL,
+Username2 username NOT NULL,
+PRIMARY KEY(Username1, Username2),
+FOREIGN KEY(Username1) REFERENCES User_Account(Username),
+FOREIGN KEY(Username2) REFERENCES User_Account(Username)
+);
 ------ Forum Tables ------
 CREATE TABLE Directory(
 DPath fullpath NOT NULL,
-PRIMARY KEY(DPath)
+ParentPath fullpath,
+Username username,
+PRIMARY KEY(DPath),
+FOREIGN KEY(Username) REFERENCES User_Account(Username)
 );
-
+CREATE TABLE UserPermitsDirectory(
+Username username NOT NULL,
+DPath fullpath NOT NULL,
+PermissionLevel permissionLevel NOT NULL,
+PRIMARY KEY(Username, DPath),
+FOREIGN KEY(Username) REFERENCES User_Account(Username),
+FOREIGN KEY(DPath) REFERENCES Directory(DPath)
+);
 CREATE TABLE File(
 FPath fullpath NOT NULL,
-PRIMARY KEY(FPath)
+ParentPath fullpath,
+Username username,
+PRIMARY KEY(FPath),
+FOREIGN KEY(Username) REFERENCES User_account(Username)
+);
+CREATE TABLE UserPermitsFile(
+Username username NOT NULL,
+FPath fullpath NOT NULL,
+PermissionLevel permissionLevel NOT NULL,
+PRIMARY KEY(Username, FPath),
+FOREIGN KEY(Username) REFERENCES User_Account(Username),
+FOREIGN KEY(FPath) REFERENCES File(FPath)
 );
 CREATE TABLE Category(
 Title title NOT NULL,
@@ -37,6 +65,7 @@ Username username NOT NULL,
 TimeOfCreation TIMESTAMP NOT NULL,
 PRIMARY KEY(Title)
 );
+
 CREATE TABLE Thread(
 Title title NOT NULL,
 Username username NOT NULL,

@@ -30,6 +30,7 @@ var destroyAndCreate = function(){
 }
 
 //Leave just destroy to clear the db and start fresh
+//destroy();
 //destroyAndCreate();
 destroyAndPopulate();
 //Use destroyAndCreate to destroy and repopulate the database.
