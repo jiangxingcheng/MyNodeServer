@@ -25,6 +25,8 @@ app.directive('webpage', ['$timeout','$log','ngProgressFactory', function($timeo
             //Wait short period of time to let the page start as collapsed then open
             element.addClass("page-body-collapse");
             scope.progressbar = ngProgressFactory.createInstance();
+            scope.progressbar.setColor('#0069ee');
+            scope.progressbar.setHeight('4px');
             scope.progressbar.start();
             $timeout(scope.init,20);
 

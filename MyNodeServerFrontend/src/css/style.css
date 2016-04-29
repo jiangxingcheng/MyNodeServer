@@ -98,7 +98,7 @@ body {
     color: #ffffff;
     border-radius: 0 !important;
 }
-
+/*TODO: MODULARIZE STRIPED BLOCKS*/
 .block-1 {
     background-color: #0069ee;
     color: #ffffff;
@@ -288,12 +288,11 @@ p {
 }
 
 
-.profile {
+.profile, .list {
     margin-bottom: 5%;
     margin-top: 5%;
     margin-right: 5%;
-
-
+    font-size: 12pt;
 }
 
 /* TODO: Implement fade effect for user search text */
