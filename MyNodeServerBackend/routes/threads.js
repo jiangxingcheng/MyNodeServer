@@ -1,5 +1,7 @@
 var express = require('express');
 var sqlquery = require('../sqlquery.js');
+var app = require('./../app');
+var db = app.get('db');
 var router = express.Router(),
     bodyParser = require('body-parser'), // parses info from post
     methodOverride = require('method-override'); // used to manipulate post data
@@ -15,7 +17,7 @@ router.use(methodOverride(function(req, res){
 
 router.route('/')
     .get(function(req,res,next){
-        var threads = sqlquery.getThreadCategories(function(err,data){
+        var threads = db.getthreads(function(err,data){
             if(err || data === []){
                 console.log('No Thread information');
                 res.stat(404);

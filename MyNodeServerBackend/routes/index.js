@@ -10,7 +10,7 @@ var destroyAndPopulate = function(callback){
                 sqlquery.findUserByUsername("schafezp",function(err,data){
                     console.log(data);
                 });
-                sqlquery.getThreadCategories(function(err,data){
+                sqlquery.getThreads(function(err,data){
                     console.log(data);
                 });
             });
@@ -27,9 +27,6 @@ var destroyAndCreate = function(){
 
         });
     });
-}
-var getThreads = function(){
-
 }
 
 //Leave just destroy to clear the db and start fresh
