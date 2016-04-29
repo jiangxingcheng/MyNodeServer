@@ -245,6 +245,6 @@ body {
 }
 
 .page-body-collapse {
-    margin-top: 100%;
+    margin-top: -100%;
 
 }
