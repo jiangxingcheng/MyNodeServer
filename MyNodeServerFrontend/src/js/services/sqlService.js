@@ -1,4 +1,4 @@
-app.service('sqlService', ['$http','$log' ,'Useraccount',function ($http,$log,Useraccount) {
+app.service('sqlService', ['$http','$log' ,'Useraccount','Thread',function ($http,$log,Useraccount,Thread) {
     var self = this;
 
     self.users = ["One things","two things","three things"];
@@ -14,10 +14,16 @@ app.service('sqlService', ['$http','$log' ,'Useraccount',function ($http,$log,Us
             self.users = data;
             callback(data);
         });
-    }
+    };
     self.getUserByUsername = function(username, callback){
        Useraccount.query({"username":username},function(data){
             self.users = data;
+            callback(data);
+        });
+    };
+    self.getThreads = function(callback){
+        Thread.query(function(data){
+            self.threads = data;
             callback(data);
         });
     };

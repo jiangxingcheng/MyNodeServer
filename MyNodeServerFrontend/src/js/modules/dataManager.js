@@ -29,3 +29,15 @@ app.factory('Useraccount', ['$resource', 'EnvConfig', function($resource, EnvCon
 
             );
 }]);
+
+app.factory('Thread', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+    var url = EnvConfig.api.baseUrl + 'threads/:threadname';
+    return $resource(url,{},
+                     {
+                         update: {method: 'PUT', params: {name: '@threadname'}},
+                         getSingle: {method: 'GET', params: {name: '@threadname'}}
+
+                     }
+
+                    );
+}]);
