@@ -25,7 +25,6 @@ app.directive('webpage', ['$timeout','$log', function($timeout,$log)
             //Wait short period of time to let the page start as collapsed then open
             element.addClass("page-body-collapse");
             $timeout(scope.init,20);
-
         }
     };
 }]);
