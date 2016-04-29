@@ -23,11 +23,11 @@ body {
 /*}*/
 
 .navbar-default {
-    position: relative;
+    position: fixed;
     left: 0px;
     right: 0px;
     padding: 0px;
-    margin: 0px;
+    margin-bottom: -20%;
     background-color: #000000;
     margin-top: 0px;
     margin-left: -5%;
@@ -94,22 +94,30 @@ body {
 }
 
 .jumbotron {
-    background-color: #0069ee; /* Orange */
+    background-color: #0069ee;
     color: #ffffff;
     border-radius: 0 !important;
 }
 
-.block-1, .container-1 {
-    background-color: #0069ee; /* Orange */
+.block-1 {
+    background-color: #0069ee;
     color: #ffffff;
     border-radius: 0 !important;
     border-right: 5px solid #ffffff;
     border-left: 5px solid #ffffff;
+}
+.container-1 {
+    background-color: #0069ee;
+    color: #ffffff;
+    border-radius: 0 !important;
+    border-right: 5px solid #ffffff;
+    border-left: 5px solid #ffffff;
+    margin-top: 47px;
 
 }
 
 .block-2 {
-    background-color: #000000; /* Orange */
+    background-color: #000000;
     color: #ffffff;
     border-radius: 0 !important;
     border-right: 5px solid #ffffff;
@@ -128,11 +136,13 @@ body {
 .logo-1:hover {
     font-size: 200px;
     color: #0069ee;
+    cursor: default;
 }
 
 .logo-2:hover {
     font-size: 200px;
     color: #000000;
+    cursor: default;
 }
 
 @media screen and (max-width: 768px) {
@@ -178,7 +188,7 @@ body {
     color: #ffffff;
 }
 
-.col-lg-4 {
+.col-lg-4, .col-lg-8 {
     margin-top: 30px;
     margin-bottom: 30px;
 }
@@ -238,13 +248,28 @@ body {
 }
 
 .page-body {
-    -webkit-transition: all 1.0s ease;
-    -moz-transition: all 1.0s ease;
-    -o-transition: all 1.0s ease;
-    transition: all 1.0s ease;
+    -webkit-transition: all 1.5s ease;
+    -moz-transition: all 1.5s ease;
+    -o-transition: all 1.5s ease;
+    transition: all 1.5s ease;
 }
 
 .page-body-collapse {
     margin-top: -100%;
-
 }
+
+p {
+    margin: 10px 0px 10px;
+    margin-left: 15px;
+}
+/* TODO: Implement fade effect for user search text */
+/*.fade {*/
+    /*opacity: 1;*/
+    /*transition: opacity .25s ease-in-out;*/
+    /*-moz-transition: opacity .25s ease-in-out;*/
+    /*-webkit-transition: opacity .25s ease-in-out;*/
+/*}*/
+
+/*.fade-collapse {*/
+    /*opacity: 0;*/
+/*}*/
