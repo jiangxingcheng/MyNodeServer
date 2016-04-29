@@ -5,7 +5,12 @@ To run the project run the following commands in both MyNodeServerBackend and My
 ```javascript
 npm install
 ```
-In MyNodeServerFrontend also run
+First make sure that you have bower installed,
+```javascript
+npm install -g bower
+```
+
+Then install all the bower dependencies from bower.json
 ```javascript
 bower install
 ```
