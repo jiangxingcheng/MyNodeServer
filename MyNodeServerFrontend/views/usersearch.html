@@ -45,13 +45,15 @@
             <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
             <hr class="hr">
 
-            <div>Results:
-                <div ng-hide="user.username == null">
+            <div>
+                <h2>Results</h2>
+                <div ng-hide="users.length == 0" class="user-block">
                         <p>Username : {{user.username }}</p>
                         <p>Permission Level : {{user.userlevel }}</p>
                         <p>Last Access Date : {{user.lastaccessdate }}</p>
                         <p>Time of Creation : {{user.timeofcreation }}</p>
-                </div ng-show="user.username ==">
+                        </div>
+                <div ng-show="users.length == 0">
                         {{user.username}}
                        <p>No results</p>
                 </div>
@@ -79,7 +81,7 @@
                      <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user!</button> -->
 
                 <hr class="hr">
-                <ol ng-repeat="user in users">
+                <ol ng-repeat="user in allUsers">
                     <ul class="user-block">
                         <p>Username : {{user.username }}</p>
                         <p>Permission Level : {{user.userlevel }}</p>
