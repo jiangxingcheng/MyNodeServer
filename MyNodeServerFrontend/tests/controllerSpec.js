@@ -1,13 +1,11 @@
-describe('Unit: ScheduleController',function(){
-    beforeEach(module('taselection'));
+describe('Unit: Overall',function(){
+    beforeEach(module('mynodeserver'));
     var ctrl,scope;
     beforeEach(inject(function($controller, $rootScope){
         scope = $rootScope.$new();
-        // ctrl = $controller('ScheduleCtrl',{
-        //     $scope: scope
-        // });
+
     }));
-    describe('ScheduleCtrl',function(){
+    describe('It should not fail',function(){
         it('should not fail',function(){
         });
     });

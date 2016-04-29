@@ -19,7 +19,10 @@ module.exports = function(config) {
         'node_modules/angular-mocks/angular-mocks.js',
         'node_modules/angular-smart-table/dist/smart-table.js',
         'node_modules/angular-route/angular-route.js',
-        'src/js/modules/app.js',
+        'node_modules/angular-resource/angular-resource.min.js',
+        'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+        'bower_components/ngprogress/build/ngprogress.js',
+        'src/js/modules/*',
         'src/js/services/*',
         'src/js/controllers/*',
         'tests/*Spec.js'
