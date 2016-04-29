@@ -13,7 +13,7 @@ app.directive('navigator', ['$location', function($location)
         }
     };
 }]);
-app.directive('webpage', ['$timeout','$log', function($timeout,$log)
+app.directive('webpage', ['$timeout','$log','ngProgressFactory', function($timeout,$log,ngProgressFactory)
                             {
     return {
         replace:false,
@@ -24,7 +24,13 @@ app.directive('webpage', ['$timeout','$log', function($timeout,$log)
             };
             //Wait short period of time to let the page start as collapsed then open
             element.addClass("page-body-collapse");
+            scope.progressbar = ngProgressFactory.createInstance();
+            scope.progressbar.start();
             $timeout(scope.init,20);
+
+            scope.progressbar.complete();
+            //$timeout(scope.progressbar.complete,100);
+
         }
     };
 }]);
