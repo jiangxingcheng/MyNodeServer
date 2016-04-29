@@ -10,7 +10,7 @@ First make sure that you have bower installed,
 npm install -g bower
 ```
 
-Then install all the bower dependencies from bower.json
+Then install all the bower dependencies from bower.json in MyNodeserverBackend
 ```javascript
 bower install
 ```
