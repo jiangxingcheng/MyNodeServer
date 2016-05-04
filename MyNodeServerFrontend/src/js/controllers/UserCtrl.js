@@ -10,7 +10,6 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeo
                 $scope.user = data[0];
             });
         }
-
     };
     $scope.displayAllUsers = false;
     $scope.toggleDisplayAllUsers = function () {

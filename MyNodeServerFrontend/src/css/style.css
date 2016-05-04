@@ -6,22 +6,6 @@ body {
     color: #000000;
 }
 
-/* THIS IS FOR CAROUSEL IT DOESNT WERK LOL */
-/*#slides_control > div{*/
-/*height: 200px;*/
-/*}*/
-/*img{*/
-/*margin:auto;*/
-/*width: 400px;*/
-/*}*/
-/*#slides_control {*/
-/*position:absolute;*/
-/*width: 400px;*/
-/*left:50%;*/
-/*top:20px;*/
-/*margin-left:-200px;*/
-/*}*/
-
 .navbar-default {
     position: fixed;
     left: 0px;
@@ -51,7 +35,6 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
     transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
-
 }
 
 .navbar-nav > li:hover,
@@ -78,7 +61,6 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 ul#navigation .active {
     color: #000000;
     background-color: #0069ee;
-
 }
 
 .navbar-brand {
@@ -96,20 +78,20 @@ body {
 .jumbotron {
     background-color: #0069ee;
     color: #ffffff;
-    border-radius: 0 !important;
+    border-radius: 0;
 }
 /*TODO: MODULARIZE STRIPED BLOCKS*/
 .block-1 {
     background-color: #0069ee;
     color: #ffffff;
-    border-radius: 0 !important;
+    border-radius: 0;
     border-right: 5px solid #ffffff;
     border-left: 5px solid #ffffff;
 }
 .container-1 {
     background-color: #0069ee;
     color: #ffffff;
-    border-radius: 0 !important;
+    border-radius: 0;
     border-right: 5px solid #ffffff;
     border-left: 5px solid #ffffff;
     margin-top: 47px;
@@ -119,7 +101,7 @@ body {
 .block-2 {
     background-color: #000000;
     color: #ffffff;
-    border-radius: 0 !important;
+    border-radius: 0;
     border-right: 5px solid #ffffff;
     border-left: 5px solid #ffffff;
 
@@ -164,7 +146,7 @@ body {
 }
 
 .btn-lg, .btn {
-    border-radius: 0 !important;
+    border-radius: 0;
     background-color: #ffffff;
     border: none;
     color: #000;
@@ -175,14 +157,14 @@ body {
 }
 
 .btn-lg:hover {
-    border-radius: 0 !important;
+    border-radius: 0;
     background-color: #0069ee;
     border: none;
     color: #000;
 }
 
 .btn-secondary:hover {
-    border-radius: 0 !important;
+    border-radius: 0;
     background-color: #000000;
     border: none;
     color: #ffffff;
@@ -202,6 +184,8 @@ body {
     border-top: 5px solid #ffffff;
     text-align: center;
 }
+
+
 
 .user-block {
     color: #000000;
@@ -287,14 +271,12 @@ p {
     margin-left: 15px;
 }
 
-
 .profile, .list {
     margin-bottom: 5%;
     margin-top: 5%;
     margin-right: 5%;
     font-size: 12pt;
 }
-
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
     /*opacity: 1;*/

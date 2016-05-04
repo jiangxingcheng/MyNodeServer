@@ -8,7 +8,6 @@ app.directive('navigator', ['$location', function($location)
                 console.log("going to "+args.viewLoc);
                 window.scrollTo(0,0);
                 $location.url(location);
-
             };
         }
     };
@@ -43,5 +42,4 @@ app.directive('navBar', ['$location', function(location)
         templateUrl: 'views/topbar.html',
         replace: true
     };
-
 }]);

@@ -29,6 +29,12 @@
                     <li>
                         <a navigator href ng-click="goTo({viewLoc: 'forum'})">Forum</a>
                     </li>
+                    <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'login'})">Login</a>
+                    </li>
+                    <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'register'})">Sign Up</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -74,7 +80,9 @@
     </div>
     <div class="row block-2">
         <div class="col-lg-12">
-            <h2> Display all users <button type="button" class="btn btn-lg" ng-click="toggleDisplayAllUsers()">Show/Hide</button></h2>
+            <h2> Display all users
+                <button type="button" class="btn btn-lg" ng-click="toggleDisplayAllUsers()">Show/Hide</button>
+            </h2>
 
             <!-- <h3> Display all users or search for user </h3>
                  <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user!</button> -->

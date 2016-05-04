@@ -1,5 +1,5 @@
 <div class="container-fluid ">
-    <nav class="navbar navbar-default navbar-fixed-top topnav"  role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -29,6 +29,12 @@
                     <li>
                         <a class="active" navigator href ng-click="goTo({viewLoc: 'forum'})">Forum</a>
                     </li>
+                    <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'login'})">Login</a>
+                    </li>
+                    <li>
+                        <a navigator href ng-click="goTo({viewLoc: 'register'})">Sign Up</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -50,7 +56,8 @@
             <div class="col-lg-3" ng-repeat="thread in threads">
                 <img src="../src/img/wallpaper.png" class="img-responsive"
                      alt="{{thread.title}}" title="{{thread.title}}"/>
-                <h3 align = "center">{{thread.title}}</h3>
+                <h3 align="center">{{thread.title}}</h3>
             </div>
+        </div>
     </div>
 </div>
