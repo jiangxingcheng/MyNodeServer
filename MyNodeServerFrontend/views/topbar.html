@@ -17,22 +17,9 @@
                     <img class="logo img-responsive" src="../src/img/logo.png" width=340px alt="Logo">
                 </a>
                 <ul id="navigation" class="nav navbar-nav navbar-right">
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'home'})" ng-class="{active : active.home}">Home</a>
+                    <li ng-repeat="pageroute in pageroutes">
+                        <a navigator href ng-click="goTo({viewLoc: pageroute})" ng-class="{active : active[pageroute]}">{{pagetitles[$index]}}</a>
                     </li>
-                    <li>
-                        <a  navigator href ng-click="goTo({viewLoc: 'about'})" ng-class="{active : active.about}">About</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'user'})" ng-class="{active : active.users}">Users</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'forum'})" ng-class="{active : active.forum}">Forum</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'login'})" ng-class="{active : active.login}">Login/Sign up</a>
-                    </li>
-
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

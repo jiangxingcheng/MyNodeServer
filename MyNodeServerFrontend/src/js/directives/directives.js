@@ -43,6 +43,8 @@ app.directive('navBar', ['$compile', function($compile)
         transclude: true,
         templateUrl: 'views/topbar.html',
         link : function(scope,element,attrs){
+            scope.pageroutes = ['home','about','user','forum','login'];
+            scope.pagetitles = ['Home','About','User','Forum','Login/Sign up'];
             var setFalse = function(val, link, active) {
                 active[link] = false;
             };
