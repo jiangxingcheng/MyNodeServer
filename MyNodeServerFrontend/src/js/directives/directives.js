@@ -35,11 +35,23 @@ app.directive('webpage', ['$timeout','$log','ngProgressFactory', function($timeo
         }
     };
 }]);
-app.directive('navBar', ['$location', function(location)
+app.directive('navBar', ['$compile', function($compile)
                          {
     return {
         restrict: 'E',
+        replace: true,
+        transclude: true,
         templateUrl: 'views/topbar.html',
-        replace: true
+        link : function(scope,element,attrs){
+            var setFalse = function(val, link, active) {
+                active[link] = false;
+            };
+            scope.active = {};
+            scope.select = function(link) {
+                _.each(scope.active, setFalse); // lodash used for brevity
+                scope.active[link] = true;
+            };
+            scope.select(attrs.activeTab);
+        }
     };
 }]);

@@ -22,6 +22,7 @@
     "tests"
   ],
   "dependencies": {
-    "ngprogress": "^1.1.3"
+    "ngprogress": "^1.1.3",
+    "underscore": "^1.8.3"
   }
 }
