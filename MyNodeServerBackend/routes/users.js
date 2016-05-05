@@ -30,14 +30,27 @@ router.route('/')
         var UserLevel = 'User';
         var lastAccessDate = "2016-04-8 04:23:00";
         var TimeOfCreation = "2013-04-1 04:20:00";
-        res.send('Post request recieved username: ' + username );
+        //res.send('Post request recieved username: ' + username );
         var params = [username,password,UserLevel, lastAccessDate, TimeOfCreation];
         sqlquery.createUser(params,function(data){
             if(data == null){
                 console.log("Created succesfully");
+                res.status(200).send(); //means ok
+            }
+            else if(data.constraint =='user_account_password_check'){
+                console.log('Password not sufficient length');
+                res.status(600).send('Password not sufficient length');
+            }
+            else if(data.constraint =='user_account_pkey'){
+                console.log('User already exists');
+                res.status(601).send('User already exists');
             }
             else if(data.severity == 'ERROR'){
-                console.log('Error Creating User : ' + data.message);
+                //console.log('Error Creating User : ' + data.message);
+                console.log(data);
+                res.status(602).send();
+            }else{
+                res.status(603).send();
             }
 
         });
