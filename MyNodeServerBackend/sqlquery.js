@@ -96,3 +96,13 @@ exports.getThreadsFromCategory = function(categorytitle, callback){
         }
     });
 }
+exports.createUser = function(parameters, callback){
+    db.createuser(parameters,function(err,results){
+        console.log('Create user ' + parameters[0]);
+        if(err){
+            callback(err);
+        }else{
+            callback(err,results);
+        }
+    });
+}
