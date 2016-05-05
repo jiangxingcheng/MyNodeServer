@@ -27,6 +27,12 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category',function ($h
             callback(data);
         });
     };
+    self.getCategoryByTitle = function(categorytitle,callback){
+        Category.query({"categorytitle":categorytitle},function(data){
+            //self.categories = data;
+            callback(data);
+        });
+    };
     /**
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
