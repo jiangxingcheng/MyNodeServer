@@ -17,9 +17,9 @@ router.use(methodOverride(function(req, res){
 
 router.route('/')
     .get(function(req,res,next){
-        var threads = db.getthreads(function(err,data){
+        var categories = db.getcategories(function(err,data){
             if(err || data === []){
-                console.log('No Thread information');
+                console.log('No Category information');
                 res.stat(404);
                 err = new Error('Not Found');
                 err.status = 404;

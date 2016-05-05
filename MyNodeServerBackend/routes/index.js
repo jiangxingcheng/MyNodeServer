@@ -10,7 +10,7 @@ var destroyAndPopulate = function(callback){
                 sqlquery.findUserByUsername("schafezp",function(err,data){
                     console.log(data);
                 });
-                sqlquery.getThreads(function(err,data){
+                sqlquery.getCategories(function(err,data){
                     console.log(data);
                 });
             });

@@ -75,9 +75,9 @@ exports.findUserByUsername = function(username, callback){
 
     });
 }
-exports.getThreads = function(callback){
-    db.getthreads(function(err,results){
-        console.log('Get all threads');
+exports.getCategories = function(callback){
+    db.getcategories(function(err,results){
+        console.log('Get all Categories');
         if(err){
             callback(err);
         }else{
