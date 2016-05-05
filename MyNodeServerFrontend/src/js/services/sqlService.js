@@ -33,6 +33,15 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category',function ($h
             callback(data);
         });
     };
+    self.createUserAccount = function(username,password,callback,errorcallback){
+        Useraccount.save({"username":username,"password":password},function(data){
+            callback(data);
+        },function(error){
+            //$log.log('Error in sqlservice');
+            //$log.log(error);
+            errorcallback(error); //error handling
+        });
+    };
     /**
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
