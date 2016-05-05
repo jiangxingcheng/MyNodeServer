@@ -30,12 +30,12 @@ app.factory('Useraccount', ['$resource', 'EnvConfig', function($resource, EnvCon
             );
 }]);
 
-app.factory('Thread', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
-    var url = EnvConfig.api.baseUrl + 'threads/:threadname';
+app.factory('Category', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+    var url = EnvConfig.api.baseUrl + 'categories/:categoryname';
     return $resource(url,{},
                      {
-                         update: {method: 'PUT', params: {name: '@threadname'}},
-                         getSingle: {method: 'GET', params: {name: '@threadname'}}
+                         update: {method: 'PUT', params: {name: '@categoryname'}},
+                         getSingle: {method: 'GET', params: {name: '@categoryname'}}
 
                      }
 
