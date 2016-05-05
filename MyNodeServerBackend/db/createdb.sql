@@ -91,6 +91,7 @@ CREATE TABLE ThreadComment(
 Username username NOT NULL,
 TimeOfCreation TIMESTAMP NOT NULL,
 TTitle title NOT NULL,
+Text text NOT NULL CHECK(LENGTH(text) > 0),
 PRIMARY KEY(Username, TimeOfCreation),
 FOREIGN KEY(Username) REFERENCES User_account(Username),
 FOREIGN KEY(TTitle) REFERENCES Thread(Title)
