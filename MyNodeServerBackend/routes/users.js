@@ -23,7 +23,26 @@ router.route('/')
             });
         });
 
+    })
+    .post(function(req,res){
+        var username = req.body.username;
+        var password = req.body.password;
+        var UserLevel = 'User';
+        var lastAccessDate = "2016-04-8 04:23:00";
+        var TimeOfCreation = "2013-04-1 04:20:00";
+        res.send('Post request recieved username: ' + username );
+        var params = [username,password,UserLevel, lastAccessDate, TimeOfCreation];
+        sqlquery.createUser(params,function(data){
+            if(data == null){
+                console.log("Created succesfully");
+            }
+            else if(data.severity == 'ERROR'){
+                console.log('Error Creating User : ' + data.message);
+            }
+
+        });
     });
+
 router.param('username',function(req,res,next,id){
     console.log('Validate parameter username');
     console.log(id);
