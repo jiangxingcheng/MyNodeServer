@@ -1,2 +1,2 @@
-var app = angular.module('mynodeserver', ['ngRoute','ngResource','ui.bootstrap','DataManager', 'ngProgress'])
+var app = angular.module('mynodeserver', ['ui.router','ngResource','ui.bootstrap','DataManager', 'ngProgress'])
         .constant('environment', 'staging');

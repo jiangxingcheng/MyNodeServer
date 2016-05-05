@@ -1,28 +1,44 @@
-app.config(function ($routeProvider, $locationProvider) {
-    $routeProvider
-        .when('/home', {
+app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
+    $urlRouterProvider.otherwise('/home');
+    $stateProvider
+    // Here is a list of states
+        .state('home',{
+            url:'/home',
             templateUrl: 'views/home.html',
             controller: 'HomeCtrl'
         })
-        .when('/user', {
+        .state('user',{
+            url:'/user',
             templateUrl: 'views/usersearch.html',
             controller: 'UserCtrl'
         })
-        .when('/forum', {
+        .state('forum',{
+            url:'/forum',
             templateUrl: 'views/forum.html',
             controller: 'ForumCtrl'
         })
-        .when('/about', {
+        .state('forum.threads',{
+            url:'/threads',
+            views:{
+                'threaddisplay' :{
+                    templateUrl: 'partials/threads.html',
+                    controller: 'ForumThreadCtrl'
+                }
+
+            },
+            params: {
+                categoryTitle : 'test'
+            }
+        })
+        .state('about',{
+            url:'/about',
             templateUrl: 'views/about.html',
             controller: 'AboutCtrl'
         })
-        .when('/login', {
+        .state('login',{
+            url:'/login',
             templateUrl: 'views/login.html',
             controller: 'LoginCtrl'
-        })
-        .otherwise({
-            redirectTo: '/home'
         });
-    //use HTML5 history API
     $locationProvider.html5Mode(true);
 });

@@ -1,4 +1,4 @@
-app.directive('navigator', ['$location', function($location)
+app.directive('navigator', ['$state', function($state)
                             {
     return {
         replace:true,
@@ -7,7 +7,7 @@ app.directive('navigator', ['$location', function($location)
                 var location = args.viewLoc;
                 console.log("going to "+args.viewLoc);
                 window.scrollTo(0,0);
-                $location.url(location);
+                $state.go(location);
             };
         }
     };
