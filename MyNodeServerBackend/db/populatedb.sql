@@ -20,5 +20,7 @@ INSERT INTO CategoryHasThread values('Help','Intro to threads');
 INSERT INTO CategoryHasThread values('NSFW','Zombie Squirrel');
 INSERT INTO CategoryHasThread values('NSFW','Orange waffles');
 INSERT INTO CategoryHasThread values('/b/','You dont want to know');
+
+INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here is my comment');
 -- INSERT INTO ThreadHasCategory values('JS fun things','My node adventures');
 -- INSERT INTO ThreadHasCategory values('SQL useful files','SQL backing up postgres');
