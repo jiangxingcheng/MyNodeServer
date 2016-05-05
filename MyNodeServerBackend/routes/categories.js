@@ -42,13 +42,13 @@ router.route('/')
         });
 
     });
-/*
-router.param('username',function(req,res,next,id){
+
+router.param('categorytitle',function(req,res,next,id){
     console.log('Validate parameter username');
     console.log(id);
-    sqlquery.findUserByUsername(id,function(err,data){
+    sqlquery.getThreadsFromCategory(id,function(err,data){
         if(err || data === []){
-            console.log('Username not validated');
+            console.log('Category not validated');
             res.stat(404);
             err = new Error('Not Found');
             err.status = 404;
@@ -68,9 +68,9 @@ router.param('username',function(req,res,next,id){
         }
     });
 });
-router.route('/:username')
+router.route('/:categorytitle')
     .get(function(req,res){
-        sqlquery.findUserByUsername(req.id,function(err,data){
+        sqlquery.getThreadsFromCategory(req.id,function(err,data){
             if(err || data === []){
                 console.log('Username not validated');
                 res.stat(404);
@@ -94,7 +94,7 @@ router.route('/:username')
         });
 
     })
-*/
+
 /* GET list of users . */
 
 /* GET users listing. */

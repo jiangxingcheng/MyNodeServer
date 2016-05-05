@@ -85,3 +85,14 @@ exports.getCategories = function(callback){
         }
     });
 }
+
+exports.getThreadsFromCategory = function(categorytitle, callback){
+    db.getthreadsfromcategory([categorytitle],function(err,results){
+        console.log('Get threads with category title');
+        if(err){
+            callback(err);
+        }else{
+            callback(err,results);
+        }
+    });
+}
