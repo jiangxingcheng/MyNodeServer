@@ -80,9 +80,9 @@ Text text NOT NULL CHECK(LENGTH(text) > 0),
 PRIMARY KEY(Username, TimeOfCreation),
 FOREIGN KEY(Username) REFERENCES User_account(Username)
 );
-CREATE TABLE ThreadHasCategory(
-TTitle title NOT NULL,
+CREATE TABLE CategoryHasThread(
 CTitle title NOT NULL,
+TTitle title NOT NULL,
 PRIMARY KEY(CTitle,TTitle),
 FOREIGN KEY(CTitle) REFERENCES Category(Title),
 FOREIGN KEY(TTitle) REFERENCES Thread(Title)

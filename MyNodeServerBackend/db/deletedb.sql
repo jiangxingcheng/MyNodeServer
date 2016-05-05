@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS directorycomment;
 DROP TABLE IF EXISTS threadcomment;
-DROP TABLE IF EXISTS threadhascategory;
+DROP TABLE IF EXISTS categoryhasthread;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS thread;
