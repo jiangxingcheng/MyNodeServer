@@ -1,4 +1,4 @@
--- Was originally here just to try making a function, but maybe we could use it
+-- Was originally here just to try making a function, but maybe we could use it?
 CREATE OR REPLACE FUNCTION userCount() RETURNS bigint AS $$
 	DECLARE thing INT;
 	BEGIN
@@ -30,10 +30,23 @@ CREATE OR REPLACE FUNCTION loginUser(uname TEXT, upassword TEXT) RETURNS TEXT AS
 		RETURN 'Login Failure';
 	END; $$ LANGUAGE plpgsql;
 
+-- Remove user and all their shit
+CREATE OR REPLACE FUNCTION removeUser(uname TEXT) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM UserAccount WHERE username=uname;
+	END; $$ LANGUAGE plpgsql;
+
 -- Change user permission level
 CREATE OR REPLACE FUNCTION setLevel(uname TEXT, newLevel userLevel) RETURNS VOID AS $$
 	BEGIN
 		UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
+	END; $$ LANGUAGE plpgsql;
+
+-- Get all files/subdirs in a dir
+CREATE OR REPLACE FUNCTION getSubStuff(parentDir fullpath) RETURNS TABLE(itemPath fullpath) AS $$
+	BEGIN
+		RETURN QUERY (SELECT DPath AS itemPath INTO dirs FROM Directory WHERE ParentPath=parentDir)
+					UNION (SELECT FPath AS itemPath INTO dirs FROM File WHERE ParentPath=parentDir);
 	END; $$ LANGUAGE plpgsql;
 
 -- Create category
