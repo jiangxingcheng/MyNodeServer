@@ -1,1 +1,1 @@
-select title, username, timeofcreation from category;
+SELECT * FROM getAllCategories();

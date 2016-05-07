@@ -1,1 +1,1 @@
-SELECT username,userlevel, lastaccessdate, timeofcreation  from UserAccount;
+SELECT * FROM getAllUsers();
