@@ -1,7 +1,12 @@
-INSERT INTO UserAccount values('schafezp','changething',NULL,'Admin','2001-02-16 20:38:40','2001-02-16 20:38:40');
-INSERT INTO UserAccount values('zamanmm','otherthing',NULL,'Mod','2012-02-16 20:38:40','2001-02-16 20:38:40');
-INSERT INTO UserAccount values('jiangx1','otherthing',NULL,'User','2012-02-16 20:38:40','2001-02-16 20:38:40');
-INSERT INTO UserAccount values('vanpelwc','1AlautLrbWPBQsvpNIf6',NULL,'User','2012-02-16 20:38:40','2001-02-16 20:38:40');
+SELECT createUser('schafezp','changething');
+SELECT createUser('zamanmm','otherthing');
+SELECT createUser('jiangx1','otherthing');
+SELECT createUser('vanpelwc','otherthing');
+SELECT setAdmin('schafezp');
+SELECT setMod('zamanmm');
+SELECT setUser('jiangx1');
+SELECT setAdmin('vanpelwc');
+
 INSERT INTO Category values('General','schafezp','2014-02-16 12:30:40');
 INSERT INTO Category values('Help','schafezp','2015-02-16 12:30:40');
 INSERT INTO Category values('NSFW','schafezp','2015-02-16 12:30:40');
@@ -27,3 +32,13 @@ INSERT INTO CategoryHasThread values('Pirated Software','Microsoft''s Overpriced
 INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here is my comment');
 -- INSERT INTO ThreadHasCategory values('JS fun things','My node adventures');
 -- INSERT INTO ThreadHasCategory values('SQL useful files','SQL backing up postgres');
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------   Depricated Creation Methods  ------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- INSERT INTO UserAccount values('schafezp','changething',NULL,'Admin','2001-02-16 20:38:40','2001-02-16 20:38:40');
+-- INSERT INTO UserAccount values('zamanmm','otherthing',NULL,'Mod','2012-02-16 20:38:40','2001-02-16 20:38:40');
+-- INSERT INTO UserAccount values('jiangx1','otherthing',NULL,'User','2012-02-16 20:38:40','2001-02-16 20:38:40');
+-- INSERT INTO UserAccount values('vanpelwc','1AlautLrbWPBQsvpNIf6',NULL,'User','2012-02-16 20:38:40','2001-02-16 20:38:40');

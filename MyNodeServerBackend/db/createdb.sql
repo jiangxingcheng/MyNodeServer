@@ -3,7 +3,7 @@ CREATE DOMAIN title VARCHAR(64) NOT NULL;
 CREATE DOMAIN fullpath TEXT NOT NULL;
 
 CREATE TYPE permissionLevel AS ENUM('r', 'w', 'rw');
-create TYPE userLevel as ENUM('Admin', 'Mod', 'User');
+CREATE TYPE userLevel as ENUM('Admin', 'Mod', 'User');
 --CREATE TYPE path must be implemented
 
 ------------ Create Tables ------------

@@ -5,13 +5,15 @@ console.log("Sql query run");
 var destroyAndPopulate = function(callback){
     sqlquery.destroyDatabase(function(){
         sqlquery.createDatabase(function(){
-            sqlquery.populateDatabase(function(){
-                //sqlquery.queryDatabase();
-                sqlquery.findUserByUsername("schafezp",function(err,data){
-                    console.log(data);
-                });
-                sqlquery.getCategories(function(err,data){
-                    console.log(data);
+            sqlquery.createStoredProcedures(function(){
+                sqlquery.populateDatabase(function(){
+                    //sqlquery.queryDatabase();
+                    sqlquery.findUserByUsername("schafezp",function(err,data){
+                        console.log(data);
+                    });
+                    sqlquery.getCategories(function(err,data){
+                        console.log(data);
+                    });
                 });
             });
         });
