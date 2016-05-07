@@ -10,7 +10,7 @@ CREATE TYPE userLevel as ENUM('Admin', 'Mod', 'User');
 CREATE TABLE UserAccount(
 	Username username CHECK(LENGTH(Username) > 1),
 	Password TEXT CHECK(LENGTH(Password) > 7),
-	Salt TEXT, --Would be not null, but that makes static data hard...
+	Salt TEXT NOT NULL,
 	UserLevel userLevel NOT NULL,
 	LastAccessDate TIMESTAMP NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
@@ -21,8 +21,8 @@ CREATE TABLE Friends(
 	Username1 username NOT NULL,
 	Username2 username NOT NULL,
 	PRIMARY KEY(Username1, Username2),
-	FOREIGN KEY(Username1) REFERENCES UserAccount(Username),
-	FOREIGN KEY(Username2) REFERENCES UserAccount(Username)
+	FOREIGN KEY(Username1) REFERENCES UserAccount(Username) ON DELETE CASCADE,
+	FOREIGN KEY(Username2) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE Directory(
@@ -30,7 +30,7 @@ CREATE TABLE Directory(
 	ParentPath fullpath,
 	Username username,
 	PRIMARY KEY(DPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username)
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE UserPermitsDirectory(
@@ -38,16 +38,16 @@ CREATE TABLE UserPermitsDirectory(
 	DPath fullpath NOT NULL,
 	PermissionLevel permissionLevel NOT NULL,
 	PRIMARY KEY(Username, DPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
 );
 
 CREATE TABLE File(
 	FPath fullpath NOT NULL,
 	ParentPath fullpath,
-	Username username,
+	Username username NOT NULL,
 	PRIMARY KEY(FPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username)
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE UserPermitsFile(
@@ -55,7 +55,7 @@ CREATE TABLE UserPermitsFile(
 	FPath fullpath NOT NULL,
 	PermissionLevel permissionLevel NOT NULL,
 	PRIMARY KEY(Username, FPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)
 );
 
@@ -65,7 +65,8 @@ CREATE TABLE Category(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	LogoPath TEXT,
-	PRIMARY KEY(Title)
+	PRIMARY KEY(Title),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE Thread(
@@ -74,7 +75,7 @@ CREATE TABLE Thread(
 	CTitle title NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	PRIMARY KEY(Title),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(CTitle) REFERENCES Category(Title)
 );
 
@@ -84,7 +85,7 @@ CREATE TABLE ThreadComment(
 	TTitle title NOT NULL,
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(TTitle) REFERENCES Thread(Title)
 );
 
@@ -94,6 +95,7 @@ CREATE TABLE DirectoryComment(
 	DPath fullpath NOT NULL,
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
 );
 
@@ -103,5 +105,6 @@ CREATE TABLE FileComment(
 	FPath fullpath NOT NULL,
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)
 );
