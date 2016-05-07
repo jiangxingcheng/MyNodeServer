@@ -43,15 +43,15 @@ INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here
 -- INSERT INTO Category values('/b/','schafezp','2015-02-16 12:30:40');
 -- INSERT INTO Category values('Pirated Software','vanpelwc','2016-05-06 00:00:00');
 
--- INSERT INTO Thread values('A collection of one liners','zamanmm','2016-02-16 12:30:40');
--- INSERT INTO Thread values('My node adventures','jiangx1','2016-04-10 04:30:00');
--- INSERT INTO Thread values('Intro to threads','schafezp','2016-04-10 04:30:00');
--- INSERT INTO Thread values('General','schafezp','2016-04-10 04:30:00');
--- INSERT INTO Thread values('Zombie Squirrel','zamanmm','2016-04-10 04:20:00');
--- INSERT INTO Thread values('Internet stuff','zamanmm','2016-05-10 04:21:00');
--- INSERT INTO Thread values('Orange waffles','zamanmm','2016-04-8 04:23:00');
--- INSERT INTO Thread values('You dont want to know','jiangx1','2016-04-8 04:23:00');
--- INSERT INTO Thread values('Microsoft''s Overpriced Shit','vanpelwc','2016-05-06 00:00:00');
+-- INSERT INTO Thread values('A collection of one liners','zamanmm','General','2016-02-16 12:30:40');
+-- INSERT INTO Thread values('My node adventures','jiangx1','2016-04-10 04:30:00','General');
+-- INSERT INTO Thread values('Intro to threads','schafezp','2016-04-10 04:30:00', 'General');
+-- INSERT INTO Thread values('General','schafezp','2016-04-10 04:30:00', 'General');
+-- INSERT INTO Thread values('Zombie Squirrel','zamanmm','2016-04-10 04:20:00', 'General');
+-- INSERT INTO Thread values('Internet stuff','zamanmm','NSFW','2016-05-10 04:21:00');
+-- INSERT INTO Thread values('Orange waffles','zamanmm','Help','2016-04-8 04:23:00');
+-- INSERT INTO Thread values('You dont want to know','jiangx1','/b/','2016-04-8 04:23:00');
+-- INSERT INTO Thread values('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software','2016-05-06 00:00:00');
 
 -- INSERT INTO CategoryHasThread values('General','Internet stuff');
 -- INSERT INTO CategoryHasThread values('Help','Intro to threads');
