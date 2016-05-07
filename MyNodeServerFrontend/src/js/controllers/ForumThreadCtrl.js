@@ -10,7 +10,10 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
 
     });
 
-    $scope.openModal = function (size) {
+    $scope.openModal = function (size,thread) {
+        $scope.modalThread = thread;
+        $log.log('Modals thread');
+        $log.log(thread);
 
 
         var modalInstance = $uibModal.open({

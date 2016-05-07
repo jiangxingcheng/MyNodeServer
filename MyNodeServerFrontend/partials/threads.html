@@ -2,7 +2,7 @@ Display information from category {{categoryTitle}}
 <button ui-sref="forum"  class="btn btn-primary">Clear </button>
 <div ng-show="threads.length > 0">
                 <ol ng-repeat="thread in threads">
-                    <ul class="user-block-inv" ng-click="openModal('lg')">
+                    <ul class="user-block-inv" ng-click="openModal('lg',thread)">
                         <p>Thread Title : {{thread.title}}</p>
                         <p>Posted by : {{thread.username}}</p>
                     </ul>
