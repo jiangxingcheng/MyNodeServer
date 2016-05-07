@@ -71,25 +71,11 @@ CREATE TABLE Category(
 CREATE TABLE Thread(
 	Title title NOT NULL,
 	Username username NOT NULL,
+	CTitle title NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	PRIMARY KEY(Title),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username)
-);
-
-CREATE TABLE Comment(
-	Username username NOT NULL,
-	TimeOfCreation TIMESTAMP NOT NULL,
-	Text text NOT NULL CHECK(LENGTH(text) > 0),
-	PRIMARY KEY(Username, TimeOfCreation),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username)
-);
-
-CREATE TABLE CategoryHasThread(
-	CTitle title NOT NULL,
-	TTitle title NOT NULL,
-	PRIMARY KEY(CTitle,TTitle),
-	FOREIGN KEY(CTitle) REFERENCES Category(Title),
-	FOREIGN KEY(TTitle) REFERENCES Thread(Title)
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username),
+	FOREIGN KEY(CTitle) REFERENCES Category(Title)
 );
 
 CREATE TABLE ThreadComment(
@@ -106,6 +92,16 @@ CREATE TABLE DirectoryComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	DPath fullpath NOT NULL,
+	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
+);
+
+CREATE TABLE FileComment(
+	Username username NOT NULL,
+	TimeOfCreation TIMESTAMP NOT NULL,
+	FPath fullpath NOT NULL,
+	Text text NOT NULL CHECK(LENGTH(text) > 0),
+	PRIMARY KEY(Username, TimeOfCreation),
+	FOREIGN KEY(FPath) REFERENCES File(FPath)
 );
