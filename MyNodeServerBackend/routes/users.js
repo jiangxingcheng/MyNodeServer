@@ -1,5 +1,4 @@
-var express = require('express');
-var sqlquery = require('../sqlquery.js');
+var express = require('express'); sqlquery = require('../sqlquery.js');
 var router = express.Router(),
     bodyParser = require('body-parser'), // parses info from post
     methodOverride = require('method-override'); // used to manipulate post data

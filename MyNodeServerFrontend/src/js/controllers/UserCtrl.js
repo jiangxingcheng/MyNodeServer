@@ -14,7 +14,7 @@ app.controller('UserCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeo
     $scope.displayAllUsers = false;
     $scope.toggleDisplayAllUsers = function () {
         $scope.displayAllUsers = !$scope.displayAllUsers;
-    }
+    };
     $scope.allUsers = sqlService.users;
     sqlService.getUsers(function (data) {
         $scope.allUsers = data;
