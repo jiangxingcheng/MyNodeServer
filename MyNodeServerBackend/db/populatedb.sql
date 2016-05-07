@@ -23,10 +23,7 @@ SELECT createThread('Orange waffles','zamanmm','NSFW');
 SELECT createThread('You dont want to know','jiangx1','/b/');
 SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software');
 
-INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here is my comment');
--- INSERT INTO ThreadHasCategory values('JS fun things','My node adventures');
--- INSERT INTO ThreadHasCategory values('SQL useful files','SQL backing up postgres');
-
+SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'Fuck Microsoft');
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------   Depricated Creation Methods  ------------------------------------------------
@@ -59,3 +56,7 @@ INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here
 -- INSERT INTO CategoryHasThread values('NSFW','Orange waffles');
 -- INSERT INTO CategoryHasThread values('/b/','You dont want to know');
 -- INSERT INTO CategoryHasThread values('Pirated Software','Microsoft''s Overpriced Shit');
+
+-- INSERT INTO ThreadComment values('schafezp','2016-04-8 04:23:00','General','Here is my comment');
+-- INSERT INTO ThreadHasCategory values('JS fun things','My node adventures');
+-- INSERT INTO ThreadHasCategory values('SQL useful files','SQL backing up postgres');
