@@ -24,6 +24,14 @@ exports.createDatabase = function(callback){
         callback();
     });
 }
+exports.createStoredProcedures = function(callback){
+    callback = callback || function(){};
+    console.log("Create Stored Procedures");
+    db.createStoredProcedures(function(err,results){
+        logresults(err,results);
+        callback();
+    });
+}
 exports.populateDatabase = function(callback){
     callback = callback || function(){};
     console.log("Populate Database");
