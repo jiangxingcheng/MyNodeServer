@@ -61,7 +61,7 @@ router.param('username',function(req,res,next,id){
     sqlquery.findUserByUsername(id,function(err,data){
         if(err || data === []){
             console.log('Username not validated');
-            res.stat(404);
+            res.status(404);
             err = new Error('Not Found');
             err.status = 404;
             res.format({
@@ -85,7 +85,7 @@ router.route('/:username')
         sqlquery.findUserByUsername(req.id,function(err,data){
             if(err || data === []){
                 console.log('Username not validated');
-                res.stat(404);
+                res.status(404);
                 err = new Error('Not Found');
                 err.status = 404;
                 res.format({

@@ -61,22 +61,23 @@ CREATE TABLE UserPermitsFile(
 
 ------ Forum Tables ------
 CREATE TABLE Category(
-	Title title NOT NULL,
+	CTitle title NOT NULL,
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	LogoPath TEXT,
-	PRIMARY KEY(Title),
+	PRIMARY KEY(CTitle),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE Thread(
-	Title title NOT NULL,
+	TTitle title NOT NULL,
 	Username username NOT NULL,
 	CTitle title NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
-	PRIMARY KEY(Title),
+	Body TEXT,
+	PRIMARY KEY(TTitle),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(CTitle) REFERENCES Category(Title)
+	FOREIGN KEY(CTitle) REFERENCES Category(CTitle)
 );
 
 CREATE TABLE ThreadComment(
@@ -86,7 +87,7 @@ CREATE TABLE ThreadComment(
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(TTitle) REFERENCES Thread(Title)
+	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle)
 );
 
 CREATE TABLE DirectoryComment(
