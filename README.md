@@ -1,6 +1,11 @@
 # MyNodeServer
 ## CS333 Final Project
 ### Installing
+Create a database in Postgres called "mynodeserver" and then run the following command as a database superuser
+```javascript
+CREATE EXTENSION pgcrypto;
+```
+
 To run the project run the following commands in both MyNodeServerBackend and MyNodeServerFrontend
 ```javascript
 npm install
