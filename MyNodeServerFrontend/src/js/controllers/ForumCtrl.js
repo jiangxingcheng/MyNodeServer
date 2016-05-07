@@ -1,4 +1,4 @@
-app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout','$state','$uibModal', function ($scope,$location, $log,sqlService,$timeout,$state,$uibModal)
+app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout','$state', function ($scope,$location, $log,sqlService,$timeout,$state)
 {
     $scope.categories = [];
     $scope.thread = {threadOpen : false};
@@ -17,22 +17,6 @@ app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout'
         $state.go('forum.threads', {categoryTitle : title });
     };
 
-    $scope.openModal = function (size) {
 
-
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/modalview.html',
-            scope: $scope,
-            size: size,
-            controller: 'ThreadModalCtrl'
-        });
-
-        modalInstance.result.then(function (result) {
-            $log.log('Result is: ' + result);
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
 
 }]);
