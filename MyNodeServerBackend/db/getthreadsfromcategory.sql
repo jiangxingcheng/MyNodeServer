@@ -1,1 +1,1 @@
-SELECT Title, Username, TimeOfCreation FROM Thread WHERE CTitle=$1;
+SELECT * FROM getThreadsInCategory($1);

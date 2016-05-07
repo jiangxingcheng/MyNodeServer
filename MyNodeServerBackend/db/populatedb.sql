@@ -13,17 +13,17 @@ SELECT createCategory('NSFW','schafezp',NULL);
 SELECT createCategory('/b/','schafezp',NULL);
 SELECT createCategory('Pirated Software','vanpelwc',NULL);
 
-SELECT createThread('A collection of one liners','zamanmm','General');
-SELECT createThread('My node adventures','jiangx1','General');
-SELECT createThread('Intro to threads','schafezp','Help');
-SELECT createThread('General','schafezp','General');
-SELECT createThread('Zombie Squirrel','zamanmm','NSFW');
-SELECT createThread('Internet stuff','zamanmm','General');
-SELECT createThread('Orange waffles','zamanmm','NSFW');
-SELECT createThread('You dont want to know','jiangx1','/b/');
-SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software');
+SELECT createThread('A collection of one liners','zamanmm','General',NULL);
+SELECT createThread('My node adventures','jiangx1','General',NULL);
+SELECT createThread('Intro to threads','schafezp','Help',NULL);
+SELECT createThread('General','schafezp','General',NULL);
+SELECT createThread('Zombie Squirrel','zamanmm','NSFW',NULL);
+SELECT createThread('Internet stuff','zamanmm','General',NULL);
+SELECT createThread('Orange waffles','zamanmm','NSFW',NULL);
+SELECT createThread('You dont want to know','jiangx1','/b/',NULL);
+SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software','Fuck Microsoft');
 
-SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'Fuck Microsoft');
+SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck');
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------   Depricated Creation Methods  ------------------------------------------------

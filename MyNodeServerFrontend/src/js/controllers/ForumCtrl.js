@@ -1,4 +1,4 @@
-app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout','$state', function ($scope,$location, $log,sqlService,$timeout,$state)
+app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout','$state','$uibModal', function ($scope,$location, $log,sqlService,$timeout,$state,$uibModal)
 {
     $scope.categories = [];
     $scope.thread = {threadOpen : false};
@@ -16,7 +16,4 @@ app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout'
         var title = category.title;
         $state.go('forum.threads', {categoryTitle : title });
     };
-
-
-
 }]);
