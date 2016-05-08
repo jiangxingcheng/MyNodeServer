@@ -1,11 +1,11 @@
 SELECT createUser('schafezp','changething');
 SELECT createUser('zamanmm','otherthing');
 SELECT createUser('jiangx1','otherthing');
-SELECT createUser('vanpelwc','otherthing');
-SELECT setLevel('schafezp','Admin');
-SELECT setLevel('zamanmm','Mod');
-SELECT setLevel('jiangx1','User');
-SELECT setLevel('vanpelwc','Admin');
+SELECT createUser('vanpelwc','asdfasdf');
+SELECT setUserLevel('schafezp','A');
+SELECT setUserLevel('zamanmm','M');
+SELECT setUserLevel('jiangx1','U');
+SELECT setUserLevel('vanpelwc','A');
 
 SELECT createCategory('General','schafezp',NULL);
 SELECT createCategory('Help','schafezp',NULL);

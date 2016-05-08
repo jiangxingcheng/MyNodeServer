@@ -5,19 +5,21 @@ CREATE OR REPLACE FUNCTION createUser(uname TEXT, upassword TEXT) RETURNS VOID A
 	BEGIN
 		SELECT gen_salt('md5') INTO salt;
 		SELECT crypt(upassword, salt) INTO hashed;
-		INSERT INTO UserAccount values(uname, hashed, salt, 'User', current_timestamp, current_timestamp);
+		INSERT INTO UserAccount values(uname, hashed, salt, 'U', current_timestamp, current_timestamp);
 	END; $$ LANGUAGE plpgsql;
 
 -- Verifies username and password
 CREATE OR REPLACE FUNCTION loginUser(uname TEXT, upassword TEXT) RETURNS TEXT AS $$
 	DECLARE readSalt TEXT;
 	DECLARE readPass TEXT;
+	DECLARE level TEXT;
 	BEGIN
 		SELECT salt INTO readSalt FROM UserAccount WHERE username = uname;
 		SELECT password INTO readPass FROM UserAccount WHERE username = uname;
 		IF readPass = crypt(upassword, readSalt) THEN
 			UPDATE UserAccount SET LastAccessDate = current_timestamp WHERE username = uname;
-			RETURN 'Login Success';
+			SELECT userLevel INTO level FROM UserAccount WHERE username = uname;
+			RETURN 'Login Success: ' || level;
 		END IF;
 		RETURN 'Login Failure';
 	END; $$ LANGUAGE plpgsql;
@@ -31,13 +33,13 @@ CREATE OR REPLACE FUNCTION userCount() RETURNS bigint AS $$
 	END; $$ LANGUAGE plpgsql;
 
 -- Get all users
-CREATE OR REPLACE FUNCTION getAllUsers() RETURNS TABLE(Username username, UserLevel userlevel, LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION getAllUsers() RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
 	BEGIN
 		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation from UserAccount ua;
 	END; $$ LANGUAGE plpgsql;
 
 -- Find a user by thier username
-CREATE OR REPLACE FUNCTION findUser(uname TEXT) RETURNS TABLE(Username username, UserLevel userLevel, LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION findUser(uname TEXT) RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
 	BEGIN
 		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount AS ua WHERE ua.Username=uname;
 	END; $$ LANGUAGE plpgsql;
@@ -49,7 +51,7 @@ CREATE OR REPLACE FUNCTION removeUser(uname TEXT) RETURNS VOID AS $$
 	END; $$ LANGUAGE plpgsql;
 
 -- Change user permission level
-CREATE OR REPLACE FUNCTION setLevel(uname TEXT, newLevel userLevel) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1)) RETURNS VOID AS $$
 	BEGIN
 		UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
 	END; $$ LANGUAGE plpgsql;

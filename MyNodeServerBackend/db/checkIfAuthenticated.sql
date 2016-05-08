@@ -1,1 +1,1 @@
-select * from loginUser($1,$2);
+SELECT * FROM loginUser($1,$2);

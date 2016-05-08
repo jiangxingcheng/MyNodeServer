@@ -3,7 +3,6 @@ CREATE DOMAIN title VARCHAR(64) NOT NULL;
 CREATE DOMAIN fullpath TEXT NOT NULL;
 
 CREATE TYPE permissionLevel AS ENUM('r', 'w', 'rw');
-CREATE TYPE userLevel as ENUM('Admin', 'Mod', 'User');
 --CREATE TYPE path must be implemented
 
 ------------ Create Tables ------------
@@ -11,7 +10,7 @@ CREATE TABLE UserAccount(
 	Username username CHECK(LENGTH(Username) > 1),
 	Password TEXT CHECK(LENGTH(Password) > 7),
 	Salt TEXT NOT NULL,
-	UserLevel userLevel NOT NULL,
+	UserLevel VARCHAR(1) NOT NULL,
 	LastAccessDate TIMESTAMP NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	PRIMARY KEY(Username)
