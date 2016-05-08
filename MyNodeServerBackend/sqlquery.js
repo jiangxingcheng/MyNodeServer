@@ -9,13 +9,13 @@ var logresults = function(err,results){
         console.log("Successfully executed Statement");
         console.log(results);
     }
-}
+};
 
 exports.massivequery = function(){
     db.querytest(function(err,results){
         logresults(err,results);
     });
-}
+};
 exports.createDatabase = function(callback){
     callback = callback || function(){};
     console.log("Create Database");
@@ -23,7 +23,7 @@ exports.createDatabase = function(callback){
         logresults(err,results);
         callback();
     });
-}
+};
 exports.createStoredProcedures = function(callback){
     callback = callback || function(){};
     console.log("Create Stored Procedures");
@@ -31,7 +31,8 @@ exports.createStoredProcedures = function(callback){
         logresults(err,results);
         callback();
     });
-}
+};
+
 exports.populateDatabase = function(callback){
     callback = callback || function(){};
     console.log("Populate Database");
@@ -40,7 +41,7 @@ exports.populateDatabase = function(callback){
         callback();
 
     });
-}
+};
 
 exports.destroyDatabase = function(callback){
     callback = callback || function(){};
@@ -51,14 +52,14 @@ exports.destroyDatabase = function(callback){
         callback();
 
     });
-}
+};
 exports.queryDatabase = function(){
 
     db.querydb(function(err,results){
         console.log('Query Database');
         logresults(err,results);
     });
-}
+};
 exports.getUsers = function(callback){
     db.querydb(function(err,results){
         console.log('Query Database');
@@ -70,7 +71,7 @@ exports.getUsers = function(callback){
         };
 
     });
-}
+};
 exports.findUserByUsername = function(username, callback){
     db.finduserbyid([username],function(err,results){
         console.log('Find user by username: '+ username);
@@ -82,7 +83,7 @@ exports.findUserByUsername = function(username, callback){
         };
 
     });
-}
+};
 exports.getCategories = function(callback){
     db.getcategories(function(err,results){
         console.log('Get all Categories');
@@ -92,7 +93,7 @@ exports.getCategories = function(callback){
             callback(err,results);
         }
     });
-}
+};
 
 exports.getThreadsFromCategory = function(categorytitle, callback){
     db.getthreadsfromcategory([categorytitle],function(err,results){
@@ -103,7 +104,7 @@ exports.getThreadsFromCategory = function(categorytitle, callback){
             callback(err,results);
         }
     });
-}
+};
 exports.createUser = function(parameters, callback){
     db.createuser(parameters,function(err,results){
         console.log('Create user ' + parameters[0]);
@@ -113,4 +114,19 @@ exports.createUser = function(parameters, callback){
             callback(err,results);
         }
     });
-}
+};
+exports.checkIfAuthenticated = function(username, password, callback){
+    db.checkIfAuthenticated([username,password],function(err,results){
+        console.log('Check if user: ' + username + ' is authenticated');
+        if(err){
+            callback(err);
+        }else{
+            var authenticationResponseMessage = results[0].loginuser;
+            console.log('Results of authentication is ' + authenticationResponseMessage);
+            //loginuser the name of the function the result is returned from
+
+
+            callback(err,authenticationResponseMessage);
+        }
+    });
+};

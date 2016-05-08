@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var categories = require('./routes/categories');
-
+var authenticatelogin = require('./routes/authenticatelogin');
 
 
 // view engine setup
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/categories', categories);
-
+app.use('/authenticatelogin', authenticatelogin);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
