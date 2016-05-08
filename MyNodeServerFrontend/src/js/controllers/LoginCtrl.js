@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', ['$scope', '$log', 'loginService','$location', function ($scope, $log, loginService,$location) {
+app.controller('LoginCtrl', ['$scope', '$log', 'sqlService','$location', function ($scope, $log,sqlService,$location) {
     var self = this;
     self.registerFailedMessage = "Register Failed";
     $scope.vm = {
@@ -11,15 +11,17 @@ app.controller('LoginCtrl', ['$scope', '$log', 'loginService','$location', funct
             $scope.vm.dataLoading = false;
             var attemptLogin = function(){
                 $scope.vm.dataLoading = true;
-                loginService.checkIfAuthenticated(username,password,'',function(isAuthenticated){
+                $log.log(sqlService);
+                sqlService.checkIfAuthenticated(username,password,function(isAuthenticated){
                     if(isAuthenticated){
-                        $log.log('Is Authenticated');
                         window.scrollTo(0,0);
                         $location.url('/home');
-                    }else{
-                        $log.log('Is Not Authenticated');
+                    }else if(isAuthenticated){
                         $scope.vm.loginAttempted = true;
-                    }
+                    }else{
+                        $log.log('Login Message not understood in LoginCtrl');
+                        $log.log(isAuthenticated);
+                    };
                     $scope.vm.dataLoading = false;
                     $scope.vm.username = '';
                     $scope.vm.password = '';

@@ -1,4 +1,4 @@
-app.service('sqlService', ['$http','$log' ,'Useraccount','Category',function ($http,$log,Useraccount,Category) {
+app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin',function ($http,$log,Useraccount,Category,AuthenticateLogin) {
     var self = this;
 
     self.users = ["One things","two things","three things"];
@@ -40,6 +40,22 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category',function ($h
             //$log.log('Error in sqlservice');
             //$log.log(error);
             errorcallback(error); //error handling
+        });
+    };
+    self.checkIfAuthenticated = function(username,password,callback){
+        $log.log('Run an authentication query ');
+        AuthenticateLogin.query({"username":username,"password":password},function(){
+            //callback for when authenticate turns 200 succesful login
+            $log.log('Authentication confirmed in sqlservice');
+            callback(true);
+        },function(error){
+            if(error.status==603){
+                $log.log('Login not authenticated');
+                callback(false);
+            }else{
+                $log.log('Response not understood in sqlService');
+                callback(false);
+            }
         });
     };
     /**

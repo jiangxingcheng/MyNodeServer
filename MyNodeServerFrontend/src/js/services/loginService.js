@@ -1,15 +1,7 @@
 app.service('loginService', ['$http','$log' ,'Useraccount','sqlService',function ($http,$log,Useraccount,sqlService) {
     var self = this;
     self.userlevel = 'User';
-    self.checkIfAuthenticated = function(username,password,salt,callback){
-        sqlService.getUserByUsername(username,function(data){
-            if(data.length == 1){
-                callback(true);
-            }else{
-                callback(false);
-            }
-        });
-    };
+
     self.createUserAccount = function(username,password,messagecallback,errormessagecallback){
         sqlService.createUserAccount(username,password,function(data){
             var registerSuccessMessage = 'User Successfully Created';

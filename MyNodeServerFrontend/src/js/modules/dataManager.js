@@ -41,3 +41,15 @@ app.factory('Category', ['$resource', 'EnvConfig', function($resource, EnvConfig
 
                     );
 }]);
+app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+    var url = EnvConfig.api.baseUrl + 'authenticatelogin/:username/:password';
+    return $resource(url,{},
+                     {
+                         //not currently implemented
+                         update: {method: 'PUT', params: {username: '@username',password:"@password"}},
+                         getSingle: {method: 'GET', params: {username: '@username',password:"@password"}}
+
+                     }
+
+                    );
+}]);
