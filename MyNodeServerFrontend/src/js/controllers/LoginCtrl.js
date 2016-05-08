@@ -16,7 +16,7 @@ app.controller('LoginCtrl', ['$scope', '$log', 'sqlService','$location', functio
                     if(isAuthenticated){
                         window.scrollTo(0,0);
                         $location.url('/home');
-                    }else if(isAuthenticated){
+                    }else if(!isAuthenticated){
                         $scope.vm.loginAttempted = true;
                     }else{
                         $log.log('Login Message not understood in LoginCtrl');
