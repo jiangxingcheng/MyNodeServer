@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', ['$scope', '$log', 'sqlService','$location', function ($scope, $log,sqlService,$location) {
+app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$location', function ($scope, $log,loginService,sqlService,$location) {
     var self = this;
     self.registerFailedMessage = "Register Failed";
     $scope.vm = {
@@ -14,6 +14,7 @@ app.controller('LoginCtrl', ['$scope', '$log', 'sqlService','$location', functio
                 $log.log(sqlService);
                 sqlService.checkIfAuthenticated(username,password,function(isAuthenticated){
                     if(isAuthenticated){
+                        loginService.userlevel = 'Admin';
                         window.scrollTo(0,0);
                         $location.url('/home');
                     }else if(!isAuthenticated){
@@ -50,6 +51,7 @@ app.controller('LoginCtrl', ['$scope', '$log', 'sqlService','$location', functio
 
                 },function(errorMessage){ //error;
                     $scope.vm.dataLoading = false;
+                    $log.log('Error message is ' + errorMessage);
                     $scope.registerFailedMessage = errorMessage;
                 });
             };

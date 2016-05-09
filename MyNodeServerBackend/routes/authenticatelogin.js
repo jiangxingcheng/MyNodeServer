@@ -37,34 +37,32 @@ router.param('username',function(req,res,next,id){
         }
     });
 });
-router.route('/:username/:password')
-    .get(function(req,res){
-        console.log('req from the route is');
-        //console.log(req);
-        sqlquery.checkIfAuthenticated(req.params['username'],req.params['password'],function(err,data){
-            if(err || data === []){
-                console.log('Username not validated');
-                res.status(404);
-                err = new Error('Not Found');
-                err.status = 404;
-                res.format({
-                    // html: function(){
-                    //     next(err);
-                    // },
-                    json: function(){
-                        res.json({message: err.status + ' ' + err});
-                    }
-                });
-            }else{//once validated save the id as the req id.
-                res.format({
-                    json: function(){
-                        res.json(data);
-                    }
-                });
+router.route('/')
+    .post(function(req,res){
+        var username = req.body.username;
+        var password = req.body.password;
+        sqlquery.checkIfAuthenticated(username,password,function(err,loginIsSucessful){
+            if(loginIsSucessful){
+                res.status(200).send();
+            }else{
+                res.status(603).send();//invalid login
             }
         });
+        });
 
-    });
+// router.route('/:username/:password')
+//     .get(function(req,res){
+//         //console.log('req from the route is');
+//         //console.log(req);
+//         sqlquery.checkIfAuthenticated(req.params['username'],req.params['password'],function(err,loginIsSucessful){
+//             if(loginIsSucessful){
+//                 res.status(200).send();
+//             }else{
+//                 res.status(603).send();//invalid login
+//             }
+//         });
+
+//     });
 /* GET list of users . */
 
 /* GET users listing. */

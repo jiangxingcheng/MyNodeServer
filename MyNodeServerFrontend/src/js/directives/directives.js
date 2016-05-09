@@ -35,7 +35,7 @@ app.directive('webpage', ['$timeout','$log','ngProgressFactory', function($timeo
         }
     };
 }]);
-app.directive('navBar', ['$compile', function($compile)
+app.directive('navBar', ['$compile','loginService','$log', function($compile,loginService,$log)
                          {
     return {
         restrict: 'E',
@@ -43,8 +43,15 @@ app.directive('navBar', ['$compile', function($compile)
         transclude: true,
         templateUrl: 'views/topbar.html',
         link : function(scope,element,attrs){
-            scope.pageroutes = ['home','about','user','forum','login'];
-            scope.pagetitles = ['Home','About','User','Forum','Login/Sign up'];
+            //$log.log('Login Service user level' + loginService.userLevel);
+            if(loginService.userlevel == 'Admin'){
+                scope.pageroutes = ['home','about','user','forum','login'];
+                scope.pagetitles = ['Home','About','Users','Forum','Login/Sign up'];
+            }else{
+                scope.pageroutes = ['home','about','forum','login'];
+                scope.pagetitles = ['Home','About','Forum','Login/Sign up'];
+            }
+
             var setFalse = function(val, link, active) {
                 active[link] = false;
             };

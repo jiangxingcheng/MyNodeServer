@@ -109,8 +109,10 @@ exports.createUser = function(parameters, callback){
     db.createuser(parameters,function(err,results){
         console.log('Create user ' + parameters[0]);
         if(err){
+            console.log('Create user error');
             callback(err);
         }else{
+            console.log('Create user results');
             callback(err,results);
         }
     });
@@ -123,10 +125,20 @@ exports.checkIfAuthenticated = function(username, password, callback){
         }else{
             var authenticationResponseMessage = results[0].loginuser;
             console.log('Results of authentication is ' + authenticationResponseMessage);
+            if(authenticationResponseMessage === "Login Success"){
+                console.log('Login Success');
+                callback(err,true);
+            }else if(authenticationResponseMessage === "Login Failure"){
+                console.log('Login Failure');
+                callback(err,false);
+            }else{
+                console.log('Login Not understood');
+                callback(err,false);
+            }
             //loginuser the name of the function the result is returned from
 
 
-            callback(err,authenticationResponseMessage);
+
         }
     });
 };
