@@ -9,29 +9,29 @@
 --		findUser(uname TEXT) RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP)
 --		removeUser(uname TEXT) RETURNS VOID
 --		setUserLevel(uname TEXT, newLevel VARCHAR(1)) RETURNS VOID
---		addFriend
---		removeFriend
---		getFriends
+--		addFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID
+--		removeFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID
+--		getFriends(uname TEXT) RETURNS TABLE(Username username)
 --
 -- File Management:
---		ls(parentDir fullpath) RETURNS TABLE(itemPath fullpath)
---		touch
---		mkdir
---		rm
---		rm-r
+--		ls
+--		touch(filePath fullpath, parentDir fullpath, creatorUsername TEXT) RETURNS VOID
+--		mkdir(dirPath fullpath, parentDir fullpath, creatorUsername TEXT) RETURNS VOID
+--		rm(filePath fullpath) RETURNS VOID
+--		rm_r(dirPath fullpath) RETURNS VOID
 --		chmod
 --
 -- Forum Management:
 --		createCategory(cname title, uname TEXT, pathOfLogo TEXT) RETURNS VOID
 --		createThread(tname title, uname TEXT, threadCategory title, textBody TEXT) RETURNS VOID
 --		createThreadComment(uname TEXT, threadName title, userText TEXT) RETURNS VOID
---		createDirComment
---		createFileComment
+--		createDirComment(uname TEXT, dPath fullpath, userText TEXT) RETURNS VOID
+--		createFileComment(uname TEXT, fPath fullpath, userText TEXT) RETURNS VOID
 --		getAllCategories() RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP)
 --		getThreadsInCategory(categoryName title) RETURNS TABLE(Title title, Username username, timeofCreation TIMESTAMP)
---		getThreadComments
---		getDirComments
---		getFileComments
+--		getThreadComments(threadName title) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT)
+--		getDirComments(dirPath fullpath) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT)
+--		getFileComments(filePath fullpath) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT)
 --
 -- Created by Wesley Van Pelt on 2016-05-06
 -- Last modified by Wesley Van Pelt on 2016-05-09
@@ -98,32 +98,67 @@ CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1)) RETURNS
 		UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
 	END; $$ LANGUAGE plpgsql;
 
--- addFriend
+CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID AS $$
+	BEGIN
+		INSERT INTO Friends values(uname1, uname2);
+	END; $$ LANGUAGE plpgsql;
 
--- removeFriend
+CREATE OR REPLACE FUNCTION removeFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM Friends f WHERE f.Username1=uname1 AND f.Username2=uname2;
+		DELETE FROM Friends f WHERE f.Username1=uname2 AND f.Username2=uname1;
+	END; $$ LANGUAGE plpgsql;
 
--- getFriends
+CREATE OR REPLACE FUNCTION getFriends(uname TEXT) RETURNS TABLE(Username username) AS $$
+	BEGIN
+		RETURN QUERY (SELECT f.Username2 AS Username FROM Friends f WHERE f.Username1=uname)
+					UNION (SELECT f.Username1 AS Username FROM Friends f WHERE f.Username2=uname);
+	END; $$ LANGUAGE plpgsql;
+
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------- File Management --------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
--- Get all files/subdirs in a dir
-CREATE OR REPLACE FUNCTION ls(parentDir fullpath) RETURNS TABLE(itemPath fullpath) AS $$
+-- -- Get all files/subdirs in a dir
+-- CREATE OR REPLACE FUNCTION ls(parentDir fullpath, uname TEXT) RETURNS TABLE(itemPath fullpath) AS $$
+-- 	BEGIN
+-- 		RETURN QUERY (SELECT DPath AS itemPath FROM Directory WHERE ParentPath=parentDir)
+-- 					UNION (SELECT FPath AS itemPath FROM File WHERE ParentPath=parentDir);
+-- 	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION touch(filePath fullpath, parentDir fullpath, creatorUsername TEXT) RETURNS VOID AS $$
 	BEGIN
-		RETURN QUERY (SELECT DPath AS itemPath INTO dirs FROM Directory WHERE ParentPath=parentDir)
-					UNION (SELECT FPath AS itemPath INTO dirs FROM File WHERE ParentPath=parentDir);
+		INSERT INTO File values(filePath, parentDir, creatorUsername, current_timestamp);
 	END; $$ LANGUAGE plpgsql;
 
--- touch
+CREATE OR REPLACE FUNCTION mkdir(dirPath fullpath, parentDir fullpath, creatorUsername username) RETURNS VOID AS $$
+	BEGIN
+		INSERT INTO Directory values(dirPath, parentDir, creatorUsername, current_timestamp);
+	END; $$ LANGUAGE plpgsql;
 
--- mkdir
+CREATE OR REPLACE FUNCTION rm(filePath fullpath) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM File f WHERE f.FPath=filePath;
+	END; $$ LANGUAGE plpgsql;
 
--- rm
+CREATE OR REPLACE FUNCTION rm_r(dirPath fullpath) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM File f WHERE f.ParentPath=dirPath;
+		DELETE FROM Directory d WHERE d.DPath=dirPath;
+	END; $$ LANGUAGE plpgsql;
 
--- rm-r
-
--- chmod
+-- CREATE OR REPLACE FUNCTION chmod(args VARCHAR(3), thingPath fullpath) RETURNS VOID AS $$
+-- 	BEGIN
+-- 		CASE args
+-- 			WHEN '+r' THEN
+-- 			WHEN '-r' THEN
+-- 			WHEN '+w' THEN
+-- 			WHEN '-w' THEN
+-- 			WHEN '+rw' THEN
+-- 			WHEN '-rw' THEN
+-- 		END CASE;
+-- 	END; $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------- Forum Management -------------------------------------------------------
@@ -135,26 +170,10 @@ CREATE OR REPLACE FUNCTION createCategory(cname title, uname TEXT, pathOfLogo TE
 		INSERT INTO Category values(cname, uname, current_timestamp, pathOfLogo);
 	END; $$ LANGUAGE plpgsql;
 
--- Get all categories
-CREATE OR REPLACE FUNCTION getAllCategories() RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP) AS $$
-	BEGIN
-		RETURN QUERY SELECT c.CTitle AS title, c.Username, c.TimeOfCreation FROM Category c;
-	END; $$ LANGUAGE plpgsql;
-
 -- Create thread
 CREATE OR REPLACE FUNCTION createThread(tname title, uname TEXT, threadCategory title, textBody TEXT) RETURNS VOID AS $$
 	BEGIN
-	INSERT INTO Thread values(tname, uname, threadCategory, current_timestamp, textBody);
-	END; $$ LANGUAGE plpgsql;
-
--- createDirComment
-
--- createFileComment
-
--- Get all threads in a category
-CREATE OR REPLACE FUNCTION getThreadsInCategory(categoryName title) RETURNS TABLE(Title title, Username username, timeofCreation TIMESTAMP) AS $$
-	BEGIN
-		RETURN QUERY SELECT t.TTitle as Title, t.Username, t.TimeOfCreation FROM Thread t WHERE CTitle=categoryName;
+		INSERT INTO Thread values(tname, uname, threadCategory, current_timestamp, textBody);
 	END; $$ LANGUAGE plpgsql;
 
 -- Create thread comment
@@ -163,8 +182,44 @@ CREATE OR REPLACE FUNCTION createThreadComment(uname TEXT, threadName title, use
 		INSERT INTO ThreadComment values(uname, current_timestamp, threadName, userText);
 	END; $$ LANGUAGE plpgsql;
 
+-- createDirComment
+CREATE OR REPLACE FUNCTION createDirComment(uname TEXT, dPath fullpath, userText TEXT) RETURNS VOID AS $$
+	BEGIN
+		INSERT INTO DirectoryComment values(uname, current_timestamp, dPath, userText);
+	END; $$ LANGUAGE plpgsql;
+
+-- createFileComment
+CREATE OR REPLACE FUNCTION createFileComment(uname TEXT, fPath fullpath, userText TEXT) RETURNS VOID AS $$
+	BEGIN
+		INSERT INTO FileComment values(uname, current_timestamp, fPath, userText);
+	END; $$ LANGUAGE plpgsql;
+
+-- Get all categories
+CREATE OR REPLACE FUNCTION getAllCategories() RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP) AS $$
+	BEGIN
+		RETURN QUERY SELECT c.CTitle AS title, c.Username, c.TimeOfCreation FROM Category c;
+	END; $$ LANGUAGE plpgsql;
+
+-- Get all threads in a category
+CREATE OR REPLACE FUNCTION getThreadsInCategory(categoryName title) RETURNS TABLE(Title title, Username username, timeofCreation TIMESTAMP) AS $$
+	BEGIN
+		RETURN QUERY SELECT t.TTitle as Title, t.Username, t.TimeOfCreation FROM Thread t WHERE CTitle=categoryName;
+	END; $$ LANGUAGE plpgsql;
+
 -- getThreadComments
+CREATE OR REPLACE FUNCTION getThreadComments(threadName title) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	BEGIN
+		RETURN QUERY SELECT tc.Username, tc.TimeOfCreation, tc.userText AS Body FROM ThreadComment tc WHERE tc.TTitle=threadName;
+	END; $$ LANGUAGE plpgsql;
 
 -- getDirComments
+CREATE OR REPLACE FUNCTION getDirComments(dirPath fullpath) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	BEGIN
+		RETURN QUERY SELECT dc.Username, dc.TimeOfCreation, dc.userText AS Body FROM DirectoryComment dc WHERE dc.DPath=dirPath;
+	END; $$ LANGUAGE plpgsql;
 
 -- getFileComments
+CREATE OR REPLACE FUNCTION getFileComments(filePath fullpath) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	BEGIN
+		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=filePath;
+	END; $$ LANGUAGE plpgsql;
