@@ -25,6 +25,13 @@ SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software'
 
 SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck');
 
+SELECT mkdir('/home/wesley/', 'vanpelwc'); -- The home folder should also be created with this
+SELECT mkdir('/usr/', 'vanpelwc');
+
+SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
+SELECT touch('/usr/randomFile', 'vanpelwc');
+
+
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------   Depricated Creation Methods  ------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------

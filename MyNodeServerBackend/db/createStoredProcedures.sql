@@ -112,15 +112,17 @@ CREATE OR REPLACE FUNCTION convertToArrPath(fPath TEXT) RETURNS VARCHAR(255)[] A
 	BEGIN
 		SELECT * INTO fPath FROM TRIM(BOTH '/' FROM fPath);
 		SELECT * INTO pos FROM position('/' in fPath);
-		LOOP
-			SELECT * INTO plen FROM CHAR_LENGTH(fPath);
-			SELECT * INTO tempString FROM SUBSTRING(fPath from 1 for pos-1);
-			SELECT * INTO fPath FROM SUBSTRING(fPath from pos+1 for plen-pos);
-			SELECT * INTO arrPath FROM ARRAY_APPEND(arrPath, tempString);
-			SELECT loopCount+1 INTO loopCount;
-			SELECT * INTO pos FROM position('/' in fPath);
-			IF pos=0 THEN EXIT; END IF;
-		END LOOP;
+		IF pos>0 THEN
+			LOOP
+				SELECT * INTO plen FROM CHAR_LENGTH(fPath);
+				SELECT * INTO tempString FROM SUBSTRING(fPath from 1 for pos-1);
+				SELECT * INTO fPath FROM SUBSTRING(fPath from pos+1 for plen-pos);
+				SELECT * INTO arrPath FROM ARRAY_APPEND(arrPath, tempString);
+				SELECT loopCount+1 INTO loopCount;
+				SELECT * INTO pos FROM position('/' in fPath);
+				IF pos=0 THEN EXIT; END IF;
+			END LOOP;
+		END IF;
 		SELECT * INTO plen FROM CHAR_LENGTH(fPath);
 		SELECT * INTO tempString FROM SUBSTRING(fPath from 1 for plen);
 		SELECT * INTO arrPath FROM ARRAY_APPEND(arrPath, tempString);
@@ -128,35 +130,70 @@ CREATE OR REPLACE FUNCTION convertToArrPath(fPath TEXT) RETURNS VARCHAR(255)[] A
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
-CREATE OR REPLACE FUNCTION addFile(fPath TEXT, creatorUsername username, isDir BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION containsPath(basePath VARCHAR(255)[], checkingPath VARCHAR(255)[]) RETURNS BOOLEAN AS $$
 	DECLARE
-		arrPath VARCHAR(255)[];
-		pathLen INT;
+		loopCount INT := 1;
+		baseLen INT;
+		checkingLen INT;
 	BEGIN
-		SELECT * INTO arrPath FROM convertToArrPath(fPath);
-		SELECT * INTO pathLen FROM cardinality(arrPath);
+		SELECT * INTO baseLen FROM cardinality(basePath);
+		SELECT * INTO checkingLen FROM cardinality(checkingPath);
+		IF baseLen>checkingLen THEN RETURN FALSE; END IF;
+		LOOP
+			IF basePath[loopCount]<>checkingPath[loopCount] THEN RETURN FALSE; END IF;
+			SELECT loopCount+1 INTO loopCount;
+			IF loopCount=baseLen THEN EXIT; END IF;
+		END LOOP;
+		RETURN TRUE;
+	END; $$ LANGUAGE plpgsql;
+
+-- Here for the use by other functions in this file
+CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], creatorUsername username, isDir BOOLEAN) RETURNS VOID AS $$
+	DECLARE
+		loopCount INT := 1;
+		pathLen INT;
+		arrPathWithoutCurrent VARCHAR(255)[];
+	BEGIN
+		SELECT * INTO pathLen FROM CARDINALITY(arrPath);
+		-- LOOP
+		-- 	SELECT * INTO arrPathWithoutCurrent FROM ARRAY_APPEND(arrPathWithoutCurrent, arrPath[loopCount]);
+		-- 	SELECT loopCount+1 INTO loopCount;
+		-- 	IF loopCount=pathLen-1 THEN EXIT; END IF;
+		-- END LOOP;
+		-- IF NOT EXISTS (SELECT * FROM File f WHERE f.FPath=arrPathWithoutCurrent) THEN
+		-- 	RAISE ERROR 'Parent directory does not exist';
+		-- END IF;
 		INSERT INTO File VALUES(arrPath, creatorUsername, current_timestamp, isDir, arrPath[pathLen]);
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a directory
 CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, creatorUsername username) RETURNS VOID AS $$
+	DECLARE arrPath VARCHAR(255)[];
 	BEGIN
-		PERFORM addFile(dirPath, creatorUsername, TRUE);
+		SELECT * INTO arrPath FROM convertToArrPath(dirPath);
+		PERFORM addFile(arrPath, creatorUsername, TRUE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a file
 CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VOID AS $$
+	DECLARE arrPath VARCHAR(255)[];
 	BEGIN
-		PERFORM addFile(filePath, creatorUsername, FALSE);
+		SELECT * INTO arrPath FROM convertToArrPath(filePath);
+		PERFORM addFile(arrPath, creatorUsername, FALSE);
 	END; $$ LANGUAGE plpgsql;
 
 -- CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT) RETURNS TABLE(itemPath TEXT) AS $$
 -- 	BEGIN
 -- 	END; $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
--- 	BEGIN
--- 	END; $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
+		isDir BOOLEAN;
+	BEGIN
+		SELECT * INTO arrPath FROM convertToArrPath(filePath);
+		DELETE FROM File f WHERE containsPath(arrPath, f.FPath);
+	END; $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
 	DECLARE
@@ -164,7 +201,7 @@ CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, 
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
 		DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath=arrPath;
-		INSERT INTO UserPermissionsOnFile VALUES(uname, filePath, readEnable, writeEnable);
+		INSERT INTO UserPermissionsOnFile VALUES(uname, arrPath, readEnable, writeEnable);
 	END; $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------------------------------------------------------
