@@ -14,6 +14,10 @@ var destroyAndPopulate = function(callback){
                     sqlquery.getCategories(function(err,data){
                         console.log(data);
                     });
+                    sqlquery.getThreadCommentsFromThreadTitle('Internet stuff',function(err,data){
+                        console.log('Return');
+                        console.log(data);
+                    });
                 });
             });
         });
