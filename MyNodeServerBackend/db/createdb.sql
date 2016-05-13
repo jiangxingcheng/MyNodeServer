@@ -1,6 +1,5 @@
 CREATE DOMAIN username TEXT NOT NULL;
 CREATE DOMAIN title VARCHAR(64) NOT NULL;
-CREATE DOMAIN fullpath TEXT NOT NULL;
 
 CREATE TYPE permissionLevel AS ENUM('r', 'w', 'rw');
 
@@ -23,43 +22,25 @@ CREATE TABLE Friends(
 	FOREIGN KEY(Username2) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
-CREATE TABLE Directory(
-	DPath fullpath NOT NULL,
-	ParentPath fullpath, --index this
-	Username username, --index this
-	TimeOfCreation TIMESTAMP NOT NULL, --index this
-	PRIMARY KEY(DPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
-);
-
 CREATE TABLE File(
-	FPath fullpath NOT NULL,
-	ParentPath fullpath, --index this
+	FPath VARCHAR(255)[] NOT NULL,
 	Username username NOT NULL, --index this
 	TimeOfCreation TIMESTAMP NOT NULL, --index this
+	IsDir BOOLEAN,
+	Name VARCHAR(255), -- Just here for speed improvement INDEX THIS
 	PRIMARY KEY(FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
-CREATE TABLE UserPermitsDirectory(
-	Username username NOT NULL,
-	DPath fullpath NOT NULL,
-	PermissionLevel permissionLevel NOT NULL, --index this
-	PRIMARY KEY(Username, DPath),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
-);
-
 CREATE TABLE UserPermitsFile(
 	Username username NOT NULL,
-	FPath fullpath NOT NULL,
+	FPath VARCHAR(255)[] NOT NULL,
 	PermissionLevel permissionLevel NOT NULL, --index this
 	PRIMARY KEY(Username, FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)
 );
 
------- Forum Tables ------
 CREATE TABLE Category(
 	CTitle title NOT NULL,
 	Username username NOT NULL, --index this
@@ -90,20 +71,10 @@ CREATE TABLE ThreadComment(
 	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle)
 );
 
-CREATE TABLE DirectoryComment(
-	Username username NOT NULL,
-	TimeOfCreation TIMESTAMP NOT NULL,
-	DPath fullpath NOT NULL, --index this
-	Text text NOT NULL CHECK(LENGTH(text) > 0),
-	PRIMARY KEY(Username, TimeOfCreation),
-	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
-);
-
 CREATE TABLE FileComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
-	FPath fullpath NOT NULL, --index this
+	FPath VARCHAR(255)[] NOT NULL, --index this
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
