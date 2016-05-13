@@ -25,18 +25,18 @@ CREATE TABLE Friends(
 
 CREATE TABLE Directory(
 	DPath fullpath NOT NULL,
-	ParentPath fullpath,
-	Username username,
-	TimeOfCreation TIMESTAMP NOT NULL,
+	ParentPath fullpath, --index this
+	Username username, --index this
+	TimeOfCreation TIMESTAMP NOT NULL, --index this
 	PRIMARY KEY(DPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
 CREATE TABLE File(
 	FPath fullpath NOT NULL,
-	ParentPath fullpath,
-	Username username NOT NULL,
-	TimeOfCreation TIMESTAMP NOT NULL,
+	ParentPath fullpath, --index this
+	Username username NOT NULL, --index this
+	TimeOfCreation TIMESTAMP NOT NULL, --index this
 	PRIMARY KEY(FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
@@ -44,7 +44,7 @@ CREATE TABLE File(
 CREATE TABLE UserPermitsDirectory(
 	Username username NOT NULL,
 	DPath fullpath NOT NULL,
-	PermissionLevel permissionLevel NOT NULL,
+	PermissionLevel permissionLevel NOT NULL, --index this
 	PRIMARY KEY(Username, DPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(DPath) REFERENCES Directory(DPath)
@@ -53,7 +53,7 @@ CREATE TABLE UserPermitsDirectory(
 CREATE TABLE UserPermitsFile(
 	Username username NOT NULL,
 	FPath fullpath NOT NULL,
-	PermissionLevel permissionLevel NOT NULL,
+	PermissionLevel permissionLevel NOT NULL, --index this
 	PRIMARY KEY(Username, FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)
@@ -62,8 +62,8 @@ CREATE TABLE UserPermitsFile(
 ------ Forum Tables ------
 CREATE TABLE Category(
 	CTitle title NOT NULL,
-	Username username NOT NULL,
-	TimeOfCreation TIMESTAMP NOT NULL,
+	Username username NOT NULL, --index this
+	TimeOfCreation TIMESTAMP NOT NULL, --index this
 	LogoPath TEXT,
 	PRIMARY KEY(CTitle),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
@@ -71,9 +71,9 @@ CREATE TABLE Category(
 
 CREATE TABLE Thread(
 	TTitle title NOT NULL,
-	Username username NOT NULL,
-	CTitle title NOT NULL,
-	TimeOfCreation TIMESTAMP NOT NULL,
+	Username username NOT NULL, --index this
+	CTitle title NOT NULL, --index this
+	TimeOfCreation TIMESTAMP NOT NULL, --index this
 	Body TEXT,
 	PRIMARY KEY(TTitle),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
@@ -83,7 +83,7 @@ CREATE TABLE Thread(
 CREATE TABLE ThreadComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
-	TTitle title NOT NULL,
+	TTitle title NOT NULL, --index this
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
@@ -93,7 +93,7 @@ CREATE TABLE ThreadComment(
 CREATE TABLE DirectoryComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
-	DPath fullpath NOT NULL,
+	DPath fullpath NOT NULL, --index this
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
@@ -103,7 +103,7 @@ CREATE TABLE DirectoryComment(
 CREATE TABLE FileComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
-	FPath fullpath NOT NULL,
+	FPath fullpath NOT NULL, --index this
 	Text text NOT NULL CHECK(LENGTH(text) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
