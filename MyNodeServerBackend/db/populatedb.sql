@@ -23,7 +23,9 @@ SELECT createThread('Orange waffles','zamanmm','NSFW',NULL);
 SELECT createThread('You dont want to know','jiangx1','/b/',NULL);
 SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software','Fuck Microsoft');
 
-SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck');
+--SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck')
+SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff i found on the internet');
+SELECT createThreadComment('schafezp','Internet stuff', 'here is some internet stuff i found on the internet');
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------   Depricated Creation Methods  ------------------------------------------------

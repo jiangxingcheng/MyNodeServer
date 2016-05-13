@@ -27,7 +27,7 @@ app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 
             },
             params: {
-                categoryTitle : 'test'
+                category : 'NaN'
             }
         })
         .state('about',{

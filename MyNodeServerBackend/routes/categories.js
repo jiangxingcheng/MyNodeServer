@@ -94,7 +94,38 @@ router.route('/:categorytitle')
         });
 
     })
+router.route('/:categorytitle/:threadtitle')
+    .get(function(req,res){
+        console.log('req id is');
+        //console.log(req);
+        var ctitle = req.params.categorytitle;
+        var ttitle = req.params.threadtitle;
+        //var ttitle = 'Internet stuff';
+        console.log('ttitle : ' + ttitle);
+        sqlquery.getThreadCommentsFromThreadTitle(ttitle,function(err,data){
+            if(err){
+                console.log('Category is not validated');
+                res.status(404);
+                err = new Error('Not Found');
+                err.status = 404;
+                res.format({
+                    // html: function(){
+                    //     next(err);
+                    // },
+                    json: function(){
+                        res.json({message: err.status + ' ' + err});
+                    }
+                });
+            }else{//once validated save the id as the req id.
+                res.format({
+                    json: function(){
+                        res.json(data);
+                    }
+                })
+            }
+        });
 
+    })
 /* GET list of users . */
 
 /* GET users listing. */

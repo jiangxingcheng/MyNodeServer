@@ -142,3 +142,17 @@ exports.checkIfAuthenticated = function(username, password, callback){
         }
     });
 };
+
+exports.getThreadCommentsFromThreadTitle = function(threadtitle, callback){
+
+    db.getthreadcommentsfromthread(threadtitle,function(err,results){
+        console.log('get thread comments');
+        if(err){
+            console.log('Couldnt retrieve thread comments');
+            callback(err);
+        }else{
+            console.log('thread title returned');
+            callback(err,results);
+        }
+    });
+};
