@@ -1,8 +1,6 @@
 CREATE DOMAIN username TEXT NOT NULL;
 CREATE DOMAIN title VARCHAR(64) NOT NULL;
 
-CREATE TYPE permissionLevel AS ENUM('r', 'w', 'rw');
-
 ------------ Create Tables ------------
 CREATE TABLE UserAccount(
 	Username username CHECK(LENGTH(Username) > 1 AND LENGTH(Username) < 17),
@@ -32,10 +30,11 @@ CREATE TABLE File(
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
 
-CREATE TABLE UserPermitsFile(
+CREATE TABLE UserPermissionsOnFile(
 	Username username NOT NULL,
 	FPath VARCHAR(255)[] NOT NULL,
-	PermissionLevel permissionLevel NOT NULL, --index this
+	ReadAllowed BOOLEAN NOT NULL,
+	WriteAllowed BOOLEAN NOT NULL,
 	PRIMARY KEY(Username, FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)

@@ -127,6 +127,7 @@ CREATE OR REPLACE FUNCTION convertToArrPath(fPath TEXT) RETURNS VARCHAR(255)[] A
 		RETURN arrPath;
 	END; $$ LANGUAGE plpgsql;
 
+-- Here for the use by other functions in this file
 CREATE OR REPLACE FUNCTION addFile(fPath TEXT, creatorUsername username, isDir BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
@@ -137,11 +138,13 @@ CREATE OR REPLACE FUNCTION addFile(fPath TEXT, creatorUsername username, isDir B
 		INSERT INTO File VALUES(arrPath, creatorUsername, current_timestamp, isDir, arrPath[pathLen]);
 	END; $$ LANGUAGE plpgsql;
 
+-- Makes a directory
 CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, creatorUsername username) RETURNS VOID AS $$
 	BEGIN
 		PERFORM addFile(dirPath, creatorUsername, TRUE);
 	END; $$ LANGUAGE plpgsql;
 
+-- Makes a file
 CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VOID AS $$
 	BEGIN
 		PERFORM addFile(filePath, creatorUsername, FALSE);
@@ -155,9 +158,14 @@ CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VO
 -- 	BEGIN
 -- 	END; $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION chmod(readEnable BOOLEAN, writeEnable BOOLEAN, fPath TEXT) RETURNS VOID AS $$
--- 	BEGIN
--- 	END; $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
+	BEGIN
+		SELECT * INTO arrPath FROM convertToArrPath(filePath);
+		DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath=arrPath;
+		INSERT INTO UserPermissionsOnFile VALUES(uname, filePath, readEnable, writeEnable);
+	END; $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------- Forum Management -------------------------------------------------------
