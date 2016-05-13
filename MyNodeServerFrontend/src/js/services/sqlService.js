@@ -33,6 +33,12 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             callback(data);
         });
     };
+    self.getThreadCommentsByTitle = function(categorytitle,threadtitle,callback){
+        Category.query({"categorytitle":categorytitle,"threadtitle":threadtitle},function(data){
+            //self.categories = data;
+            callback(data);
+        });
+    };
     self.createUserAccount = function(username,password,callback,errorcallback){
         Useraccount.save({"username":username,"password":password},function(data){
             callback(data);

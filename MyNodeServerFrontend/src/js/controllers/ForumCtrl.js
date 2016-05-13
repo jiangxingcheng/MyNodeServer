@@ -14,6 +14,8 @@ app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout'
         $log.log('Category');
         $log.log(category);
         var title = category.title;
-        $state.go('forum.threads', {categoryTitle : title });
+        //var passedCategory = {title : category.title, username: category.username};
+
+        $state.go('forum.threads', {category : category });
     };
 }]);

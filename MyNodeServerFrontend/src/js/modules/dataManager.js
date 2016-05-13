@@ -31,13 +31,11 @@ app.factory('Useraccount', ['$resource', 'EnvConfig', function($resource, EnvCon
 }]);
 
 app.factory('Category', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
-    var url = EnvConfig.api.baseUrl + 'categories/:categorytitle';
-    return $resource(url,{},
-                     {
-                         update: {method: 'PUT', params: {name: '@categorytitle'}},
-                         getSingle: {method: 'GET', params: {name: '@categorytitle'}}
-
-                     }
+    var url = EnvConfig.api.baseUrl + 'categories/:categorytitle/:threadtitle';
+    return $resource(url,{},{params : {
+                         categorytitle:'@categorytitle',
+                         threadtitle:'@threadtitle'
+    }}
 
                     );
 }]);
