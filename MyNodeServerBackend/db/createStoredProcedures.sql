@@ -142,32 +142,45 @@ CREATE OR REPLACE FUNCTION containsPath(basePath VARCHAR(255)[], checkingPath VA
 		LOOP
 			IF basePath[loopCount]<>checkingPath[loopCount] THEN RETURN FALSE; END IF;
 			SELECT loopCount+1 INTO loopCount;
-			IF loopCount=baseLen THEN EXIT; END IF;
+			IF loopCount>=baseLen THEN EXIT; END IF;
 		END LOOP;
 		RETURN TRUE;
+	END; $$ LANGUAGE plpgsql;
+
+-- Here for the use by other functions in this file
+CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], uname TEXT) RETURNS BOOLEAN AS $$
+	DECLARE isAllowed BOOLEAN;
+	BEGIN
+		SELECT ReadAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
+		RETURN isAllowed;
+	END; $$ LANGUAGE plpgsql;
+
+-- Here for the use by other functions in this file
+CREATE OR REPLACE FUNCTION setPerms(uname TEXT, arrPath VARCHAR(255)[], readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
+	DECLARE
+		isDir BOOLEAN;
+	BEGIN
+		SELECT f.isDir INTO isDir FROM File f WHERE arrPath=f.FPath;
+		DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath=arrPath;
+		INSERT INTO UserPermissionsOnFile VALUES(uname, arrPath, readEnable, writeEnable);
+		-- IF isDir THEN
+		-- 	FOR FilePath IN filesToChmod LOOP
+		-- 		PERFORM setPerms(uname, FilePath, readEnable, writeEnable);
+		-- 	END LOOP;
+		-- END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
 CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], creatorUsername username, isDir BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		loopCount INT := 1;
-		pathLen INT;
 		arrPathWithoutCurrent VARCHAR(255)[];
 	BEGIN
-		SELECT * INTO pathLen FROM CARDINALITY(arrPath);
-		-- LOOP
-		-- 	SELECT * INTO arrPathWithoutCurrent FROM ARRAY_APPEND(arrPathWithoutCurrent, arrPath[loopCount]);
-		-- 	SELECT loopCount+1 INTO loopCount;
-		-- 	IF loopCount=pathLen-1 THEN EXIT; END IF;
-		-- END LOOP;
-		-- IF NOT EXISTS (SELECT * FROM File f WHERE f.FPath=arrPathWithoutCurrent) THEN
-		-- 	RAISE ERROR 'Parent directory does not exist';
-		-- END IF;
-		INSERT INTO File VALUES(arrPath, creatorUsername, current_timestamp, isDir, arrPath[pathLen]);
+		INSERT INTO File VALUES(arrPath, creatorUsername, current_timestamp, isDir);
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a directory
-CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, creatorUsername username) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, creatorUsername TEXT) RETURNS VOID AS $$
 	DECLARE arrPath VARCHAR(255)[];
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(dirPath);
@@ -182,10 +195,22 @@ CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VO
 		PERFORM addFile(arrPath, creatorUsername, FALSE);
 	END; $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT) RETURNS TABLE(itemPath TEXT) AS $$
--- 	BEGIN
--- 	END; $$ LANGUAGE plpgsql;
+-- Lists stuff in the directory
+CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN) RETURNS TABLE(FilePath VARCHAR(255)[], IsDirectory BOOLEAN, CreatorUsername username, TimeOfCreation TIMESTAMP) AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
+		isAdmin BOOLEAN;
+	BEGIN
+		SELECT * INTO arrPath FROM convertToArrPath(parentDir);
+		SELECT userLevel='A' INTO isAdmin FROM UserAccount ua WHERE uname=ua.username;
+		RETURN QUERY SELECT f.FPath AS FilePath, f.IsDir AS IsDirectory, f.username AS CreatorUsername, f.TimeOfCreation FROM File f WHERE
+			containsPath(arrPath, f.FPath) AND
+			(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
+			CARDINALITY(arrPath) <> CARDINALITY(f.FPath) AND
+			(isAdmin OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
+	END; $$ LANGUAGE plpgsql;
 
+-- Deletes files/directories
 CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
@@ -195,13 +220,13 @@ CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
 		DELETE FROM File f WHERE containsPath(arrPath, f.FPath);
 	END; $$ LANGUAGE plpgsql;
 
+-- Changes permisions on files and directories
 CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath=arrPath;
-		INSERT INTO UserPermissionsOnFile VALUES(uname, arrPath, readEnable, writeEnable);
+		PERFORM setPerms(uname, arrPath, readEnable, writeEnable);
 	END; $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------------------------------------------------------

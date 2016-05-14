@@ -3,7 +3,7 @@ CREATE DOMAIN title VARCHAR(64) NOT NULL;
 
 ------------ Create Tables ------------
 CREATE TABLE UserAccount(
-	Username username CHECK(LENGTH(Username) > 1 AND LENGTH(Username) < 17),
+	Username username CHECK(LENGTH(Username) > 2 AND LENGTH(Username) < 17),
 	Password TEXT CHECK(LENGTH(Password) > 7),
 	Salt TEXT NOT NULL,
 	UserLevel VARCHAR(1) NOT NULL,
@@ -25,7 +25,6 @@ CREATE TABLE File(
 	Username username NOT NULL, --index this
 	TimeOfCreation TIMESTAMP NOT NULL, --index this
 	IsDir BOOLEAN,
-	Name VARCHAR(255), -- Just here for speed improvement INDEX THIS
 	PRIMARY KEY(FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE
 );
