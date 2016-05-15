@@ -63,7 +63,7 @@ CREATE TABLE ThreadComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	TTitle title NOT NULL, --index this
-	Text text NOT NULL CHECK(LENGTH(text) > 0),
+	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle)
@@ -73,7 +73,7 @@ CREATE TABLE FileComment(
 	Username username NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	FPath VARCHAR(255)[] NOT NULL, --index this
-	Text text NOT NULL CHECK(LENGTH(text) > 0),
+	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath)

@@ -29,6 +29,7 @@ SELECT mkdir('/home/', 'vanpelwc');
 SELECT mkdir('/home/wesley/', 'vanpelwc');
 SELECT mkdir('/usr/', 'vanpelwc');
 
+SELECT touch('/home/meh','vanpelwc');
 SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
 SELECT touch('/usr/randomFile', 'vanpelwc');
 

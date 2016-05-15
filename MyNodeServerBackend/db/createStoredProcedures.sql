@@ -156,18 +156,23 @@ CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], uname TEX
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
-CREATE OR REPLACE FUNCTION setPerms(uname TEXT, arrPath VARCHAR(255)[], readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION setPerms(uname TEXT, arrPath VARCHAR(255)[], readEnable BOOLEAN, writeEnable BOOLEAN, recurse BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		isDir BOOLEAN;
 	BEGIN
 		SELECT f.isDir INTO isDir FROM File f WHERE arrPath=f.FPath;
 		DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath=arrPath;
 		INSERT INTO UserPermissionsOnFile VALUES(uname, arrPath, readEnable, writeEnable);
-		-- IF isDir THEN
-		-- 	FOR FilePath IN filesToChmod LOOP
-		-- 		PERFORM setPerms(uname, FilePath, readEnable, writeEnable);
-		-- 	END LOOP;
-		-- END IF;
+		IF isDir THEN
+			CREATE TEMP TABLE moreFiles(username TEXT, fPath VARCHAR(255)[], readAllowed BOOLEAN, writeAllowed BOOLEAN) ON COMMIT DROP;
+			INSERT INTO moreFiles (fPath) SELECT FPath FROM File f WHERE
+				containsPath(arrPath, f.FPath) AND
+				(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
+				CARDINALITY(arrPath) <> CARDINALITY(f.FPath);
+			UPDATE moreFiles SET username=uname, readAllowed=readEnable, writeAllowed=writeEnable WHERE fPath IS NOT NULL;
+			DELETE FROM UserPermissionsOnFile upof WHERE upof.username=uname AND upof.FPath IN (SELECT fPath FROM moreFiles);
+			INSERT INTO UserPermissionsOnFile SELECT * FROM moreFiles;--mf WHERE mf.fPath IS NOT NULL;
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
@@ -206,7 +211,7 @@ CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN) RETUR
 		RETURN QUERY SELECT f.FPath AS FilePath, f.IsDir AS IsDirectory, f.username AS CreatorUsername, f.TimeOfCreation FROM File f WHERE
 			containsPath(arrPath, f.FPath) AND
 			(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
-			CARDINALITY(arrPath) <> CARDINALITY(f.FPath) AND
+			CARDINALITY(arrPath) <> CARDINALITY(f.FPath); --AND
 			(isAdmin OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
 	END; $$ LANGUAGE plpgsql;
 
@@ -221,13 +226,14 @@ CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
 	END; $$ LANGUAGE plpgsql;
 
 -- Changes permisions on files and directories
-CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN, recurse BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		PERFORM setPerms(uname, arrPath, readEnable, writeEnable);
+		PERFORM setPerms(uname, arrPath, readEnable, writeEnable, recurse);
 	END; $$ LANGUAGE plpgsql;
+
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------- Forum Management -------------------------------------------------------
@@ -248,15 +254,13 @@ CREATE OR REPLACE FUNCTION createThreadComment(uname TEXT, threadName title, use
 		INSERT INTO ThreadComment values(uname, current_timestamp, threadName, userText);
 	END; $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION createDirComment(uname TEXT, dPath TEXT, userText TEXT) RETURNS VOID AS $$
--- 	BEGIN
--- 		INSERT INTO DirectoryComment values(uname, current_timestamp, dPath, userText);
--- 	END; $$ LANGUAGE plpgsql;
---
--- CREATE OR REPLACE FUNCTION createFileComment(uname TEXT, fPath TEXT, userText TEXT) RETURNS VOID AS $$
--- 	BEGIN
--- 		INSERT INTO FileComment values(uname, current_timestamp, fPath, userText);
--- 	END; $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION createFileComment(uname TEXT, filePath TEXT, userText TEXT) RETURNS VOID AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
+	BEGIN
+		SELECT * INTO arrPath FROM convertToArrPath(filePath);
+		INSERT INTO FileComment values(uname, current_timestamp, arrPath, userText);
+	END; $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION getAllCategories() RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP) AS $$
 	BEGIN
@@ -273,12 +277,10 @@ CREATE OR REPLACE FUNCTION getThreadComments(threadName title) RETURNS TABLE(Use
 		RETURN QUERY SELECT tc.Username, tc.TimeOfCreation, tc.userText AS Body FROM ThreadComment tc WHERE tc.TTitle=threadName;
 	END; $$ LANGUAGE plpgsql;
 
--- CREATE OR REPLACE FUNCTION getDirComments(dirPath TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
--- 	BEGIN
--- 		RETURN QUERY SELECT dc.Username, dc.TimeOfCreation, dc.userText AS Body FROM DirectoryComment dc WHERE dc.DPath=dirPath;
--- 	END; $$ LANGUAGE plpgsql;
---
--- CREATE OR REPLACE FUNCTION getFileComments(filePath TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
--- 	BEGIN
--- 		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=filePath;
--- 	END; $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION getFileComments(filePath TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
+	BEGIN
+		SELECT * INTO arrPath FROM convertToArrPath(filePath);
+		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=arrPath;
+	END; $$ LANGUAGE plpgsql;
