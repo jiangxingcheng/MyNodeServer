@@ -1,12 +1,23 @@
 <div class="modal-header"><h1>{{modalThread.title}} </h1></div>
 <div class="modal-body">
-    <div class="col-lg-3" ng-repeat="threadcomment in threadComments">
-        Username : {{threadcomment.username}}
-        Text : {{threadcomment.text}}
+    <div class="row comment-block" ng-repeat="threadcomment in threadComments">
+      <p style="color: #000"><b>{{threadcomment.username}}</b></p>
+        <p>{{threadcomment.text}}</p>
     </div>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer row">
+  <div class="col-lg-6">
+    <form role="form">
+      <div class="form-group">
+        <label for="inputdefault"></label>
+        <p align="left">Comment</p>
+        <input class="form-control" name="" type="text" value=""/>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-6">
     <button ng-click="ok()" class="btn btn-primary">Submit</button>
     <button ng-click="cancel()" class="btn btn-warning">Cancel</button>
+  </div>
 </div>

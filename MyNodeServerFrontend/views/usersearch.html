@@ -1,45 +1,4 @@
-<div class="container-fluid">
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <a class="navbar-brand">
-                    <img class="logo img-responsive" src="../src/img/logo.png" width=340px alt="Logo">
-                </a>
-                <ul id="navigation" class="nav navbar-nav navbar-right">
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'home'})">Home</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'about'})">About</a>
-                    </li>
-                    <li>
-                        <a class="active" navigator href ng-click="goTo({viewLoc: 'user'})">Users</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'forum'})">Forum</a>
-                    </li>
-                    <li>
-                        <a navigator href ng-click="goTo({viewLoc: 'login'})">Login/Sign up</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-</div>
-
+<nav-bar active-tab="user"></nav-bar>
 <div class="container container-1 page-body" webpage>
     <div class="row block-1">
         <div class="col-lg-12">

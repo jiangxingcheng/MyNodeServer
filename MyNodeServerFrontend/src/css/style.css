@@ -277,6 +277,57 @@ p {
     margin-right: 5%;
     font-size: 12pt;
 }
+
+.comment-block {
+    color: #fff;
+    font-size: 12pt;
+    background-color: #0069ee;
+    border: 2px solid #000;
+    padding: 0px;
+    display: block;
+    margin: 5px;
+}
+
+#line-list {
+    display: inline-flex;
+    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 10%;
+}
+
+.icon {
+    text-align: center;
+    width:100%;
+}
+
+.dir {
+    display: inline-block;
+    width: 100%;
+    margin: 10px;
+    color: #f2f2f2;
+    transition: color .2s ease, background .2s ease;
+    text-align: center;
+}
+
+.dir:hover {
+    text-decoration: none;
+    background-color: #0069ee;
+    color: #000000;
+    cursor: default;
+}
+
+#browser {
+    background-color: #000000;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+figcaption {
+    display: block;
+}
+
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
     /*opacity: 1;*/
