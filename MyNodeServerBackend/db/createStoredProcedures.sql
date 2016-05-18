@@ -211,7 +211,7 @@ CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN) RETUR
 		RETURN QUERY SELECT f.FPath AS FilePath, f.IsDir AS IsDirectory, f.username AS CreatorUsername, f.TimeOfCreation FROM File f WHERE
 			containsPath(arrPath, f.FPath) AND
 			(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
-			CARDINALITY(arrPath) <> CARDINALITY(f.FPath); --AND
+			CARDINALITY(arrPath) <> CARDINALITY(f.FPath) AND
 			(isAdmin OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
 	END; $$ LANGUAGE plpgsql;
 
