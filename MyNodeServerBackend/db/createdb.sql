@@ -42,7 +42,6 @@ CREATE TABLE File(
 	PRIMARY KEY(FPath),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE);
 CREATE INDEX ON File (Username);
-CREATE INDEX ON File (TimeOfCreation);
 
 
 CREATE TABLE UserPermissionsOnFile(
@@ -66,8 +65,6 @@ CREATE TABLE Category(
 	LogoPath TEXT,
 	PRIMARY KEY(CTitle),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE);
-CREATE INDEX ON Category (Username);
-CREATE INDEX ON Category (TimeOfCreation);
 
 
 CREATE TABLE Thread(
