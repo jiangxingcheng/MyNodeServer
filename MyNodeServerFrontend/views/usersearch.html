@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <h1> Search for a user </h1>
             <input class="input-1" name="Username" ng-model="searchuser">
-            <button type="button" class="btn btn-secondary" ng-click="onClick()">Search For user</button>
+            <button type="button" class="btn btn-secondary" ng-click="searchUser()">Search For user</button>
             <hr class="hr">
 
             <div>
@@ -12,8 +12,8 @@
                 <div ng-hide="users.length == 0" class="user-block">
                     <p>Username : {{user.username }}</p>
                     <p>Permission Level : {{user.userlevel }}</p>
-                    <p>Last Access Date : {{user.lastaccessdate }}</p>
-                    <p>Time of Creation : {{user.timeofcreation }}</p>
+                    <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
+                    <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
                 </div>
                 <div ng-show="users.length == 0">
                     <p style="font-size: 12pt">No results</p>
@@ -52,7 +52,7 @@
                                 <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
                                 <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
                             </div>
-                            <div class="col-lg-1">
+                            <div class="col-lg-1" ng-click="deleteUser(user)">
                                 <img style="width: 50px;" src="../src/img/close.png" alt="close">
                             </div>
                         </ul>

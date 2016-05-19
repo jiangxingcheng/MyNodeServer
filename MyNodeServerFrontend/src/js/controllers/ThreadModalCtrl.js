@@ -9,10 +9,12 @@ app.controller('ThreadModalCtrl',['$scope','$uibModalInstance','loginService','s
     };
     $scope.submitComment = function(){
         $log.log('Submit comment pressed');
-        $log.log($scope.usertext);
+        var usertext = $scope.usertext;
+        $scope.usertext = '';
+        $log.log(usertext);
         if(loginService.userlevel != "None"){
             $log.log('username is : ' + sqlService.username);
-            sqlService.createThreadComment(sqlService.username,$scope.modalThread.title,$scope.usertext,function(){
+            sqlService.createThreadComment(sqlService.username,$scope.modalThread.title,usertext,function(){
                 //console.log('create thread callback ran');
                 sqlService.getThreadCommentsByTitle($scope.categoryTitle, $scope.modalThread.title ,function(data){
                     $scope.threadComments = data;

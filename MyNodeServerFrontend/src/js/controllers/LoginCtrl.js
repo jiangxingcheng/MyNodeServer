@@ -58,7 +58,12 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                     $scope.vm.dataLoading = false;
                     //$log.log('Response');
                     //$log.log(response);
-                    $scope.registerFailedMessage = responsemessage;
+                    $scope.registerFailedMessage = responsemessage; //succeded
+                    loginService.userlevel = 'User';
+                    sqlService.username = username;
+                    window.scrollTo(0,0);
+                    $location.url('/home');
+
 
                 },function(errorMessage){ //error;
                     $scope.vm.dataLoading = false;
