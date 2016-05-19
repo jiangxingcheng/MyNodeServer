@@ -30,15 +30,27 @@ app.factory('Useraccount', ['$resource', 'EnvConfig', function($resource, EnvCon
             );
 }]);
 
+// app.factory('Category', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+//     var url = EnvConfig.api.baseUrl + 'categories/:categorytitle/:threadtitle';
+//     return $resource(url,{},{params : {
+//                          categorytitle:'@categorytitle',
+//                          threadtitle:'@threadtitle'
+//     }}
+
+//                     );
+// }]);
 app.factory('Category', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'categories/:categorytitle/:threadtitle';
-    return $resource(url,{},{params : {
-                         categorytitle:'@categorytitle',
-                         threadtitle:'@threadtitle'
-    }}
+    return $resource(url,{},{
+        queryCategory: {method: 'GET', isArray : true, params : {categorytitle:'@categorytitle'}},
+        queryComments: {method: 'GET',isArray: true,params : {categorytitle:'@categorytitle',threadtitle:'@threadtitle'}},
+        saveComment: {method: 'POST', params: {username:'@username',threadtitle:'@threadtitle',usertext:'@usertext'}}
 
-                    );
-}]);
+    });
+}
+
+]);
+
 app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'authenticatelogin/:username/:password';
     return $resource(url,{},

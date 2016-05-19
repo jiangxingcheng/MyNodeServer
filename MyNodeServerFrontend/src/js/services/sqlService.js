@@ -28,19 +28,23 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         });
     };
     self.getCategoryByTitle = function(categorytitle,callback){
-        Category.query({"categorytitle":categorytitle},function(data){
+        //Category.query({"categorytitle":categorytitle},function(data){
+        //$log.log('Print category title: '+ categorytitle );
+        Category.queryCategory({"categorytitle":categorytitle},function(data){
             //self.categories = data;
+            $log.log('Data returned is');
+            $log.log(data);
             callback(data);
         });
     };
     self.getThreadCommentsByTitle = function(categorytitle,threadtitle,callback){
-        Category.query({"categorytitle":categorytitle,"threadtitle":threadtitle},function(data){
+        Category.queryComments({"categorytitle":categorytitle,"threadtitle":threadtitle},function(data){
             //self.categories = data;
             callback(data);
         });
     };
     self.createThreadComment = function(username,threadtitle,usertext,callback){
-        Category.save({"username":username,"threadtitle":threadtitle,"usertext":usertext},function(data){
+        Category.saveComment({"username":username,"threadtitle":threadtitle,"usertext":usertext},function(data){
             callback(data);
         },function(error){
             $log.log('ERROR IN CREATE THREAD COMMENT');
