@@ -65,6 +65,7 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             //callback for when authenticate turns 200 succesful login
 
             $log.log('Authentication confirmed in sqlservice');
+            callback(thing[0]);
         },function(error){
             if(error.status==603){
                 $log.log('Login not authenticated');

@@ -41,18 +41,34 @@ router.route('/')
 
         });
 
-    });
+    })
+.post(function(req,res){
+    var username = req.body.username;
+    var threadtitle = req.body.threadtitle;
+    var usertext = req.body.usertext;
+    //res.send('Post request recieved username: ' + username );
+    var params = [username,threadtitle,usertext];
+    sqlquery.createThreadComment(params,function(err, result){
+        if(err){
+            console.log('creating thread comment created an error');
+            console.log(err);
+        }else{
+            res.status(200).send('');
+        }
 
-router.param('categorytitle',function(req,res,next,id){
-    console.log('Validate parameter username');
-    console.log(id);
-    sqlquery.getThreadsFromCategory(id,function(err,data){
-        if(err || data === []){
-            console.log('Category not validated');
-            res.status(404);
-            err = new Error('Not Found');
-            err.status = 404;
-            res.format({
+
+    });
+});
+      router.param('categorytitle',function(req,res,next,id){
+          console.log('Validate parameter username');
+          console.log(id);
+          sqlquery.getThreadsFromCategory(id,function(err,data){
+              if(err || data === []){
+                  console.log('Category not validated');
+                  res.status(404);
+                  err = new Error('Not Found');
+                  err.status = 404;
+                  res.format({
                 // html: function(){
                 //     next(err);
                 // },

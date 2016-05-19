@@ -48,8 +48,8 @@
                     <ul class="user-block-inv">
                         <p>Username : {{user.username }}</p>
                         <p>Permission Level : {{user.userlevel }}</p>
-                        <p>Last Access Date : {{user.lastaccessdate }}</p>
-                        <p>Time of Creation : {{user.timeofcreation }}</p>
+                        <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
+                        <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
                     </ul>
                 </ol>
             </div>
