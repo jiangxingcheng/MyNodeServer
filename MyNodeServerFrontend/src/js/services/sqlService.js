@@ -48,6 +48,13 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         });
 
     };
+    self.deleteUserAccount = function(username,callback,errorcallback){
+        Useraccount.delete({"username":username},function(data){
+            callback(data);
+        },function(error){
+            errorcallback(error);
+        });
+    };
     self.createUserAccount = function(username,password,callback,errorcallback){
         Useraccount.save({"username":username,"password":password},function(data){
             callback(data);
