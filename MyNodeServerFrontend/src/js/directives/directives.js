@@ -35,7 +35,7 @@ app.directive('webpage', ['$timeout','$log','ngProgressFactory', function($timeo
         }
     };
 }]);
-app.directive('navBar', ['$compile','loginService','$log', function($compile,loginService,$log)
+app.directive('navBar', ['$compile','loginService','sqlService','$log', function($compile,loginService,sqlService,$log)
                          {
     return {
         restrict: 'E',
@@ -45,11 +45,14 @@ app.directive('navBar', ['$compile','loginService','$log', function($compile,log
         link : function(scope,element,attrs){
             //$log.log('Login Service user level' + loginService.userLevel);
             if(loginService.userlevel == 'Admin'){
-                scope.pageroutes = ['home','about','user','forum','login'];
-                scope.pagetitles = ['Home','About','Users','Forum','Login/Sign up'];
-            }else{
-                scope.pageroutes = ['home','about','forum','login'];
-                scope.pagetitles = ['Home','About','Forum','Login/Sign up'];
+                scope.pageroutes = ['home','about','user','files','forum','login'];
+                scope.pagetitles = ['Home','About','Users','Files','Forum', sqlService.username];
+            }else if (loginService.userlevel == 'Mod' || loginService.userlevel == 'User'){
+                scope.pageroutes = ['home', 'about', 'files','forum', 'login'];
+                scope.pagetitles = ['Home', 'About', 'Files','Forum', sqlService.username];
+            }else {
+                scope.pageroutes = ['home', 'about', 'forum', 'login'];
+                scope.pagetitles = ['Home', 'About', 'Forum', 'Login/Sign up'];
             }
 
             var setFalse = function(val, link, active) {

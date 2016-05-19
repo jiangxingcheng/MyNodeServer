@@ -29,7 +29,7 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                         $location.url('/home');
                     }else if(!isAuthenticated){
                         $scope.vm.loginAttempted = true;
-                        loginService.userlevel = 'User';
+                        loginService.userlevel = 'None';
                     }else{
                         $log.log('Login Message not understood in LoginCtrl');
                         $log.log(isAuthenticated);

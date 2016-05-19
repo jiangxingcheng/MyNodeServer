@@ -1,6 +1,6 @@
 app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin',function ($http,$log,Useraccount,Category,AuthenticateLogin) {
     var self = this;
-
+    self.username = 'blank';
     self.users = ["One things","two things","three things"];
     self.CSSEclasses = [];
     self.init = function(){
@@ -49,6 +49,7 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         });
     };
     self.checkIfAuthenticated = function(username,password,callback){
+        self.username = username;
         $log.log('Run an authentication query ');
         //AuthenticateLogin.query({"username":username,"password":password},function(){
         AuthenticateLogin.save({"username":username,"password":password},function(thing){
