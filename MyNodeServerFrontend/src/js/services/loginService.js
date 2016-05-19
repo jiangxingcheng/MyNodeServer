@@ -1,6 +1,6 @@
 app.service('loginService', ['$http','$log' ,'Useraccount','sqlService',function ($http,$log,Useraccount,sqlService) {
     var self = this;
-    self.userlevel = 'User';
+    self.userlevel = 'None';
 
     self.createUserAccount = function(username,password,messagecallback,errormessagecallback){
         sqlService.createUserAccount(username,password,function(data){

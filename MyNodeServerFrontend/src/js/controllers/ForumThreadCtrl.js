@@ -37,8 +37,5 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
                 $log.info('Modal dismissed at: ' + new Date());
             });
         });
-
-
-
     };
 }]);
