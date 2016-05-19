@@ -88,7 +88,7 @@ CREATE TABLE ThreadComment(
 	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle));
+	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle) ON DELETE CASCADE);
 CREATE INDEX ON ThreadComment (TTitle);
 
 
