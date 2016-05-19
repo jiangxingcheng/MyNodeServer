@@ -11,7 +11,7 @@ exports.writeFile = function(url,text){
   else
     console.log("File written.");
 	});
-}
+};
 
 exports.writeFile('','test text');
 
@@ -23,5 +23,5 @@ exports.writeFile('','test text');
   console.log("The file contained", buffer.length, "bytes.",
               "The first byte is:", buffer[0]);
 	});
- }
+ };
 		

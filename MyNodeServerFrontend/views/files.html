@@ -8,15 +8,23 @@
         </div>
     </div>
     <div id="browser">
-            <div id="line-list" ng-repeat="dir in contents">
+        <div id="line-list" ng-repeat="element in contents" ng-click="openContent(element)">
+            <div ng-if="element.type == 'dir'">
                 <a align="center" class="dir">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
                     </div>
-                    gay porn
-
+                    {{element.name}}
                 </a>
             </div>
+            <div ng-if="element.type == 'file'">
+                <a align="center" class="dir">
+                    <div class="icon">
+                        <img style="max-width: 50px" src="../src/img/file.png" alt="penis" align="middle">
+                    </div>
+                    {{element.name}}
+                </a>
+            </div>
+        </div>
     </div>
-
 </div>

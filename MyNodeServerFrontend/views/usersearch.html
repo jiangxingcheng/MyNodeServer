@@ -45,12 +45,18 @@
 
             <div ng-show="displayAllUsers">
                 <ol ng-repeat="user in allUsers">
-                    <ul class="user-block-inv">
-                        <p>Username : {{user.username }}</p>
-                        <p>Permission Level : {{user.userlevel }}</p>
-                        <p>Last Access Date : {{user.lastaccessdate }}</p>
-                        <p>Time of Creation : {{user.timeofcreation }}</p>
-                    </ul>
+                        <ul class="user-block-inv row vertical-align">
+                            <div class="col-lg-11">
+                                <p>Username : {{user.username }}</p>
+                                <p>Permission Level : {{user.userlevel }}</p>
+                                <p>Last Access Date : {{user.lastaccessdate }}</p>
+                                <p>Time of Creation : {{user.timeofcreation }}</p>
+                            </div>
+                            <div class="col-lg-1">
+                                <img style="width: 50px;" src="../src/img/close.png" alt="close">
+                            </div>
+                        </ul>
+
                 </ol>
             </div>
 

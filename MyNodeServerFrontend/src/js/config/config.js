@@ -44,6 +44,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/files',
             templateUrl: 'views/files.html',
             controller: 'FilesCtrl'
+            
         });
 
 
