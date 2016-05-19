@@ -325,6 +325,11 @@ figcaption {
     display: block;
 }
 
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
     /*opacity: 1;*/

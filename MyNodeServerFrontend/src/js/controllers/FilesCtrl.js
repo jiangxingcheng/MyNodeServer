@@ -13,7 +13,7 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             name: 'gay sex'
         },
         {
-            type: 'dir',
+            type: 'file',
             name: 'lots of penis'
         },
         {
@@ -45,7 +45,7 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             name: 'lots of penis'
         },
         {
-            type: 'dir',
+            type: 'file',
             name: 'lots of penis'
         },
         {
@@ -69,7 +69,7 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             name: 'lots of penis'
         },
         {
-            type: 'dir',
+            type: 'file',
             name: 'lots of penis'
         },
         {
@@ -77,6 +77,9 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             name: 'lots of penis'
         }
     ];
-
+    $scope.openContent = function(element){
+        $log.log('Element');
+        $log.log(element);
+    };
     $log.log($scope.contents[0].type);
 }]);

@@ -33,7 +33,7 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                     }else{
                         $log.log('Login Message not understood in LoginCtrl');
                         $log.log(isAuthenticated);
-                    };
+                    }
                     $scope.vm.dataLoading = false;
                     $scope.vm.username = '';
                     $scope.vm.password = '';

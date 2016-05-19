@@ -8,7 +8,7 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
     sqlService.getCategoryByTitle($scope.categoryTitle,function(data){
         $scope.threads = [];
         $scope.threads = data;
-        $log.log('Recieved data');
+        $log.log('Received data');
         $log.log(data);
 
     });

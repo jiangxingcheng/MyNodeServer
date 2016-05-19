@@ -51,8 +51,8 @@ app.directive('navBar', ['$compile','loginService','sqlService','$log', function
                 scope.pageroutes = ['home', 'about', 'files','forum', 'login'];
                 scope.pagetitles = ['Home', 'About', 'Files','Forum', sqlService.username];
             }else {
-                scope.pageroutes = ['home', 'about', 'forum', 'login'];
-                scope.pagetitles = ['Home', 'About', 'Forum', 'Login/Sign up'];
+                scope.pageroutes = ['home', 'about', 'login'];
+                scope.pagetitles = ['Home', 'About', 'Login/Sign up'];
             }
 
             var setFalse = function(val, link, active) {
