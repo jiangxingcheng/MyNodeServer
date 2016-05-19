@@ -122,7 +122,8 @@ router.route('/:username')
     .delete(function(req,res){
         sqlquery.removeUser(req.id,function(err,data){
             if(err){
-
+                console.log(err);
+                res.status(601).send(err);
             }else{
                 res.status(200).send("");
             }
