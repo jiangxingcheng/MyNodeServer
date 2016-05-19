@@ -41,9 +41,13 @@ router.route('/')
     .post(function(req,res){
         var username = req.body.username;
         var password = req.body.password;
-        sqlquery.checkIfAuthenticated(username,password,function(err,loginIsSucessful){
-            if(loginIsSucessful){
-                res.status(200).send();
+        sqlquery.checkIfAuthenticated(username,password,function(err,loginStatus){
+            if(loginStatus ==  "user"){
+                res.status(200).send("U");
+            }else if(loginStatus ==  "mod"){
+                res.status(200).send("M");
+            }else if(loginStatus ==  "admin"){
+                res.status(200).send("A");
             }else{
                 res.status(603).send();//invalid login
             }

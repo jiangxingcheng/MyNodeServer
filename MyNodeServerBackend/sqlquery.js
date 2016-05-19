@@ -125,9 +125,15 @@ exports.checkIfAuthenticated = function(username, password, callback){
         }else{
             var authenticationResponseMessage = results[0].loginuser;
             console.log('Results of authentication is ' + authenticationResponseMessage);
-            if(authenticationResponseMessage === "Login Success"){
-                console.log('Login Success');
-                callback(err,true);
+            if(authenticationResponseMessage === "Login Success: U"){
+                console.log('Login Success: User status');
+                callback(err,"user");
+            }else if(authenticationResponseMessage === "Login Success: M"){
+                console.log('Login Success: Mod status');
+                callback(err,"mod");
+            }else if(authenticationResponseMessage === "Login Success: A"){
+                console.log('Login Success: Admin status');
+                callback(err,"admin");
             }else if(authenticationResponseMessage === "Login Failure"){
                 console.log('Login Failure');
                 callback(err,false);

@@ -51,10 +51,11 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
     self.checkIfAuthenticated = function(username,password,callback){
         $log.log('Run an authentication query ');
         //AuthenticateLogin.query({"username":username,"password":password},function(){
-        AuthenticateLogin.save({"username":username,"password":password},function(){
+        AuthenticateLogin.save({"username":username,"password":password},function(thing){
             //callback for when authenticate turns 200 succesful login
+
             $log.log('Authentication confirmed in sqlservice');
-            callback(true);
+            callback(thing[0]);
         },function(error){
             if(error.status==603){
                 $log.log('Login not authenticated');

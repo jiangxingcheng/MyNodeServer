@@ -1,11 +1,11 @@
 SELECT createUser('schafezp','changething');
 SELECT createUser('zamanmm','otherthing');
 SELECT createUser('jiangx1','otherthing');
-SELECT createUser('vanpelwc','otherthing');
-SELECT setLevel('schafezp','Admin');
-SELECT setLevel('zamanmm','Mod');
-SELECT setLevel('jiangx1','User');
-SELECT setLevel('vanpelwc','Admin');
+SELECT createUser('vanpelwc','asdfasdf');
+SELECT setUserLevel('schafezp','A');
+SELECT setUserLevel('zamanmm','M');
+SELECT setUserLevel('jiangx1','U');
+SELECT setUserLevel('vanpelwc','A');
 
 SELECT createCategory('General','schafezp',NULL);
 SELECT createCategory('Help','schafezp',NULL);
@@ -26,6 +26,15 @@ SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software'
 --SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck')
 SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff i found on the internet');
 SELECT createThreadComment('schafezp','Internet stuff', 'here is some internet stuff i found on the internet');
+
+SELECT mkdir('/home/', 'vanpelwc');
+SELECT mkdir('/home/wesley/', 'vanpelwc');
+SELECT mkdir('/usr/', 'vanpelwc');
+
+SELECT touch('/home/meh','vanpelwc');
+SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
+SELECT touch('/usr/randomFile', 'vanpelwc');
+
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------   Depricated Creation Methods  ------------------------------------------------
