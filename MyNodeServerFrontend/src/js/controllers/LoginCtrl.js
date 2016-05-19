@@ -13,12 +13,23 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                 $scope.vm.dataLoading = true;
                 $log.log(sqlService);
                 sqlService.checkIfAuthenticated(username,password,function(isAuthenticated){
-                    if(isAuthenticated){
+                    $log.log('Result of authentication is');
+                    $log.log(isAuthenticated);
+                    if(isAuthenticated == "A"){
                         loginService.userlevel = 'Admin';
+                        window.scrollTo(0,0);
+                        $location.url('/user');
+                    }else if(isAuthenticated == "M"){
+                        loginService.userlevel = 'Mod';
+                        window.scrollTo(0,0);
+                        $location.url('/home');
+                    }else if(isAuthenticated == "U"){
+                        loginService.userlevel = 'User';
                         window.scrollTo(0,0);
                         $location.url('/home');
                     }else if(!isAuthenticated){
                         $scope.vm.loginAttempted = true;
+                        loginService.userlevel = 'User';
                     }else{
                         $log.log('Login Message not understood in LoginCtrl');
                         $log.log(isAuthenticated);
