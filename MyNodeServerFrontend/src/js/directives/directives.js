@@ -45,11 +45,11 @@ app.directive('navBar', ['$compile','loginService','$log', function($compile,log
         link : function(scope,element,attrs){
             //$log.log('Login Service user level' + loginService.userLevel);
             if(loginService.userlevel == 'Admin'){
-                scope.pageroutes = ['home','about','user','files','forum','login'];
-                scope.pagetitles = ['Home','About','Users','Files','Forum','Login/Sign up'];
+                scope.pageroutes = ['home','about','user','forum','login'];
+                scope.pagetitles = ['Home','About','Users','Forum','Login/Sign up'];
             }else{
-                scope.pageroutes = ['home','about','files','forum','login'];
-                scope.pagetitles = ['Home','About','Files','Forum','Login/Sign up'];
+                scope.pageroutes = ['home','about','forum','login'];
+                scope.pagetitles = ['Home','About','Forum','Login/Sign up'];
             }
 
             var setFalse = function(val, link, active) {
