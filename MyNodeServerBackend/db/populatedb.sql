@@ -13,7 +13,7 @@ SELECT createCategory('NSFW','schafezp',NULL);
 SELECT createCategory('/b/','schafezp',NULL);
 SELECT createCategory('Pirated Software','vanpelwc',NULL);
 
-SELECT createThread('A collection of one liners','zamanmm','General',NULL);
+SELECT createThread('A collection of one liners','schafezp','General',NULL);
 SELECT createThread('My node adventures','jiangx1','General',NULL);
 SELECT createThread('Intro to threads','schafezp','Help',NULL);
 SELECT createThread('General','schafezp','General',NULL);
@@ -25,15 +25,19 @@ SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software'
 
 --SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck')
 SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff i found on the internet');
-SELECT createThreadComment('schafezp','Internet stuff', 'here is some internet stuff i found on the internet');
+--SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff i found on the internet');
+SELECT createThreadComment('schafezp','A collection of one liners', ' :(){ :|: & };:');
 
-SELECT mkdir('/home/', 'vanpelwc');
+--SELECT mkdir('/home/', 'vanpelwc');
 SELECT mkdir('/home/wesley/', 'vanpelwc');
 SELECT mkdir('/usr/', 'vanpelwc');
 
 SELECT touch('/home/meh','vanpelwc');
 SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
 SELECT touch('/usr/randomFile', 'vanpelwc');
+
+SELECT mkdir('/home/schafezp/gaypr0n', 'schafezp');
+SELECT mkdir('/home/schafezp/straightpr0n', 'schafezp');
 
 
 --------------------------------------------------------------------------------------------------------------------------------
