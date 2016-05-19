@@ -39,6 +39,15 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             callback(data);
         });
     };
+    self.createThreadComment = function(username,threadtitle,usertext,callback){
+        Category.save({"username":username,"threadtitle":threadtitle,"usertext":usertext},function(data){
+            callback(data);
+        },function(error){
+            $log.log('ERROR IN CREATE THREAD COMMENT');
+            $log.log(error);
+        });
+
+    };
     self.createUserAccount = function(username,password,callback,errorcallback){
         Useraccount.save({"username":username,"password":password},function(data){
             callback(data);
@@ -55,7 +64,6 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             //callback for when authenticate turns 200 succesful login
 
             $log.log('Authentication confirmed in sqlservice');
-            callback(thing[0]);
         },function(error){
             if(error.status==603){
                 $log.log('Login not authenticated');
