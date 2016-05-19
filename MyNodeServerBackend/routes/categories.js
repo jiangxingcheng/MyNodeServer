@@ -110,6 +110,23 @@ router.route('/:categorytitle')
         });
 
     })
+    .post(function(req,res){
+        var username = req.body.username;
+        var threadtitle = req.body.threadtitle;
+        var usertext = req.body.usertext;
+        //res.send('Post request recieved username: ' + username );
+        var params = [username,threadtitle,usertext];
+        sqlquery.createThreadComment(params,function(err, result){
+            if(err){
+                console.log('creating thread comment created an error');
+                console.log(err);
+            }else{
+                res.status(200).send('');
+            }
+
+
+        });
+    });
 router.route('/:categorytitle/:threadtitle')
     .get(function(req,res){
         console.log('req id is');
@@ -133,6 +150,7 @@ router.route('/:categorytitle/:threadtitle')
                     }
                 });
             }else{//once validated save the id as the req id.
+                //console.log(data);
                 res.format({
                     json: function(){
                         res.json(data);
