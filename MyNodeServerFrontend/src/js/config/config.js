@@ -44,9 +44,37 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/files',
             templateUrl: 'views/files.html',
             controller: 'FilesCtrl'
-            
+
         });
 
 
     $locationProvider.html5Mode(true);
 });
+
+app.run(['$rootScope', '$state','loginService', function($rootScope, $state,loginService) {
+    $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams, options){
+        if(toState.name=="user"){
+            if(loginService.userlevel != "Admin"){
+                event.preventDefault();
+                console.log('you should be going home');
+                $state.go("home",{},{location:"replace"});
+            }
+        }
+        if(toState.name=="files"){
+            if(loginService.userlevel != "Admin" && loginService.userlevel != "Mod" && loginService.userlevel != "User"){
+                event.preventDefault();
+                console.log('you should be going home');
+                $state.go("home",{},{location:"replace"});
+            }
+        }
+        if(toState.name=="forum"){
+            if(loginService.userlevel != "Admin" && loginService.userlevel != "Mod" && loginService.userlevel != "User"){
+                event.preventDefault();
+                console.log('you should be going home');
+                $state.go("home",{},{location:"replace"});
+            }
+        }
+        console.log(toState);
+    });
+
+}]);
