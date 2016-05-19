@@ -162,3 +162,14 @@ exports.getThreadCommentsFromThreadTitle = function(threadtitle, callback){
         }
     });
 };
+exports.createThreadComment = function(parameters, callback){
+    db.createThreadComment(parameters,function(err,results){
+        if(err){
+            console.log('Create comment error');
+            callback(err);
+        }else{
+            console.log('Create comment results');
+            callback(err,results);
+        }
+    });
+};
