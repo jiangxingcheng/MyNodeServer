@@ -173,3 +173,14 @@ exports.createThreadComment = function(parameters, callback){
         }
     });
 };
+exports.removeUser = function(username, callback){
+    db.removeUser(username,function(err,results){
+        if(err){
+            console.log('Delete user error');
+            callback(err);
+        }else{
+            console.log('Delete user ' + username + ' succesful');
+            callback(err,results);
+        }
+    });
+};

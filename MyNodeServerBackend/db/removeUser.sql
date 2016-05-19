@@ -1,0 +1,1 @@
+select removeUser($1)

@@ -119,6 +119,16 @@ router.route('/:username')
         });
 
     })
+    .delete(function(req,res){
+        sqlquery.removeUser(req.id,function(err,data){
+            if(err){
+
+            }else{
+                res.status(200).send("");
+            }
+        });
+
+    });
 /* GET list of users . */
 
 /* GET users listing. */
