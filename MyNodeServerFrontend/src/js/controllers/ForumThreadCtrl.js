@@ -15,6 +15,7 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
 
     $scope.openModal = function (size,thread) {
         $scope.modalThread = thread;
+
         //$scope.comments
         $log.log('Modals thread');
         $log.log(thread);

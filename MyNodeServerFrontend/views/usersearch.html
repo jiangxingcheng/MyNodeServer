@@ -49,14 +49,13 @@
                             <div class="col-lg-11">
                                 <p>Username : {{user.username }}</p>
                                 <p>Permission Level : {{user.userlevel }}</p>
-                                <p>Last Access Date : {{user.lastaccessdate }}</p>
-                                <p>Time of Creation : {{user.timeofcreation }}</p>
+                                <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
+                                <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
                             </div>
                             <div class="col-lg-1">
                                 <img style="width: 50px;" src="../src/img/close.png" alt="close">
                             </div>
                         </ul>
-
                 </ol>
             </div>
 
