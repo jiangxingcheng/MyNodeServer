@@ -67,7 +67,7 @@ app.run(['$rootScope', '$state','loginService', function($rootScope, $state,logi
                 $state.go("home",{},{location:"replace"});
             }
         }
-        if(toState.name=="forum"){
+        if(toState.name=="forum" || toState.name=="forum.threads"){
             if(loginService.userlevel != "Admin" && loginService.userlevel != "Mod" && loginService.userlevel != "User"){
                 event.preventDefault();
                 console.log('you should be going home');
