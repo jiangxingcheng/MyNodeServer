@@ -1,24 +1,26 @@
 <div class="modal-header"><h1>{{modalThread.title}}</h1></div>
 <div class="modal-body">
     <div class="row comment-block" ng-repeat="threadcomment in threadComments">
-      <p style="color: #000"><b>{{threadcomment.username}} :{{threadcomment.timeofcreation | formatDate}} </b></p>
+        <p style="color: #000"><b>{{threadcomment.username}} :{{threadcomment.timeofcreation | formatDate}} </b></p>
         <p>{{threadcomment.usertext}}</p>
     </div>
 </div>
 
 <div class="modal-footer row">
-  <div class="col-lg-6">
-    <form role="form">
-      <div class="form-group">
-        <label for="inputdefault"></label>
-        <p align="left">Comment</p>
-        <input class="form-control" name="" type="text" value="" ng-model="usertext"/>
-        <button ng-click="submitComment()">Submit comment </button>
-      </div>
+    <form name="sumbitcomment" ng-submit="submitComment()" role="form">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <p align="left">Comment</p>
+                <label>
+                    <input class="form-control" name="comment" type="text" ng-model="usertext"/>
+                </label>
+            </div>
+        </div>
+        <div class="form-actions">
+            <div class="col-lg-6">
+                <button type="submit" class="btn btn-primary">Submit comment</button>
+                <button ng-click="ok()" class="btn btn-primary">Close</button>
+            </div>
+        </div>
     </form>
-  </div>
-  <div class="col-lg-6">
-    <button ng-click="ok()" class="btn btn-primary">Close</button>
-    <!-- <button ng-click="cancel()" class="btn btn-warning">Cancel</button> -->
-  </div>
 </div>

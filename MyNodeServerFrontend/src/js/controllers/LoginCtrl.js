@@ -1,6 +1,8 @@
 app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$location', function ($scope, $log,loginService,sqlService,$location) {
     var self = this;
     self.registerFailedMessage = "Register Failed";
+    $scope.username = sqlService.getUserName();
+    $scope.loggedIn = loginService.getLoggedInStatus();
     $scope.vm = {
         dataLoading : false,
         loginAttempted : false,
@@ -17,14 +19,17 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                     $log.log(isAuthenticated);
                     if(isAuthenticated == "A"){
                         loginService.userlevel = 'Admin';
+                        loginService.changeLoggedInStatus();
                         window.scrollTo(0,0);
                         $location.url('/user');
                     }else if(isAuthenticated == "M"){
                         loginService.userlevel = 'Mod';
+                        loginService.changeLoggedInStatus();
                         window.scrollTo(0,0);
                         $location.url('/home');
                     }else if(isAuthenticated == "U"){
                         loginService.userlevel = 'User';
+                        loginService.changeLoggedInStatus();
                         window.scrollTo(0,0);
                         $location.url('/home');
                     }else if(!isAuthenticated){
@@ -72,6 +77,14 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                 });
             };
             attemptRegister();
+        },
+        logout: function(){
+            loginService.userlevel = 'None';
+            sqlService.blankUserName();
+            loginService.changeLoggedInStatus();
+            window.scrollTo(0,0);
+            $location.url('/home');
+            $log.log("logging out");
         }
-    };
+    }
 }]);

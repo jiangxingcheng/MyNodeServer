@@ -1,7 +1,7 @@
 app.service('loginService', ['$http','$log' ,'Useraccount','sqlService',function ($http,$log,Useraccount,sqlService) {
     var self = this;
     self.userlevel = 'None';
-
+    self.loggedIn = false;
     self.createUserAccount = function(username,password,messagecallback,errormessagecallback){
         sqlService.createUserAccount(username,password,function(data){
             var registerSuccessMessage = 'User Successfully Created';
@@ -30,4 +30,11 @@ app.service('loginService', ['$http','$log' ,'Useraccount','sqlService',function
             errormessagecallback(registerFailedMessage);
         });
     };
+
+    self.changeLoggedInStatus = function() {
+        self.loggedIn = !self.loggedIn;
+    };
+    self.getLoggedInStatus = function() {
+        return self.loggedIn;
+    }
 }]);
