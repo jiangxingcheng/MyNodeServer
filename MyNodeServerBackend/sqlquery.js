@@ -243,3 +243,14 @@ exports.mkdir = function(parameters, callback){
     });
 
 }
+exports.touch = function(parameters, callback){
+    db.touch(parameters,function(err,results){
+        if(err){
+            console.log('touch file error');
+            callback(err);
+        }else{
+            console.log('touch file success');
+            callback(err,results);
+        }
+    });
+};

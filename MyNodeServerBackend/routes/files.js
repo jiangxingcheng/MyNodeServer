@@ -117,9 +117,26 @@ router.route('/mkdir')
         var username = req.body.username;
 
         console.log('Username : ' + username);
-        console.log('filepath : ' + dirpath);
+        console.log('dirpath : ' + dirpath);
         var parameters = [dirpath,username];
         sqlquery.mkdir(parameters,function(err,result){
+            if(err){
+                console.log(err);
+                res.status(604).send();
+            }else{
+                res.status(200).send();
+            }
+        });
+    });
+router.route('/touch')
+    .post(function(req,res){
+        var filepath = req.body.filepath;
+        var username = req.body.username;
+
+        console.log('Username : ' + username);
+        console.log('filepath : ' + filepath);
+        var parameters = [filepath,username];
+        sqlquery.touch(parameters,function(err,result){
             if(err){
                 console.log(err);
                 res.status(604).send();
