@@ -57,17 +57,28 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
     };
     $scope.openFile = function(file){
         $scope.currentFile = file;
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/filemodalview.html',
-            scope: $scope,
-            size: 'lg',
-            controller: 'FileModalCtrl'
+        //var filepath =  $filter('pathArrayToString')(file.filepath[file.filepath.length -1]);
+        //$log.log('File path is : ' + file.filepath);
+        var filepath =  $filter('pathArrayToString')(file.filepath);
+        //var filepath =  file.filepath[file.filepath.length -1];
+        //$log.log('File path is : ' + filepath);
+        $scope.currentfilepath = filepath.substring(0,filepath.length -1);
+        $log.log('File path is : ' + $scope.currentfilepath);
+        Files.getFileComments({"path":$scope.currentfilepath},function(data){
+            $scope.filecomments = data;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/filemodalview.html',
+                scope: $scope,
+                size: 'lg',
+                controller: 'FileModalCtrl'
+            });
+            modalInstance.result.then(function (result) {
+                $log.log('Result is: ' + result);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         });
-        modalInstance.result.then(function (result) {
-            $log.log('Result is: ' + result);
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
+
     };
 }]);

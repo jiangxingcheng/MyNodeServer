@@ -22,8 +22,8 @@
                     ..
                 </div>
             </div>
-            <div align="center" class="line-list" ng-repeat="element in contents" ng-click="navigateToDir(element)" ng-show="element.creatorusername == username">
-                <div align="center" class="dir" ng-if="element.isdirectory">
+            <div align="center" class="line-list" ng-repeat="element in contents" ng-show="element.creatorusername == username">
+                <div align="center" class="dir" ng-if="element.isdirectory" ng-click="navigateToDir(element)">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
                     </div>
