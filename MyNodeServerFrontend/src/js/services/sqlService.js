@@ -68,6 +68,11 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         });
 
     };
+    self.mkdir = function(username,dirpath,callback){
+        Files.mkdir({"username":username,"dirpath":dirpath},function(response){
+            callback(response);
+        });
+    };
     self.deleteUserAccount = function(username,callback,errorcallback){
         Useraccount.delete({"username":username},function(data){
             callback(data);

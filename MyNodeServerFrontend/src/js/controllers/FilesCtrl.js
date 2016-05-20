@@ -1,8 +1,10 @@
 app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeout','Files','$filter','$uibModal', function ($scope, $location, $log, sqlService, $timeout,Files,$filter,$uibModal) {
+    var self = this;
     $scope.contents = [];
     $scope.username = sqlService.username;
     $scope.homepath = '/home/'+ $scope.username + '/';
     $scope.currentpatharray = ['home',$scope.username];
+    $scope.mkdirname = "";
     $log.log($scope.currentpatharray);
 
     $scope.setCurrentPath = function(currentpatharray){
@@ -53,6 +55,32 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             $scope.contents = data;
             $log.log('data is');
             $log.log(data);
+        });
+    };
+    $scope.mkdir = function(){
+        self.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/mkdir.html',
+            size: 'lg',
+            controller : function($scope){
+                $scope.mkdirname = '';
+                $scope.savedir = function(){
+                    self.modalInstance.close($scope.mkdirname);
+                };
+            }
+        });
+        self.modalInstance.result.then(function(data){
+            $log.log('Result is : ' + data);
+            $log.log($scope.currentpath);
+            if(data != null){
+                sqlService.mkdir($scope.username, $scope.currentpath + data + '/',function(reponse){
+                    sqlService.ls($scope.username,$scope.currentpath,function(data){
+                        $scope.contents = data;
+                        $log.log('data is');
+                        $log.log(data);
+                    });
+                });
+            };
         });
     };
     $scope.openFile = function(file){

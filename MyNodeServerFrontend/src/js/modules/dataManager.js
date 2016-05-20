@@ -67,11 +67,13 @@ app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, 
 app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'files/';
     var filecommenturl = EnvConfig.api.baseUrl + 'files/filecomments/';
+    var mkdirurl = EnvConfig.api.baseUrl + 'files/mkdir/';
     return $resource(url,{},
                      {
                          ls: {method: "GET",isArray:true ,params: {username:'@username',path:'@path'}},
                          getFileComments: {method: "GET",isArray:true ,url:filecommenturl,params: {path:'@path'}},
-                         saveFileComment: {method: "POST", url:filecommenturl, params:{username:'@username',path:'@path',usertext:'@usertext'}}
+                         saveFileComment: {method: "POST", url:filecommenturl, params:{username:'@username',path:'@path',usertext:'@usertext'}},
+                         mkdir: {method: "POST", url:mkdirurl, params:{username:'@username',dirpath:'@dirpath'}}
                      }
 
                     );
