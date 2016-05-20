@@ -1,33 +1,48 @@
-<div class="modal-header"><h1>File Name : {{currentFile.filepath[currentFile.filepath.length -1]}}</h1></div>
-<div class="modal-body">
-    File creator {{currentFile.creatorusername}}
-    <div class="row comment-block vertical-align" ng-repeat="filecomment in filecomments">
-        <div class="col-lg-11">
-            <p style="color: white;"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b></p>
-            <p>{{filecomment.body}}</p>
-        </div>
-        <div class="col-lg-1" ng-click="">
-            <img style="width: 25px;" src="../src/img/close.png" alt="close">
-        </div>
+<div>
+    <div class="modal-header" align="center">
+        <h1>{{currentFile.filepath[currentFile.filepath.length -1]}}</h1>
+        <p style="font-size: 10pt">Created by {{currentFile.creatorusername}}</p>
     </div>
+    <div class="modal-body">
+        <div id="file-editor" style="font-size: 11pt; color: white">
 
-</div>
+            <p>Hello World</p>
+            <p>esifjsdlkrgnsdkg</p>
+            <p>esifjsdlkrgnsdkg</p>
+            <p>esifjsdlkrgnsdkg</p>
+            <p>slkrngfkdjfngsf</p>
 
-<div class="modal-footer row">
-    <form name="sumbitcomment" ng-submit="submitComment()" role="form">
-        <div class="col-lg-6">
-            <div align="left" class="form-group">
-                <label>
-                    <input placeholder="Enter Comment" class="form-control" name="comment" type="text"
-                           ng-model="usertext"/>
-                </label>
+        </div>
+        <hr class="hr-fat-black">
+        <div class="row comment-block vertical-align" ng-repeat="filecomment in filecomments">
+            <div class="col-lg-11">
+                <p style="color: white;"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b></p>
+                <p>{{filecomment.body}}</p>
+            </div>
+            <div class="col-lg-1" ng-click="">
+                <img style="width: 25px;" src="../src/img/close.png" alt="close">
             </div>
         </div>
-        <div class="form-actions">
+
+    </div>
+    <div class="modal-footer">
+        <form name="sumbitcomment row" ng-submit="submitComment()" role="form">
             <div class="col-lg-6">
-                <button type="submit" class="btn btn-primary">Submit comment</button>
-                <button ng-click="ok()" class="btn btn-primary">Close</button>
+                <div align="left" class="form-group">
+                    <label>
+                        <input placeholder="Enter Comment" class="form-control" name="comment" type="text"
+                               ng-model="usertext"/>
+                    </label>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="form-actions">
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-secondary">Submit comment</button>
+                    <button ng-click="ok()" class="btn btn-secondary">Save</button>
+                    <button ng-click="ok()" class="btn btn-secondary">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+

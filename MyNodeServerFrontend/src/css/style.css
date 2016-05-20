@@ -17,7 +17,6 @@ body {
 
 }
 
-
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >
 a:hover, .navbar-default .navbar-nav > .active > a:focus {
     color: white; /*BACKGROUND color for active*/
@@ -77,6 +76,7 @@ body {
     color: #ffffff;
     border-radius: 0;
 }
+
 /*TODO: MODULARIZE STRIPED BLOCKS*/
 .block-1 {
     background-color: #0069ee;
@@ -84,7 +84,9 @@ body {
     border-radius: 0;
     border-right: 5px solid #ffffff;
     border-left: 5px solid #ffffff;
+
 }
+
 .container-1 {
     background-color: #0069ee;
     color: #ffffff;
@@ -182,7 +184,10 @@ body {
     text-align: center;
 }
 
-
+.hr-fat-black {
+    border-top: 5px solid #000;
+    text-align: center;
+}
 
 .user-block {
     color: #000000;
@@ -216,22 +221,21 @@ body {
     transition: all 0.5s ease;
 }
 
-.user-block:hover{
+.user-block:hover {
     text-decoration: none;
     background-color: #000000;
     color: white;
     box-shadow: 0 0 2px #696969;
 }
 
-.user-block-inv:hover{
+.user-block-inv:hover {
     text-decoration: none;
     background-color: #0069ee;
     color: white;
     box-shadow: 0 0 2px #696969;
 }
 
-.threads img
-{
+.threads img {
     border: 10px solid #fff;
     box-shadow: 0 0 5px #696969;
     margin: 15px 0;
@@ -242,7 +246,7 @@ body {
     transition: all 0.5s ease;
 }
 
-.threads img:hover{
+.threads img:hover {
     -webkit-transform: scale(1.05);
     -moz-transform: scale(1.05);
     -ms-transform: scale(1.05);
@@ -308,7 +312,7 @@ p {
 
 .icon {
     text-align: center;
-    width:100%;
+    width: 100%;
 }
 
 .dir {
@@ -350,15 +354,39 @@ figcaption {
 
 }
 
+#file-editor {
+    color: #00b3ee;
+    background-color: black;
+    margin: 5px;
+    border: 4px solid #0069ee;
+}
+
+.modal-header, .modal-body {
+    background-color: #0069ee;
+    color: black;
+    border-radius: 0;
+    border-top: 4px solid #ffffff;
+    border-right: 4px solid #ffffff;
+    border-left: 4px solid #ffffff;
+}
+
+.modal-footer {
+    background-color: #0069ee;
+    color: black;
+    border-radius: 0;
+    border-right: 4px solid #ffffff;
+    border-left: 4px solid #ffffff;
+    border-bottom: 4px solid #ffffff;
+}
 
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
-    /*opacity: 1;*/
-    /*transition: opacity .25s ease-in-out;*/
-    /*-moz-transition: opacity .25s ease-in-out;*/
-    /*-webkit-transition: opacity .25s ease-in-out;*/
+/*opacity: 1;*/
+/*transition: opacity .25s ease-in-out;*/
+/*-moz-transition: opacity .25s ease-in-out;*/
+/*-webkit-transition: opacity .25s ease-in-out;*/
 /*}*/
 
 /*.fade-collapse {*/
-    /*opacity: 0;*/
+/*opacity: 0;*/
 /*}*/

@@ -2,7 +2,7 @@ app.service('loginService', ['$http','$log' ,'Useraccount','sqlService',function
     var self = this;
     self.userlevel = 'None';
     self.loggedIn = false;
-    self.hasAccount = false;
+    self.hasAccount = true;
     self.createUserAccount = function(username,password,messagecallback,errormessagecallback){
         sqlService.createUserAccount(username,password,function(data){
             var registerSuccessMessage = 'User Successfully Created';
