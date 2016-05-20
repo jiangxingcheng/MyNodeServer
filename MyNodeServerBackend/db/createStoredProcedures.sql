@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------- User Management --------------------------------------------------------
+----------------------------------------------------- Session Management -------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- For use by functions in this file
@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION createSession(session TEXT, uname TEXT) RETURNS VOID 
 		INSERT INTO UserSessions VALUES(session, uname, current_timestamp, current_timestamp);
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION validateSession(session TEXT) RETURNS VARCHAR(1) AS $$
+CREATE OR REPLACE FUNCTION getSessionUser(session TEXT) RETURNS TEXT AS $$
 	DECLARE
 		uname TEXT;
 		uLvl VARCHAR(1);
@@ -18,20 +18,40 @@ CREATE OR REPLACE FUNCTION validateSession(session TEXT) RETURNS VARCHAR(1) AS $
 	BEGIN
 		SELECT username INTO uname FROM UserSessions WHERE session=SessionID;
 		IF uname IS NULL THEN
-			RETURN 'N';
+			RETURN 'X';
 		END IF;
 		SELECT ActiveTime INTO lastTime FROM UserSessions;
 		SELECT current_timestamp INTO currentTime;
 		SELECT EXTRACT(EPOCH FROM currentTime) - EXTRACT(EPOCH FROM lastTime) INTO timeDiff;
-		RAISE NOTICE '%', timeDiff;
 		IF timeDiff > 3600 THEN -- 3600 timeout is 1 hour
 			DELETE FROM UserSessions WHERE session=SessionID;
-			RETURN 'N';
+			RETURN 'X';
 		END IF;
 		UPDATE UserSessions SET ActiveTime=current_timestamp;
+		RETURN uname;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getSessionUserLevel(session TEXT) RETURNS VARCHAR(1) AS $$
+	DECLARE
+		uname TEXT;
+		uLvl VARCHAR(1);
+	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
+		IF uname == 'X' THEN
+			RETURN 'N';
+		END IF;
 		SELECT userLevel INTO uLvl FROM UserAccount WHERE uname=Username;
 		RETURN uLvl;
 	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION closeSession(session TEXT) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM UserSessions WHERE session=sessionID;
+	END;
+
+--------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------- User Management --------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
 
 -- Takes the new username and password to salt and hash the password
 CREATE OR REPLACE FUNCTION createUser(uname TEXT, upassword TEXT) RETURNS VOID AS $$
@@ -89,28 +109,48 @@ CREATE OR REPLACE FUNCTION findUser(uname TEXT) RETURNS TABLE(Username username,
 	END; $$ LANGUAGE plpgsql;
 
 -- Remove user and all their shit
-CREATE OR REPLACE FUNCTION removeUser(uname TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION removeUser(uname TEXT, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 	BEGIN
-		DELETE FROM UserAccount WHERE username=uname;
+		SELECT * INTO sessionStatus FROM validateSession(session);
+		IF sessionStatus == 'A' THEN
+			DELETE FROM UserAccount WHERE username=uname;
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Change user permission level
-CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1)) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1), session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 	BEGIN
-		UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
+		SELECT * INTO sessionStatus FROM validateSession(session);
+		IF sessionStatus == 'A' THEN
+			UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Make 2 users friends
-CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionUser TEXT;
 	BEGIN
-		INSERT INTO Friends values(uname1, uname2);
+		SELECT * INTO sessionStatus FROM getSessionUser(session);
+		IF sessionStatus == 'A' OR sessionUser == uname1 OR sessionUser == uname2 THEN
+			INSERT INTO Friends values(uname1, uname2);
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Make 2 users not friends
-CREATE OR REPLACE FUNCTION removeFriend(uname1 TEXT, uname2 TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION removeFriend(uname1 TEXT, uname2 TEXT, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 	BEGIN
-		DELETE FROM Friends f WHERE f.Username1=uname1 AND f.Username2=uname2;
-		DELETE FROM Friends f WHERE f.Username1=uname2 AND f.Username2=uname1;
+		SELECT * INTO sessionStatus FROM validateSession(session);
+		IF sessionStatus == 'A' OR sessionUser == uname1 OR sessionUser == uname2 THEN
+			DELETE FROM Friends f WHERE f.Username1=uname1 AND f.Username2=uname2;
+			DELETE FROM Friends f WHERE f.Username1=uname2 AND f.Username2=uname1;
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Get a user's friends
