@@ -68,12 +68,14 @@ app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'files/';
     var filecommenturl = EnvConfig.api.baseUrl + 'files/filecomments/';
     var mkdirurl = EnvConfig.api.baseUrl + 'files/mkdir/';
+    var touchurl = EnvConfig.api.baseUrl + 'files/touch/';
     return $resource(url,{},
                      {
                          ls: {method: "GET",isArray:true ,params: {username:'@username',path:'@path'}},
                          getFileComments: {method: "GET",isArray:true ,url:filecommenturl,params: {path:'@path'}},
                          saveFileComment: {method: "POST", url:filecommenturl, params:{username:'@username',path:'@path',usertext:'@usertext'}},
-                         mkdir: {method: "POST", url:mkdirurl, params:{username:'@username',dirpath:'@dirpath'}}
+                         mkdir: {method: "POST", url:mkdirurl, params:{username:'@username',dirpath:'@dirpath'}},
+                         touch: {method: "POST", url:touchurl, params:{username:'@username',filepath:'@filepath'}}
                      }
 
                     );

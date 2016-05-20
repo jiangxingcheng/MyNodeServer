@@ -57,6 +57,33 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             $log.log(data);
         });
     };
+    $scope.touch = function(){
+        self.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/touch.html',
+            size: 'lg',
+            controller : function($scope){
+                $scope.mkdirname = '';
+                $scope.savefile = function(){
+                    self.modalInstance.close($scope.filename);
+                };
+            }
+        });
+        self.modalInstance.result.then(function(data){
+            $log.log('Result is : ' + data);
+            $log.log($scope.currentpath);
+            if(data != null){
+                sqlService.touch($scope.username, $scope.currentpath + data,function(reponse){
+                    sqlService.ls($scope.username,$scope.currentpath,function(data){
+                        $scope.contents = data;
+                        $log.log('data is');
+                        $log.log(data);
+                    });
+                });
+            };
+        });
+    };
+
     $scope.mkdir = function(){
         self.modalInstance = $uibModal.open({
             animation: true,
