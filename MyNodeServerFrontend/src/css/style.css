@@ -283,7 +283,7 @@ p {
     color: #0069ee;
     font-size: 12pt;
     background-color: #000000;
-    border: 2px solid #0069ee;
+    border: 2px solid #ffffff;
     padding: 0px;
     display: block;
     margin: 5px;
@@ -358,7 +358,7 @@ figcaption {
     color: #00b3ee;
     background-color: black;
     margin: 5px;
-    border: 4px solid #0069ee;
+    border: 4px solid #ffffff;
 }
 
 .modal-header, .modal-body {
@@ -379,6 +379,14 @@ figcaption {
     border-bottom: 4px solid #ffffff;
 }
 
+.cube {
+    border: 4px solid #ffffff;
+    width: 100%;
+}
+.author-block {
+    border: 4px solid #ffffff;
+    margin-bottom: 2%;
+}
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
 /*opacity: 1;*/
