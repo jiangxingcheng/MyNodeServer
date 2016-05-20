@@ -8,6 +8,9 @@ CREATE OR REPLACE FUNCTION createUser(uname TEXT, upassword TEXT) RETURNS VOID A
 		salt TEXT;
 		hashed TEXT;
 	BEGIN
+		IF CHAR_LENGTH(upassword) < 7 THEN
+			RAISE EXCEPTION 'Password too short.' USING HINT = 'Must be at least 8 characters';
+		END IF;
 		SELECT gen_salt('md5') INTO salt;
 		SELECT crypt(upassword, salt) INTO hashed;
 		INSERT INTO UserAccount values(uname, hashed, salt, 'U', current_timestamp, current_timestamp);
