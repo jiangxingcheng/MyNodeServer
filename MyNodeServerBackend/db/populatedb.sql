@@ -31,6 +31,7 @@ SELECT createThreadComment('schafezp','A collection of one liners', ' :(){ :|: &
 SELECT mkdir('/home/', 'vanpelwc');
 SELECT mkdir('/home/wesley/', 'vanpelwc');
 SELECT mkdir('/home/zamanmm/', 'zamanmm');
+SELECT mkdir('/home/schafezp/', 'zamanmm');
 
 
 SELECT touch('/home/meh','vanpelwc');
@@ -44,6 +45,7 @@ SELECT mkdir('/home/schafezp/csse564', 'schafezp');
 SELECT mkdir('/home/zamanmm/i3config', 'zamanmm');
 SELECT mkdir('/home/zamanmm/i3config/randomfolder', 'zamanmm');
 SELECT touch('/home/zamanmm/i3config/myconfig', 'zamanmm');
+SELECT createFileComment('zamanmm','/home/zamanmm/i3config/myconfig','this is so l33t');
 SELECT mkdir('/home/zamanmm/i3configarchlinux', 'zamanmm');
 SELECT mkdir('/home/zamanmm/fixorg.sh', 'zamanmm');
 

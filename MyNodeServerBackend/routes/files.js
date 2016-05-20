@@ -68,5 +68,29 @@ router.param('username',function(req,res,next,id){
     });
 });
 
+router.route('/filecomments')
+    .get(function(req,res){
+        var path = req.query.path;
+        console.log('Path is ' + path);
+        sqlquery.getFileComments(path,function(err,data){
+            if(err){
+                console.log('error');
+                console.log(err);
+                res.format({
+                    json: function(){
+                        res.json(err);
+                    }
+                });
+            }else{
+                res.format({
+                    json: function(){
+                        res.json(data);
+                    }
+                });
+            }
 
+        });
+
+
+    });
 module.exports = router;

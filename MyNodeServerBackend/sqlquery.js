@@ -198,4 +198,18 @@ exports.ls = function(parameters, callback){
             callback(err,results);
         }
     });
+
+};
+
+exports.getFileComments = function(path, callback){
+    db.getFileComments(path,function(err,results){
+        if(err){
+            console.log('get file comments error');
+            callback(err);
+        }else{
+            console.log('get file comments');
+            callback(err,results);
+        }
+    });
+
 };
