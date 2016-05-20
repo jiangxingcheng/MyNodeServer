@@ -111,4 +111,21 @@ router.route('/filecomments')
             }
         });
     });
+router.route('/mkdir')
+    .post(function(req,res){
+        var dirpath = req.body.dirpath;
+        var username = req.body.username;
+
+        console.log('Username : ' + username);
+        console.log('filepath : ' + dirpath);
+        var parameters = [dirpath,username];
+        sqlquery.mkdir(parameters,function(err,result){
+            if(err){
+                console.log(err);
+                res.status(604).send();
+            }else{
+                res.status(200).send();
+            }
+        });
+    });
 module.exports = router;

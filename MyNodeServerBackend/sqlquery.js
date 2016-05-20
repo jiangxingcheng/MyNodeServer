@@ -228,3 +228,18 @@ exports.createFileComment = function(parameters, callback){
     });
 
 };
+
+exports.mkdir = function(parameters, callback){
+    //parameters[0] is  dirpath
+    //parameters[1] is username
+    db.mkdir(parameters,function(err,results){
+        if(err){
+            console.log('create directory error');
+            callback(err);
+        }else{
+            console.log('create directory success');
+            callback(err,results);
+        }
+    });
+
+}
