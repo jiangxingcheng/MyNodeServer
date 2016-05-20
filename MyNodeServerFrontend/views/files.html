@@ -17,19 +17,19 @@
             <div align="center" class="line-list">
                 <div align="center" class="dir">
                     <div class="icon">
-                        <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
+                        <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle" ng-click="goUpDir(element)">
                     </div>
                     ..
                 </div>
             </div>
-            <div align="center" class="line-list" ng-repeat="element in contents" ng-click="openContent(element)">
+            <div align="center" class="line-list" ng-repeat="element in contents" ng-click="navigateToDir(element)">
                 <div align="center" class="dir" ng-if="element.isdirectory">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
                     </div>
                     {{element.filepath[element.filepath.length-1]}}
                 </div>
-                <div align="center" class="dir" ng-if="!element.isdirectory">
+                <div align="center" class="dir" ng-if="!element.isdirectory" ng-click="openFile(element)">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/file.png" alt="penis" align="middle">
                     </div>
