@@ -205,7 +205,7 @@ CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VO
 	END; $$ LANGUAGE plpgsql;
 
 -- Lists stuff in the directory
-CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN) RETURNS TABLE(FilePath VARCHAR(255)[], IsDirectory BOOLEAN, CreatorUsername username, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN, adminMode BOOLEAN) RETURNS TABLE(FilePath VARCHAR(255)[], IsDirectory BOOLEAN, CreatorUsername username, TimeOfCreation TIMESTAMP) AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 		isAdmin BOOLEAN;
@@ -216,7 +216,7 @@ CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN) RETUR
 			containsPath(arrPath, f.FPath) AND
 			(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
 			CARDINALITY(arrPath) <> CARDINALITY(f.FPath) AND
-			(isAdmin OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
+			((isAdmin AND adminMode) OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
 	END; $$ LANGUAGE plpgsql;
 
 -- Deletes files/directories
