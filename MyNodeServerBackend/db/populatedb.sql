@@ -28,16 +28,24 @@ SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff
 --SELECT createThreadComment('zamanmm','Internet stuff', 'here is some linux stuff i found on the internet');
 SELECT createThreadComment('schafezp','A collection of one liners', ' :(){ :|: & };:');
 
---SELECT mkdir('/home/', 'vanpelwc');
+SELECT mkdir('/home/', 'vanpelwc');
 SELECT mkdir('/home/wesley/', 'vanpelwc');
-SELECT mkdir('/usr/', 'vanpelwc');
+SELECT mkdir('/home/zamanmm/', 'zamanmm');
+
 
 SELECT touch('/home/meh','vanpelwc');
 SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
-SELECT touch('/usr/randomFile', 'vanpelwc');
+SELECT touch('/home/wesley/.bashrc', 'vanpelwc');
+--SELECT touch('/usr/randomFile', 'vanpelwc');
 
-SELECT mkdir('/home/schafezp/gaypr0n', 'schafezp');
-SELECT mkdir('/home/schafezp/straightpr0n', 'schafezp');
+SELECT mkdir('/home/schafezp/csse333', 'schafezp');
+SELECT mkdir('/home/schafezp/csse564', 'schafezp');
+
+SELECT mkdir('/home/zamanmm/i3config', 'zamanmm');
+SELECT mkdir('/home/zamanmm/i3config/randomfolder', 'zamanmm');
+SELECT touch('/home/zamanmm/i3config/myconfig', 'zamanmm');
+SELECT mkdir('/home/zamanmm/i3configarchlinux', 'zamanmm');
+SELECT mkdir('/home/zamanmm/fixorg.sh', 'zamanmm');
 
 
 --------------------------------------------------------------------------------------------------------------------------------
