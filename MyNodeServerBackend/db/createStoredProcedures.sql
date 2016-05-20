@@ -14,6 +14,7 @@ CREATE OR REPLACE FUNCTION createUser(uname TEXT, upassword TEXT) RETURNS VOID A
 		SELECT gen_salt('md5') INTO salt;
 		SELECT crypt(upassword, salt) INTO hashed;
 		INSERT INTO UserAccount values(uname, hashed, salt, 'U', current_timestamp, current_timestamp);
+		INSERT INTO File VALUES(ARRAY['home', uname], uname, current_timestamp, TRUE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Verifies username and password
