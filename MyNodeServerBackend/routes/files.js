@@ -82,6 +82,8 @@ router.route('/filecomments')
                     }
                 });
             }else{
+                console.log('File comments returned');
+                console.log(data);
                 res.format({
                     json: function(){
                         res.json(data);
@@ -92,5 +94,21 @@ router.route('/filecomments')
         });
 
 
+    }).post(function(req,res){
+        var username = req.query.username;
+        var filepath = req.query.path;
+        var usertext = req.query.usertext;
+        console.log('Username : ' + username);
+        console.log('filepath : ' + filepath);
+        console.log('usertext : ' + usertext);
+        var parameters = [username,filepath,usertext];
+        sqlquery.createFileComment(parameters,function(err,result){
+            if(err){
+                console.log(err);
+                res.status(604).send();
+            }else{
+                res.status(200).send();
+            }
+        });
     });
 module.exports = router;

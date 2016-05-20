@@ -213,3 +213,18 @@ exports.getFileComments = function(path, callback){
     });
 
 };
+exports.createFileComment = function(parameters, callback){
+    //parameters[0] is username
+    //parameters[1] is filepath
+    //parameters[2] is the text of the comment
+    db.createFileComment(parameters,function(err,results){
+        if(err){
+            console.log('create file comment error');
+            callback(err);
+        }else{
+            console.log('file comment created');
+            callback(err,results);
+        }
+    });
+
+};
