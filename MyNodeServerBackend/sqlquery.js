@@ -184,3 +184,18 @@ exports.removeUser = function(username, callback){
         }
     });
 };
+
+exports.ls = function(parameters, callback){
+    //paremeters[0] is parentdir
+    //parameters[1] is username
+
+    db.ls(parameters,function(err,results){
+        if(err){
+            console.log('list files error');
+            callback(err);
+        }else{
+            console.log('list files success');
+            callback(err,results);
+        }
+    });
+};

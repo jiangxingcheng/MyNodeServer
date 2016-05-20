@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.header('Access-Control-Allow-Credentials', true);
 
-    res.header('Access-Control-Allow-Headers: X-Requested-With');
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     next();
 });
 
@@ -26,6 +26,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var categories = require('./routes/categories');
 var authenticatelogin = require('./routes/authenticatelogin');
+var files = require('./routes/files');
 
 
 // view engine setup
@@ -44,6 +45,8 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/categories', categories);
 app.use('/authenticatelogin', authenticatelogin);
+app.use('/files', files);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
