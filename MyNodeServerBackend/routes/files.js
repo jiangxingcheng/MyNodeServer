@@ -41,32 +41,23 @@ router.route('/')
         });
 
 
+    })
+    .delete(function(req,res){
+        //console.log('query');
+        //console.log(req.query);
+        var filepath = req.query.filepath;
+        console.log('filepath');
+        console.log(req.query.filepath);
+        sqlquery.rm(filepath,function(err,data){
+            if(err){
+                console.log(err);
+                res.status(601).send(err);
+            }else{
+                res.status(200).send("");
+            }
+        });
+
     });
-router.param('username',function(req,res,next,id){
-    console.log('Validate parameter username');
-    console.log(id);
-    sqlquery.findUserByUsername(id,function(err,data){
-        if(err || data === []){
-            console.log('Username not validated');
-            res.status(404);
-            err = new Error('Not Found');
-            err.status = 404;
-            res.format({
-                // html: function(){
-                //     next(err);
-                // },
-                json: function(){
-                    res.json({message: err.status + ' ' + err});
-                }
-            });
-        }else{//once validated save the id as the req id.
-            console.log('Username validated');
-            console.log(data);
-            req.id = id;
-            next();
-        }
-    });
-});
 
 router.route('/filecomments')
     .get(function(req,res){
