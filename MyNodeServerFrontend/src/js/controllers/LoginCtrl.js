@@ -3,6 +3,16 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
     self.registerFailedMessage = "Register Failed";
     $scope.username = sqlService.getUserName();
     $scope.loggedIn = loginService.getLoggedInStatus();
+    $scope.hasAccount = loginService.getHasAccountStatus();
+    $scope.setHasAccountFalse = function() {
+        $scope.hasAccount = false
+        loginService.hasAccount = false;
+    };
+    $scope.setHasAccountTrue = function() {
+        $scope.hasAccount = true;
+        loginService.hasAccount = true;
+    };
+    
     $scope.vm = {
         dataLoading : false,
         loginAttempted : false,
