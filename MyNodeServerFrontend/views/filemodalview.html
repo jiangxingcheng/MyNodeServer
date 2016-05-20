@@ -1,0 +1,16 @@
+<div class="modal-header"><h1>File Name  : {{currentFile.filepath[currentFile.filepath.length -1]}}</h1></div>
+<div class="modal-body">
+    File creator {{currentFile.creatorusername}}
+
+</div>
+
+<div class="modal-footer row">
+    <form role="form">
+        <div class="form-actions">
+            <div class="col-lg-6">
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                <button ng-click="ok()" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </form>
+</div>
