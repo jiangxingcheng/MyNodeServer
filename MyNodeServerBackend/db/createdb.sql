@@ -6,20 +6,22 @@ CREATE DOMAIN title VARCHAR(64) NOT NULL;
 --------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE UserAccount(
-	Username username CHECK(LENGTH(Username) > 2 AND LENGTH(Username) < 17),
+	Username username CHECK(LENGTH(Username) > 2),
 	Password TEXT CHECK(LENGTH(Password) > 7),
 	Salt TEXT NOT NULL,
 	UserLevel VARCHAR(1) NOT NULL,
 	LastAccessDate TIMESTAMP NOT NULL,
 	TimeOfCreation TIMESTAMP NOT NULL,
 	PRIMARY KEY(Username));
--- GRANT TRIGGER ON UserAccount TO PUBLIC;
--- CREATE OR REPLACE FUNCTION uaTime() RETURNS TRIGGER AS $$
--- 	BEGIN
--- 		INSERT INTO UserAccount VALUES(NEW.Username, NEW.Password, NEW.Salt, NEW.UserLevel, current_timestamp, current_timestamp);
--- 	END;
--- 	$$ LANGUAGE plpgsql;
--- CREATE TRIGGER UserAccountTime INSTEAD OF INSERT ON UserAccount FOR EACH ROW EXECUTE PROCEDURE uaTime();
+
+
+CREATE TABLE UserSessions(
+	SessionID TEXT NOT NULL,
+	Username username NOT NULL,
+	ActiveTime TIMESTAMP NOT NULL,
+	TimeOfCreation TIMESTAMP NOT NULL,
+	PRIMARY KEY(SessionID),
+	FOREIGN KEY(Username) REFERENCES UserAccount(Username));
 
 
 CREATE TABLE Friends(

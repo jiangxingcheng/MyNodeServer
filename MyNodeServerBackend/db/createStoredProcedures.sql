@@ -2,6 +2,37 @@
 ------------------------------------------------------- User Management --------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
+-- For use by functions in this file
+CREATE OR REPLACE FUNCTION createSession(session TEXT, uname TEXT) RETURNS VOID AS $$
+	BEGIN
+		INSERT INTO UserSessions VALUES(session, uname, current_timestamp, current_timestamp);
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION validateSession(session TEXT) RETURNS VARCHAR(1) AS $$
+	DECLARE
+		uname TEXT;
+		uLvl VARCHAR(1);
+		lastTime TIMESTAMP;
+		currentTime TIMESTAMP;
+		timeDiff REAL;
+	BEGIN
+		SELECT username INTO uname FROM UserSessions WHERE session=SessionID;
+		IF uname IS NULL THEN
+			RETURN 'N';
+		END IF;
+		SELECT ActiveTime INTO lastTime FROM UserSessions;
+		SELECT current_timestamp INTO currentTime;
+		SELECT EXTRACT(EPOCH FROM currentTime) - EXTRACT(EPOCH FROM lastTime) INTO timeDiff;
+		RAISE NOTICE '%', timeDiff;
+		IF timeDiff > 3600 THEN -- 3600 timeout is 1 hour
+			DELETE FROM UserSessions WHERE session=SessionID;
+			RETURN 'N';
+		END IF;
+		UPDATE UserSessions SET ActiveTime=current_timestamp;
+		SELECT userLevel INTO uLvl FROM UserAccount WHERE uname=Username;
+		RETURN uLvl;
+	END; $$ LANGUAGE plpgsql;
+
 -- Takes the new username and password to salt and hash the password
 CREATE OR REPLACE FUNCTION createUser(uname TEXT, upassword TEXT) RETURNS VOID AS $$
 	DECLARE
@@ -23,15 +54,18 @@ CREATE OR REPLACE FUNCTION loginUser(uname TEXT, upassword TEXT) RETURNS TEXT AS
 		readSalt TEXT;
 		readPass TEXT;
 		level TEXT;
+		session TEXT;
 	BEGIN
 		SELECT salt INTO readSalt FROM UserAccount WHERE username = uname;
 		SELECT password INTO readPass FROM UserAccount WHERE username = uname;
 		IF readPass = crypt(upassword, readSalt) THEN
 			UPDATE UserAccount SET LastAccessDate = current_timestamp WHERE username = uname;
 			SELECT userLevel INTO level FROM UserAccount WHERE username = uname;
-			RETURN 'Login Success: ' || level;
+			SELECT crypt(current_timestamp || 'MS SQL SUCKS', gen_salt('md5')) INTO session;
+			PERFORM createSession(session, uname);
+			RETURN '{ loginStatus: "ok", userLevel: "' || level || '", sessionID: "' || session ||'" }';
 		END IF;
-		RETURN 'Login Failure';
+		RETURN '{ loginStatus: "fail", userLevel: "", sessionID: "" }';
 	END; $$ LANGUAGE plpgsql;
 
 -- Was originally here just to try making a function, but maybe we could use it?
