@@ -8,21 +8,21 @@
         </div>
     </div>
     <div id="browser">
-        <div id="line-list" ng-repeat="element in contents" ng-click="openContent(element)">
-            <div ng-if="element.type == 'dir'">
+        <div id="line-list" ng-repeat="element in contents" ng-click="openContent(element)" ng-show="element.creatorusername == username">
+            <div ng-if="element.isdirectory">
                 <a align="center" class="dir">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
                     </div>
-                    {{element.name}}
+                    {{element.filepath[element.filepath.length-1]}}
                 </a>
             </div>
-            <div ng-if="element.type == 'file'">
+            <div ng-if="!element.isdirectory">
                 <a align="center" class="dir">
                     <div class="icon">
                         <img style="max-width: 50px" src="../src/img/file.png" alt="penis" align="middle">
                     </div>
-                    {{element.name}}
+                    {{element.filepath[element.filepath.length-1]}}
                 </a>
             </div>
         </div>
