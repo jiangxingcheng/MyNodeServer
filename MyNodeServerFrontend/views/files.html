@@ -13,29 +13,32 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12" id="browser">
-            <div align="center" class="line-list">
-                <div align="center" class="dir">
-                    <div class="icon">
-                        <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle" ng-click="goUpDir(element)">
+        <div class="col-lg-12" >
+            <div id="browser">
+                <div align="center" class="line-list">
+                    <div align="center" class="dir">
+                        <div class="icon">
+                            <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle" ng-click="goUpDir(element)">
+                        </div>
+                        ..
                     </div>
-                    ..
+                </div>
+                <div align="center" class="line-list" ng-repeat="element in contents" ng-show="element.creatorusername == username">
+                    <div align="center" class="dir" ng-if="element.isdirectory" ng-click="navigateToDir(element)">
+                        <div class="icon">
+                            <img style="max-width: 50px" src="../src/img/dir.png" alt="directory" align="middle">
+                        </div>
+                        {{element.filepath[element.filepath.length-1]}}
+                    </div>
+                    <div align="center" class="dir" ng-if="!element.isdirectory" ng-click="openFile(element)">
+                        <div class="icon">
+                            <img style="max-width: 50px" src="../src/img/file.png" alt="file" align="middle">
+                        </div>
+                        {{element.filepath[element.filepath.length-1]}}
+                    </div>
                 </div>
             </div>
-            <div align="center" class="line-list" ng-repeat="element in contents" ng-show="element.creatorusername == username">
-                <div align="center" class="dir" ng-if="element.isdirectory" ng-click="navigateToDir(element)">
-                    <div class="icon">
-                        <img style="max-width: 50px" src="../src/img/dir.png" alt="penis" align="middle">
-                    </div>
-                    {{element.filepath[element.filepath.length-1]}}
-                </div>
-                <div align="center" class="dir" ng-if="!element.isdirectory" ng-click="openFile(element)">
-                    <div class="icon">
-                        <img style="max-width: 50px" src="../src/img/file.png" alt="penis" align="middle">
-                    </div>
-                    {{element.filepath[element.filepath.length-1]}}
-                </div>
-            </div>
+
         </div>
 
     </div>
