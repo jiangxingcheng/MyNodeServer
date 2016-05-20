@@ -15,6 +15,12 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             callback(data);
         });
     };
+    self.getUserName = function () {
+        return self.username;
+    };
+    self.blankUserName = function () {
+        self.username = 'blank';
+    };
     self.getUserByUsername = function(username, callback){
        Useraccount.query({"username":username},function(data){
             self.users = data;

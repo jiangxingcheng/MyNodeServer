@@ -3,8 +3,16 @@
     <div class="row block-1">
         <div class="col-lg-12">
             <h1> Search for a user </h1>
-            <input class="input-1" name="Username" ng-model="searchuser">
-            <button type="button" class="btn btn-secondary" ng-click="searchUser()">Search For user</button>
+            <form name="usrsearchform" ng-submit="searchUser()" role="form">
+                <div class="form-group">
+                    <label for="usrsearch">Name:</label>
+                    <input type="text" class="form-control" id="usrsearch" title="Search User" ng-model="searchuser"
+                           name="Username">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-secondary">Search For user</button>
+                </div>
+            </form>
             <hr class="hr">
 
             <div>
@@ -45,17 +53,17 @@
 
             <div ng-show="displayAllUsers">
                 <ol ng-repeat="user in allUsers">
-                        <ul class="user-block-inv row vertical-align">
-                            <div class="col-lg-11">
-                                <p>Username : {{user.username }}</p>
-                                <p>Permission Level : {{user.userlevel }}</p>
-                                <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
-                                <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
-                            </div>
-                            <div class="col-lg-1" ng-click="deleteUser(user)">
-                                <img style="width: 50px;" src="../src/img/close.png" alt="close">
-                            </div>
-                        </ul>
+                    <ul class="user-block-inv row vertical-align">
+                        <div class="col-lg-11">
+                            <p>Username : {{user.username }}</p>
+                            <p>Permission Level : {{user.userlevel }}</p>
+                            <p>Last Access Date : {{user.lastaccessdate | formatDate }}</p>
+                            <p>Time of Creation : {{user.timeofcreation | formatDate }}</p>
+                        </div>
+                        <div class="col-lg-1" ng-click="deleteUser(user)">
+                            <img style="width: 50px;" src="../src/img/close.png" alt="close">
+                        </div>
+                    </ul>
                 </ol>
             </div>
 

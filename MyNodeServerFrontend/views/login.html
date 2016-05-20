@@ -1,6 +1,6 @@
 <nav-bar active-tab="login"></nav-bar>
 
-<div class="container container-1 page-body " webpage>
+<div ng-hide="loggedIn" class="container container-1 page-body " webpage>
     <div class="row" style="margin-bottom: 5%">
         <div class="col-lg-6">
             <h1>Login</h1>
@@ -54,6 +54,19 @@
                     <!--<a href="#/login" class="btn btn-link">Cancel</a>-->
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div ng-show="loggedIn" align="center" class="container container-1 page-body" webpage>
+    <div class="row">
+        <div class="col-lg-12 jumbotron">
+            <h2>Currently logged in as <b style="color: black">{{username}}</b></h2>
+            <p>Would you like to Log out?</p>
+        </div>
+    </div>
+    <div style="margin-bottom: 10%;" class="row">
+        <div class="col-lg-12">
+            <button ng-click="vm.logout()" class="btn btn-lg btn-secondary">Log out</button>
         </div>
     </div>
 </div>
