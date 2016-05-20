@@ -11,6 +11,9 @@ app.controller('FileModalCtrl',['$scope','$uibModalInstance','loginService','sql
     $scope.ok = function () {
         $uibModalInstance.close('Close');
     };
+    $scope.rm = function () {
+        $uibModalInstance.close({rm:true});
+    };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');

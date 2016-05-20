@@ -29,12 +29,25 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
         }
         return returnarr;
     };
+    $scope.allButLastTwo = function(arr){
+        var returnarr = [];
+        if(arr.length <= 2){
+            return arr;
+        }
+        for(var i=0; i<arr.length; i++){
+            if(i != arr.length -1){
+                returnarr[i] = arr[i];
+            }
+        }
+        return returnarr;
+    };
 
 
     $scope.goUpDir = function(){
         $log.log('Show current path before we go up dir');
         $log.log($scope.currentpatharray);
-        var updir = $scope.allButLast($scope.currentpatharray);
+        //var updir = $scope.allButLast($scope.currentpatharray);
+        var updir = $scope.allButLastTwo($scope.currentpatharray);
         $scope.setCurrentPath(updir);
         $log.log('Updir is ');
         $log.log(updir);
@@ -58,22 +71,23 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
         });
     };
     $scope.touch = function(){
-        self.modalInstance = $uibModal.open({
+        self.touchmodalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/touch.html',
             size: 'lg',
             controller : function($scope){
                 $scope.mkdirname = '';
                 $scope.savefile = function(){
-                    self.modalInstance.close($scope.filename);
+                    self.touchmodalInstance.close({filename:$scope.filename,isfile:true});
                 };
             }
         });
-        self.modalInstance.result.then(function(data){
-            $log.log('Result is : ' + data);
-            $log.log($scope.currentpath);
-            if(data != null){
-                sqlService.touch($scope.username, $scope.currentpath + data,function(reponse){
+        self.touchmodalInstance.result.then(function(data){
+            if(data.isfile){
+                $log.log('Result filename : ' + data.filename);
+                $log.log($scope.currentpath);
+                $log.log(data.filename);
+                sqlService.touch($scope.username, $scope.currentpath + data.filename,function(reponse){
                     sqlService.ls($scope.username,$scope.currentpath,function(data){
                         $scope.contents = data;
                         $log.log('data is');
@@ -85,22 +99,23 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
     };
 
     $scope.mkdir = function(){
-        self.modalInstance = $uibModal.open({
+        self.mkdirmodalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/mkdir.html',
             size: 'lg',
             controller : function($scope){
                 $scope.mkdirname = '';
                 $scope.savedir = function(){
-                    self.modalInstance.close($scope.mkdirname);
+                    self.mkdirmodalInstance.close({mkdirname:$scope.mkdirname,isdir:true});
                 };
             }
         });
-        self.modalInstance.result.then(function(data){
+        self.mkdirmodalInstance.result.then(function(data){
             $log.log('Result is : ' + data);
             $log.log($scope.currentpath);
-            if(data != null){
-                sqlService.mkdir($scope.username, $scope.currentpath + data + '/',function(reponse){
+            if(data.isdir){
+                $log.log('Make dir');
+                sqlService.mkdir($scope.username, $scope.currentpath + data.mkdirname + '/',function(reponse){
                     sqlService.ls($scope.username,$scope.currentpath,function(data){
                         $scope.contents = data;
                         $log.log('data is');
@@ -121,15 +136,21 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
         $log.log('File path is : ' + $scope.currentfilepath);
         Files.getFileComments({"path":$scope.currentfilepath},function(data){
             $scope.filecomments = data;
-            var modalInstance = $uibModal.open({
+            self.filemodalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/filemodalview.html',
                 scope: $scope,
                 size: 'lg',
                 controller: 'FileModalCtrl'
             });
-            modalInstance.result.then(function (result) {
-                $log.log('Result is: ' + result);
+            self.filemodalInstance.result.then(function (result) {
+                if(result.rm){
+                    $log.log('Run rm');
+                    sqlService.rm($scope.currentfilepath,function(){
+
+                    });
+                }
+
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

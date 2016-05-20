@@ -78,6 +78,11 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             callback(response);
         });
     };
+    self.rm = function(filepath,callback){
+        Files.delete({"filepath":filepath},function(response){
+            callback(response);
+        });
+    };
     self.deleteUserAccount = function(username,callback,errorcallback){
         Useraccount.delete({"username":username},function(data){
             callback(data);

@@ -6,11 +6,7 @@
     <div class="modal-body">
         <div id="file-editor" style="font-size: 11pt; color: white">
 
-            <p>Hello World</p>
-            <p>esifjsdlkrgnsdkg</p>
-            <p>esifjsdlkrgnsdkg</p>
-            <p>esifjsdlkrgnsdkg</p>
-            <p>slkrngfkdjfngsf</p>
+            <p>Here is the contents of your file</p>
 
         </div>
         <hr class="hr-fat">
@@ -26,7 +22,7 @@
 
     </div>
     <div class="modal-footer">
-        <form name="sumbitcomment row" ng-submit="submitComment()" role="form">
+        <form name="sumbitcomment" ng-submit="submitComment()" role="form">
             <div class="col-lg-6">
                 <div align="left" class="form-group">
                     <label>
@@ -40,9 +36,9 @@
                     <button type="submit" class="btn btn-secondary">Submit comment</button>
                     <button ng-click="ok()" class="btn btn-secondary">Save</button>
                     <button ng-click="ok()" class="btn btn-secondary">Close</button>
+                    <button ng-click="rm()" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
