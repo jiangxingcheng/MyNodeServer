@@ -1,8 +1,23 @@
-<div class="modal-header">Make a file
-<div class="modal-body">
-<!-- <input type="text" name="username" class="form-control" ng-model="mkdirname" required/> -->
-<input type="text" name="username" class="form-control" ng-model="filename"/>
-<button type="submit" ng-click="savefile()" class="btn btn-secondary">Submit</button>
-<button type="submit" ng-click="dismiss()" class="btn btn-secondary">Cancel</button>
+<div align="center" class="modal-header">
+    <h1>Create file</h1>
 </div>
+<div class="modal-body">
+    <!-- <input type="text" name="username" class="form-control" ng-model="mkdirname" required/> -->
+    <form name="makedir" ng-submit="savefile()" role="form">
+        <div class="row">
+            <div class="col-lg-12">
+                <input type="text" name="username" class="form-control" ng-model="filename"
+                       placeholder="Enter file name"/>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <button style="width: 100%;" type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+            <div class="col-lg-6">
+                <button style="width: 100%;" ng-click="dismiss()" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </form>
 </div>

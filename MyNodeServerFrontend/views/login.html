@@ -103,14 +103,47 @@
 </div>
 <div ng-show="loggedIn" align="center" class="container container-1 page-body" webpage>
     <div class="row">
-        <div class="col-lg-12 jumbotron">
+        <div class="col-lg-12">
             <h2>Currently logged in as <b style="color: black">{{username}}</b></h2>
-            <p>Would you like to Log out?</p>
+            <hr class="hr-fat">
         </div>
     </div>
     <div style="margin-bottom: 2%;" class="row">
+        <div style="border-right: 2px solid white" class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <button style="width: 100%;" navigator ng-click="goTo({viewLoc: 'files'})" class="btn btn-lg btn-secondary">View Files</button>
+                </div>
+            </div>
+        </div>
+        <div style="border-left: 2px solid white" class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button style="width: 100%;" navigator ng-click="goTo({viewLoc: 'forum'})" class="btn btn-lg btn-secondary">View Forum</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12">
-            <button ng-click="vm.logout()" class="btn btn-lg btn-secondary">Log out</button>
+            <hr class="hr-fat">
+        </div>
+    </div>
+    <div style="margin-bottom: 2%;" class="row">
+        <div style="border-right: 2px solid white" class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button style="width: 100%;" navigator ng-click="goTo({viewLoc: 'about'})" class="btn btn-lg btn-secondary">View About</button>
+                </div>
+            </div>
+        </div>
+        <div style="border-left: 2px solid white" class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button style="width: 100%;" ng-click="vm.logout()" class="btn btn-lg btn-secondary">Log out</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
