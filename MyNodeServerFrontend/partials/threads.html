@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-lg-12">
         <hr class="hr-fat">
-
+        <p align="center" style="font-size: 18pt;">{{categoryTitle}}</p>
+        <hr>
         <div class="row">
-            <div align="left" class="col-lg-4"><button ui-sref="forum" class="btn btn-primary">Clear</button></div>
-            <div align="center" class="col-lg-4"><p align="center" style="font-size: 18pt;">{{categoryTitle}}</p></div>
-            <div align="right" class="col-lg-4"><button ui-sref="forum" class="btn btn-primary">New Thread</button></div>
+            <div align="left" class="col-lg-6"><button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">Clear</button></div>
+            <div align="right" class="col-lg-6"><button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">New Thread</button></div>
         </div>
-        <hr class="hr-fat">
+        <hr>
         <div ng-show="threads.length > 0">
             <ol ng-repeat="thread in threads">
                 <ul class="user-block-inv" ng-click="openModal('lg',thread)">

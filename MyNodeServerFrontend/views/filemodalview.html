@@ -1,10 +1,16 @@
-<div class="modal-header"><h1>File Name  : {{currentFile.filepath[currentFile.filepath.length -1]}}</h1></div>
+<div class="modal-header"><h1>File Name : {{currentFile.filepath[currentFile.filepath.length -1]}}</h1></div>
 <div class="modal-body">
     File creator {{currentFile.creatorusername}}
-<div class="row comment-block" ng-repeat="filecomment in filecomments">
-        <p style="color: #000"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b></p>
-        <p>{{filecomment.body}}</p>
+    <div class="row comment-block vertical-align" ng-repeat="filecomment in filecomments">
+        <div class="col-lg-11">
+            <p style="color: white;"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b></p>
+            <p>{{filecomment.body}}</p>
+        </div>
+        <div class="col-lg-1" ng-click="">
+            <img style="width: 25px;" src="../src/img/close.png" alt="close">
+        </div>
     </div>
+
 </div>
 
 <div class="modal-footer row">
@@ -12,7 +18,8 @@
         <div class="col-lg-6">
             <div align="left" class="form-group">
                 <label>
-                    <input placeholder="Enter Comment" class="form-control" name="comment" type="text" ng-model="usertext"/>
+                    <input placeholder="Enter Comment" class="form-control" name="comment" type="text"
+                           ng-model="usertext"/>
                 </label>
             </div>
         </div>

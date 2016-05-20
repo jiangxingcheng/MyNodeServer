@@ -276,13 +276,25 @@ p {
 }
 
 .comment-block {
-    color: #fff;
+    color: #0069ee;
     font-size: 12pt;
-    background-color: #0069ee;
-    border: 2px solid #000;
+    background-color: #000000;
+    border: 2px solid #0069ee;
     padding: 0px;
     display: block;
     margin: 5px;
+    box-shadow: 0 0 5px #696969;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+}
+
+.comment-block:hover {
+    background-color: #0069ee;
+    color: #000000;
+    box-shadow: 0 0 2px #696969;
+    border: 2px solid #000000;
 }
 
 .line-list {
