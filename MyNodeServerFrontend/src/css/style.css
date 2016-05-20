@@ -285,7 +285,7 @@ p {
     margin: 5px;
 }
 
-#line-list {
+.line-list {
     display: inline-flex;
     flex-flow: row wrap;
     flex-direction: row;
@@ -328,6 +328,14 @@ figcaption {
 .vertical-align {
     display: flex;
     align-items: center;
+}
+
+.breadcrumb {
+    border: 4px solid #fff;
+    border-radius: 0;
+    background-color: #000;
+    color: #fff;
+
 }
 
 /* TODO: Implement fade effect for user search text */
