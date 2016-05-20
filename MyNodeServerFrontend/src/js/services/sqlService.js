@@ -1,4 +1,4 @@
-app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin',function ($http,$log,Useraccount,Category,AuthenticateLogin) {
+app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin','Files',function ($http,$log,Useraccount,Category,AuthenticateLogin,Files) {
     var self = this;
     self.username = 'blank';
     self.users = ["One things","two things","three things"];
@@ -49,6 +49,16 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         },function(error){
             $log.log('ERROR IN CREATE THREAD COMMENT');
             $log.log(error);
+        });
+
+    };
+    self.ls = function(username,path,callback){
+        Files.ls({"username":username,"path":path},function(data){
+            callback(data);
+        },function(error){
+            $log.log('Error in ls');
+            $log.log(error);
+            callback(error);
         });
 
     };

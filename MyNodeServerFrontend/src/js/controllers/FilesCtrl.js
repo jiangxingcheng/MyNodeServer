@@ -1,4 +1,8 @@
-app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeout', function ($scope, $location, $log, sqlService, $timeout) {
+app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeout','Files', function ($scope, $location, $log, sqlService, $timeout,Files) {
+    $scope.results = [];
+    sqlService.ls('schafezp','/home/schafezp/',function(data){
+        $scope.results = data;
+    });
     $scope.contents = [
         {
             type: 'file',

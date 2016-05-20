@@ -63,3 +63,13 @@ app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, 
 
                     );
 }]);
+
+app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+    var url = EnvConfig.api.baseUrl + 'files/';
+    return $resource(url,{},
+                     {
+                         ls: {method: "GET",isArray:true ,params: {username:'@username',path:'@path'}}
+                     }
+
+                    );
+}]);
