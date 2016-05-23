@@ -37,7 +37,7 @@ CREATE OR REPLACE FUNCTION getSessionUserLevel(session TEXT) RETURNS VARCHAR(1) 
 		uLvl VARCHAR(1);
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
-		IF uname == 'X' THEN
+		IF uname = 'X' THEN
 			RETURN 'N';
 		END IF;
 		SELECT userLevel INTO uLvl FROM UserAccount WHERE uname=Username;
@@ -90,22 +90,35 @@ CREATE OR REPLACE FUNCTION loginUser(uname TEXT, upassword TEXT) RETURNS TEXT AS
 
 -- Was originally here just to try making a function, but maybe we could use it?
 CREATE OR REPLACE FUNCTION userCount() RETURNS bigint AS $$
-	DECLARE thing INT;
+	DECLARE
+		thing INT;
 	BEGIN
 		SELECT COUNT(*) INTO thing FROM UserAccount;
 		RETURN thing;
 	END; $$ LANGUAGE plpgsql;
 
 -- Get all users
-CREATE OR REPLACE FUNCTION getAllUsers() RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION getAllUsers(session TEXT) RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 	BEGIN
-		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation from UserAccount ua;
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' THEN
+			RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount ua;
+		END IF;
+		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount ua WHERE ua.Username='fu'; --TODO: There should be a better way, but this works
 	END; $$ LANGUAGE plpgsql;
 
 -- Find a user by thier username
-CREATE OR REPLACE FUNCTION findUser(uname TEXT) RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION findUser(uname TEXT, session TEXT) RETURNS TABLE(Username username, UserLevel VARCHAR(1), LastAccessDate TIMESTAMP, TimeOfCreation TIMESTAMP) AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 	BEGIN
-		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount AS ua WHERE ua.Username=uname;
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' THEN
+			RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount ua WHERE ua.Username=uname;
+		END IF;
+		RETURN QUERY SELECT ua.Username, ua.UserLevel, ua.LastAccessDate, ua.TimeOfCreation FROM UserAccount ua WHERE ua.Username='fu';
 	END; $$ LANGUAGE plpgsql;
 
 -- Remove user and all their shit
@@ -113,8 +126,8 @@ CREATE OR REPLACE FUNCTION removeUser(uname TEXT, session TEXT) RETURNS VOID AS 
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
-		SELECT * INTO sessionStatus FROM validateSession(session);
-		IF sessionStatus == 'A' THEN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' THEN
 			DELETE FROM UserAccount WHERE username=uname;
 		END IF;
 	END; $$ LANGUAGE plpgsql;
@@ -124,8 +137,8 @@ CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1), session
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
-		SELECT * INTO sessionStatus FROM validateSession(session);
-		IF sessionStatus == 'A' THEN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' THEN
 			UPDATE UserAccount SET UserLevel = newLevel WHERE username = uname;
 		END IF;
 	END; $$ LANGUAGE plpgsql;
@@ -136,7 +149,7 @@ CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT, session TEXT) RET
 		sessionUser TEXT;
 	BEGIN
 		SELECT * INTO sessionStatus FROM getSessionUser(session);
-		IF sessionStatus == 'A' OR sessionUser == uname1 OR sessionUser == uname2 THEN
+		IF sessionStatus = 'A' OR sessionUser = uname1 OR sessionUser = uname2 THEN
 			INSERT INTO Friends values(uname1, uname2);
 		END IF;
 	END; $$ LANGUAGE plpgsql;
@@ -146,8 +159,8 @@ CREATE OR REPLACE FUNCTION removeFriend(uname1 TEXT, uname2 TEXT, session TEXT) 
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
-		SELECT * INTO sessionStatus FROM validateSession(session);
-		IF sessionStatus == 'A' OR sessionUser == uname1 OR sessionUser == uname2 THEN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionUser = uname1 OR sessionUser = uname2 THEN
 			DELETE FROM Friends f WHERE f.Username1=uname1 AND f.Username2=uname2;
 			DELETE FROM Friends f WHERE f.Username1=uname2 AND f.Username2=uname1;
 		END IF;
@@ -317,48 +330,126 @@ CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, 
 ------------------------------------------------------- Forum Management -------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION createCategory(cname title, uname TEXT, pathOfLogo TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION createCategory(cname title, session TEXT, pathOfLogo TEXT) RETURNS VOID AS $$
+	DECLARE
+		uname TEXT;
+		sessionStatus VARCHAR(1);
 	BEGIN
-		INSERT INTO Category values(cname, uname, current_timestamp, pathOfLogo);
+		SELECT * INTO uname FROM getSessionUser(session);
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
+			INSERT INTO Category values(cname, uname, current_timestamp, pathOfLogo);
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION createThread(tname title, uname TEXT, threadCategory title, textBody TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION createThread(tname title, session TEXT, threadCategory title, textBody TEXT) RETURNS VOID AS $$
+	DECLARE
+		uname TEXT;
 	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
 		INSERT INTO Thread values(tname, uname, threadCategory, current_timestamp, textBody);
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION createThreadComment(uname TEXT, threadName title, userText TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION createThreadComment(session TEXT, threadName title, userText TEXT) RETURNS VOID AS $$
+	DECLARE
+		uname TEXT;
 	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
 		INSERT INTO ThreadComment values(uname, current_timestamp, threadName, userText);
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION createFileComment(uname TEXT, filePath TEXT, userText TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION createFileComment(session TEXT, filePath TEXT, userText TEXT) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
+		uname TEXT;
 	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
 		INSERT INTO FileComment values(uname, current_timestamp, arrPath, userText);
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION getAllCategories() RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP) AS $$
-	BEGIN
-		RETURN QUERY SELECT c.CTitle AS title, c.Username, c.TimeOfCreation FROM Category c;
-	END; $$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getThreadsInCategory(categoryName title) RETURNS TABLE(Title title, Username username, timeofCreation TIMESTAMP) AS $$
-	BEGIN
-		RETURN QUERY SELECT t.TTitle as Title, t.Username, t.TimeOfCreation FROM Thread t WHERE CTitle=categoryName;
-	END; $$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getThreadComments(threadName title) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
-	BEGIN
-		RETURN QUERY SELECT tc.Username, tc.TimeOfCreation, tc.userText AS Body FROM ThreadComment tc WHERE tc.TTitle=threadName;
-	END; $$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION getFileComments(filePath TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+CREATE OR REPLACE FUNCTION getAllCategories(session TEXT) RETURNS TABLE(title title, Username username, timeofCreation TIMESTAMP) AS $$
 	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus <> 'N' THEN
+			RETURN QUERY SELECT c.CTitle AS title, c.Username, c.TimeOfCreation FROM Category c;
+		END IF;
+		RETURN QUERY SELECT c.CTitle AS title, c.Username, c.TimeOfCreation FROM Category c WHERE c.Username='fu';
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getThreadsInCategory(categoryName title, session TEXT) RETURNS TABLE(Title title, Username username, timeofCreation TIMESTAMP) AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus <> 'N' THEN
+			RETURN QUERY SELECT t.TTitle as Title, t.Username, t.TimeOfCreation FROM Thread t WHERE CTitle=categoryName;
+		END IF;
+		RETURN QUERY SELECT t.TTitle as Title, t.Username, t.TimeOfCreation FROM Thread t WHERE t.Username='fu';
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getThreadComments(threadName title, session TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus <> 'N' THEN
+			RETURN QUERY SELECT tc.Username, tc.TimeOfCreation, tc.userText AS Body FROM ThreadComment tc WHERE tc.TTitle=threadName;
+		END IF;
+		RETURN QUERY SELECT tc.Username, tc.TimeOfCreation, tc.userText AS Body FROM ThreadComment tc WHERE tc.Username='fu';
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getFileComments(filePath TEXT, session TEXT) RETURNS TABLE(Username username, timeofCreation TIMESTAMP, body TEXT) AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
 		arrPath VARCHAR(255)[];
 	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=arrPath;
+		IF sessionStatus <> 'N' THEN
+			RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=arrPath;
+		END IF;
+		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.Username='fu';
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteCategory(catName title, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
+			DELETE FROM Category c WHERE c.CTitle=catName;
+		END IF;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThread(threadName title, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
+			DELETE FROM Thread t WHERE c.TTitle=catName;
+		END IF;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, postTime DATETIME, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
+			DELETE FROM ThreadComment tc WHERE tc.Username=uname, tc.TimeOfCreation=postTime;
+		END IF;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteFileComment(uname username, postTime DATETIME, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
+			DELETE FROM FileComment fc WHERE fc.Username=uname, fc.TimeOfCreation=postTime;
+		END IF;
 	END; $$ LANGUAGE plpgsql;
