@@ -143,6 +143,15 @@ CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1), session
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION getUserLevel(uname TEXT) RETURNS BOOLEAN AS $$
+	DECLARE
+		sessionStatus VARCHAR(1);
+		uLvl VARCHAR(1);
+	BEGIN
+		SELECT UserLevel INTO uLvl FROM UserAccount WHERE Username=uname;
+		RETURN uLvl;
+	END; $$ LANGUAGE plpgsql;
+
 -- Make 2 users friends
 CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE
@@ -239,10 +248,34 @@ CREATE OR REPLACE FUNCTION containsPath(basePath VARCHAR(255)[], checkingPath VA
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
-CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], uname TEXT) RETURNS BOOLEAN AS $$
-	DECLARE isAllowed BOOLEAN;
+CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], session TEXT) RETURNS BOOLEAN AS $$
+	DECLARE
+		isAllowed BOOLEAN;
+		uLvl VARCHAR(1);
+		uname TEXT;
 	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
+		SELECT * INTO uLvl FROM getUserLevel(uname);
+		IF uLvl = 'A' THEN
+			RETURN TRUE;
+		END IF;
 		SELECT ReadAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
+		RETURN isAllowed;
+	END; $$ LANGUAGE plpgsql;
+
+-- Here for the use by other functions in this file
+CREATE OR REPLACE FUNCTION isUserAllowedToWrite(arrPath VARCHAR(255)[], session TEXT) RETURNS BOOLEAN AS $$
+	DECLARE
+		isAllowed BOOLEAN;
+		uLvl VARCHAR(1);
+		uname TEXT;
+	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
+		SELECT * INTO uLvl FROM getUserLevel(uname);
+		IF uLvl = 'A' THEN
+			RETURN TRUE;
+		END IF;
+		SELECT WriteAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
 		RETURN isAllowed;
 	END; $$ LANGUAGE plpgsql;
 
@@ -267,62 +300,79 @@ CREATE OR REPLACE FUNCTION setPerms(uname TEXT, arrPath VARCHAR(255)[], readEnab
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
-CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], creatorUsername username, isDir BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], session TEXT, isDir BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		loopCount INT := 1;
 		arrPathWithoutCurrent VARCHAR(255)[];
+		uname TEXT;
+		writeAllowed BOOLEAN;
 	BEGIN
-		INSERT INTO File VALUES(arrPath, creatorUsername, current_timestamp, isDir);
+		SELECT * INTO uname FROM getSessionUser(session);
+		SELECT * INTO writeAllowed FROM isUserAllowedToWrite(arrPath, session);
+		IF writeAllowed THEN
+			INSERT INTO File VALUES(arrPath, uname, current_timestamp, isDir);
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a directory
-CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, creatorUsername TEXT) RETURNS VOID AS $$
-	DECLARE arrPath VARCHAR(255)[];
+CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, session TEXT) RETURNS VOID AS $$
+	DECLARE
+		arrPath VARCHAR(255)[];
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(dirPath);
-		PERFORM addFile(arrPath, creatorUsername, TRUE);
+		PERFORM addFile(arrPath, session, TRUE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a file
-CREATE OR REPLACE FUNCTION touch(filePath TEXT, creatorUsername TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION touch(filePath TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE arrPath VARCHAR(255)[];
 	BEGIN
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		PERFORM addFile(arrPath, creatorUsername, FALSE);
+		PERFORM addFile(arrPath, session, FALSE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Lists stuff in the directory
-CREATE OR REPLACE FUNCTION ls(parentDir TEXT, uname TEXT, recurse BOOLEAN, adminMode BOOLEAN) RETURNS TABLE(FilePath VARCHAR(255)[], IsDirectory BOOLEAN, CreatorUsername username, TimeOfCreation TIMESTAMP) AS $$
+CREATE OR REPLACE FUNCTION ls(parentDir TEXT, session TEXT, recurse BOOLEAN, adminMode BOOLEAN) RETURNS TABLE(FilePath VARCHAR(255)[], IsDirectory BOOLEAN, CreatorUsername username, TimeOfCreation TIMESTAMP) AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 		isAdmin BOOLEAN;
+		uname TEXT;
 	BEGIN
+		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO arrPath FROM convertToArrPath(parentDir);
 		SELECT userLevel='A' INTO isAdmin FROM UserAccount ua WHERE uname=ua.username;
 		RETURN QUERY SELECT f.FPath AS FilePath, f.IsDir AS IsDirectory, f.username AS CreatorUsername, f.TimeOfCreation FROM File f WHERE
 			containsPath(arrPath, f.FPath) AND
 			(CARDINALITY(arrPath)+2 > CARDINALITY(f.FPath) OR recurse) AND
 			CARDINALITY(arrPath) <> CARDINALITY(f.FPath) AND
-			((isAdmin AND adminMode) OR uname=f.username OR isUserAllowedToRead(f.FPath, uname) OR uname='fu');
+			((isAdmin AND adminMode) OR uname=f.username OR isUserAllowedToRead(f.FPath, uname));
 	END; $$ LANGUAGE plpgsql;
 
 -- Deletes files/directories
-CREATE OR REPLACE FUNCTION rm(filePath TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION rm(filePath TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 		isDir BOOLEAN;
+		sessionStatus VARCHAR(1);
 	BEGIN
-		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		DELETE FROM File f WHERE containsPath(arrPath, f.FPath);
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
+		IF sessionStatus = 'A' THEN
+			SELECT * INTO arrPath FROM convertToArrPath(filePath);
+			DELETE FROM File f WHERE containsPath(arrPath, f.FPath);
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Changes permisions on files and directories
-CREATE OR REPLACE FUNCTION chmod(uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN, recurse BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION chmod(session TEXT, uname TEXT, filePath TEXT, readEnable BOOLEAN, writeEnable BOOLEAN, recurse BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
+		sessionStatus VARCHAR(1);
 	BEGIN
+		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		PERFORM setPerms(uname, arrPath, readEnable, writeEnable, recurse);
+		IF sessionStatus = 'A' THEN
+			PERFORM setPerms(uname, arrPath, readEnable, writeEnable, recurse);
+		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 
