@@ -1,37 +1,51 @@
+INSERT INTO UserAccount VALUES('dbsetup','asdfasdf','salty','A',current_timestamp,current_timestamp);
+INSERT INTO UserSessions VALUES('microsoftsucks','dbsetup',current_timestamp,current_timestamp);
+
+
 SELECT createUser('schafezp','changething');
 SELECT createUser('zamanmm','otherthing');
 SELECT createUser('jiangx1','otherthing');
 SELECT createUser('vanpelwc','asdfasdf');
-SELECT setUserLevel('schafezp','A');
-SELECT setUserLevel('zamanmm','M');
-SELECT setUserLevel('jiangx1','U');
-SELECT setUserLevel('vanpelwc','A');
+SELECT setUserLevel('schafezp','A','microsoftsucks');
+SELECT setUserLevel('zamanmm','M','microsoftsucks');
+SELECT setUserLevel('jiangx1','U','microsoftsucks');
+SELECT setUserLevel('vanpelwc','A','microsoftsucks');
 
-SELECT createCategory('General','schafezp',NULL);
-SELECT createCategory('Help','schafezp',NULL);
-SELECT createCategory('NSFW','schafezp',NULL);
-SELECT createCategory('/b/','schafezp',NULL);
-SELECT createCategory('Pirated Software','vanpelwc',NULL);
 
-SELECT createThread('A collection of one liners','zamanmm','General',NULL);
-SELECT createThread('My node adventures','jiangx1','General',NULL);
-SELECT createThread('Intro to threads','schafezp','Help',NULL);
-SELECT createThread('General','schafezp','General',NULL);
-SELECT createThread('Zombie Squirrel','zamanmm','NSFW',NULL);
-SELECT createThread('Internet stuff','zamanmm','General',NULL);
-SELECT createThread('Orange waffles','zamanmm','NSFW',NULL);
-SELECT createThread('You dont want to know','jiangx1','/b/',NULL);
-SELECT createThread('Microsoft''s Overpriced Shit','vanpelwc','Pirated Software','Fuck Microsoft');
+SELECT createCategory('General','microsoftsucks',NULL);
+SELECT createCategory('Help','microsoftsucks',NULL);
+SELECT createCategory('NSFW','microsoftsucks',NULL);
+SELECT createCategory('/b/','microsoftsucks',NULL);
+SELECT createCategory('Pirated Software','microsoftsucks',NULL);
 
-SELECT createThreadComment('vanpelwc','Microsoft''s Overpriced Shit', 'They really suck');
 
-SELECT mkdir('/home/', 'vanpelwc');
-SELECT mkdir('/home/wesley/', 'vanpelwc');
-SELECT mkdir('/usr/', 'vanpelwc');
+UPDATE UserSessions SET Username='schafezp' WHERE SessionID='microsoftsucks';
+SELECT createThread('Intro to threads','microsoftsucks','Help',NULL);
+SELECT createThread('General','microsoftsucks','General',NULL);
 
-SELECT touch('/home/meh','vanpelwc');
-SELECT touch('/home/wesley/.bash_profile', 'vanpelwc');
-SELECT touch('/usr/randomFile', 'vanpelwc');
+UPDATE UserSessions SET Username='zamanmm' WHERE SessionID='microsoftsucks';
+SELECT createThread('A collection of one liners','microsoftsucks','General',NULL);
+SELECT createThread('Zombie Squirrel','microsoftsucks','NSFW',NULL);
+SELECT createThread('Internet stuff','microsoftsucks','General',NULL);
+SELECT createThread('Orange waffles','microsoftsucks','NSFW',NULL);
+
+UPDATE UserSessions SET Username='jiangx1' WHERE SessionID='microsoftsucks';
+SELECT createThread('My node adventures','microsoftsucks','General',NULL);
+SELECT createThread('You dont want to know','microsoftsucks','/b/',NULL);
+
+UPDATE UserSessions SET Username='vanpelwc' WHERE SessionID='microsoftsucks';
+SELECT createThread('Microsoft''s Overpriced Shit','microsoftsucks','Pirated Software','Fuck Microsoft');
+SELECT createThreadComment('microsoftsucks','Microsoft''s Overpriced Shit', 'They really suck');
+
+
+SELECT mkdir('/home/', 'microsoftsucks');
+SELECT mkdir('/home/wesley/', 'microsoftsucks');
+SELECT mkdir('/usr/', 'microsoftsucks');
+
+
+SELECT touch('/home/meh','microsoftsucks');
+SELECT touch('/home/wesley/.bash_profile', 'microsoftsucks');
+SELECT touch('/usr/randomFile', 'microsoftsucks');
 
 
 --------------------------------------------------------------------------------------------------------------------------------
