@@ -27,6 +27,7 @@ var users = require('./routes/users');
 var categories = require('./routes/categories');
 var authenticatelogin = require('./routes/authenticatelogin');
 var files = require('./routes/files');
+var threads = require('./routes/threads');
 
 
 // view engine setup
@@ -46,6 +47,7 @@ app.use('/users', users);
 app.use('/categories', categories);
 app.use('/authenticatelogin', authenticatelogin);
 app.use('/files', files);
+app.use('/threads', threads);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
