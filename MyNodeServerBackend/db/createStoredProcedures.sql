@@ -254,10 +254,15 @@ CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], session T
 		isAllowed BOOLEAN;
 		uLvl VARCHAR(1);
 		uname TEXT;
+		ownerName TEXT;
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO uLvl FROM getUserLevel(uname);
 		IF uLvl='A' THEN
+			RETURN TRUE;
+		END IF;
+		SELECT f.Username INTO ownerName FROM File f WHERE f.FPath=arrPath;
+		IF ownerName=uname THEN
 			RETURN TRUE;
 		END IF;
 		SELECT ReadAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
@@ -270,10 +275,15 @@ CREATE OR REPLACE FUNCTION isUserAllowedToWrite(arrPath VARCHAR(255)[], session 
 		isAllowed BOOLEAN;
 		uLvl VARCHAR(1);
 		uname TEXT;
+		ownerName TEXT;
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO uLvl FROM getUserLevel(uname);
 		IF uLvl='A' THEN
+			RETURN TRUE;
+		END IF;
+		SELECT f.Username INTO ownerName FROM File f WHERE f.FPath=arrPath;
+		IF ownerName=uname THEN
 			RETURN TRUE;
 		END IF;
 		SELECT WriteAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
@@ -301,7 +311,7 @@ CREATE OR REPLACE FUNCTION setPerms(uname TEXT, arrPath VARCHAR(255)[], readEnab
 	END; $$ LANGUAGE plpgsql;
 
 -- Here for the use by other functions in this file
-CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], session TEXT, isDir BOOLEAN) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION addFile(parentPath VARCHAR(255)[], fileName VARCHAR(255), session TEXT, isDir BOOLEAN) RETURNS VOID AS $$
 	DECLARE
 		loopCount INT := 1;
 		arrPathWithoutCurrent VARCHAR(255)[];
@@ -309,27 +319,30 @@ CREATE OR REPLACE FUNCTION addFile(arrPath VARCHAR(255)[], session TEXT, isDir B
 		writeAllowed BOOLEAN;
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
-		SELECT * INTO writeAllowed FROM isUserAllowedToWrite(arrPath, session);
+		SELECT * INTO writeAllowed FROM isUserAllowedToWrite(parentPath, session);
+		-- RAISE NOTICE '%  ::  %', writeAllowed, uname;
+
 		IF writeAllowed THEN
-			INSERT INTO File VALUES(arrPath, uname, current_timestamp, isDir);
+			SELECT * INTO parentPath FROM ARRAY_APPEND(parentPath, fileName);
+			INSERT INTO File VALUES(parentPath, uname, current_timestamp, isDir);
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a directory
-CREATE OR REPLACE FUNCTION mkdir(dirPath TEXT, session TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION mkdir(parentPath TEXT, dirName VARCHAR(255), session TEXT) RETURNS VOID AS $$
 	DECLARE
 		arrPath VARCHAR(255)[];
 	BEGIN
-		SELECT * INTO arrPath FROM convertToArrPath(dirPath);
-		PERFORM addFile(arrPath, session, TRUE);
+		SELECT * INTO arrPath FROM convertToArrPath(parentPath);
+		PERFORM addFile(arrPath, dirName, session, TRUE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Makes a file
-CREATE OR REPLACE FUNCTION touch(filePath TEXT, session TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION touch(parentPath TEXT, fileName VARCHAR(255), session TEXT) RETURNS VOID AS $$
 	DECLARE arrPath VARCHAR(255)[];
 	BEGIN
-		SELECT * INTO arrPath FROM convertToArrPath(filePath);
-		PERFORM addFile(arrPath, session, FALSE);
+		SELECT * INTO arrPath FROM convertToArrPath(parentPath);
+		PERFORM addFile(arrPath, fileName, session, FALSE);
 	END; $$ LANGUAGE plpgsql;
 
 -- Lists stuff in the directory
