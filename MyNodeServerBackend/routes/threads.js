@@ -35,6 +35,21 @@ router.route('/')
                 res.status(200).send();
             }
         });
-});
+    })
+    .delete(function(req,res){
+        var threadtitle = req.body.threadtitle;
+        db.deletethread(threadtitle,function(err,results){
+            if(err){
+                console.log('Delete thread error');
+                console.log(err);
+                res.status(600).send('Thread could not be deleted');
+            }else{
+                console.log('Delete thread results');
+                res.status(200).send();
+            }
+        });
+
+
+    });
 
 module.exports = router;

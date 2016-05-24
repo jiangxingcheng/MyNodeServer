@@ -1,0 +1,1 @@
+select deleteThread($1)
