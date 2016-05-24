@@ -102,8 +102,9 @@ router.route('/filecommentsdelete')
 
     });
 router.route('/filedelete')
-    .post(function(req,res){
-        var filepath = req.body.filepath;
+    .get(function(req,res){
+        //var filepath = req.body.filepath;
+        var filepath = req.query.filepath;
         console.log('filepath');
         console.log(filepath);
         sqlquery.rm(filepath,function(err,data){
