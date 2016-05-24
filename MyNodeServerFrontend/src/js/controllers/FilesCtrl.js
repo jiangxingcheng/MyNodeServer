@@ -1,5 +1,6 @@
 app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$timeout','Files','$filter','$uibModal', function ($scope, $location, $log, sqlService, $timeout,Files,$filter,$uibModal) {
     var self = this;
+    $log.log('Rerun controller');
     $scope.contents = [];
     $scope.username = sqlService.username;
     $scope.homepath = '/home/'+ $scope.username + '/';
@@ -15,6 +16,7 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
     $scope.setCurrentPath($scope.currentpatharray);
 
     sqlService.ls($scope.username,$scope.currentpath,function(data){
+
         $scope.contents = data;
     });
     $scope.allButLast = function(arr){
@@ -149,6 +151,8 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
                     sqlService.rm($scope.currentfilepath,function(){
 
                     });
+                }else{
+                    $log.log('exit from flemodal withoutrm');
                 }
 
             }, function () {
