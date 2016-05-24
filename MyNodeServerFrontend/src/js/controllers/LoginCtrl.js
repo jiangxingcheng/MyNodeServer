@@ -75,6 +75,7 @@ app.controller('LoginCtrl', ['$scope', '$log','loginService', 'sqlService','$loc
                     //$log.log(response);
                     $scope.registerFailedMessage = responsemessage; //succeded
                     loginService.userlevel = 'User';
+                    loginService.changeLoggedInStatus();
                     sqlService.username = username;
                     window.scrollTo(0,0);
                     $location.url('/home');

@@ -4,18 +4,29 @@
         <p align="center" style="font-size: 18pt;">{{categoryTitle}}</p>
         <hr>
         <div class="row">
-            <div align="left" class="col-lg-6"><button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">Clear</button></div>
-            <div align="right" class="col-lg-6"><button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">New Thread</button></div>
+            <div align="left" class="col-lg-6">
+                <button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">Clear</button>
+            </div>
+            <div align="right" class="col-lg-6">
+                <button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">New Thread</button>
+            </div>
         </div>
         <hr>
-        <div ng-show="threads.length > 0">
-            <ol ng-repeat="thread in threads">
-                <ul class="user-block-inv" ng-click="openModal('lg',thread)">
-                    <p>Thread Title : {{thread.title}}</p>
-                    <p>Posted by : {{thread.username}}</p>
-                </ul>
-            </ol>
+    </div>
+</div>
+
+<div ng-show="threads.length > 0">
+    <div ng-repeat="thread in threads">
+        <div class="row vertical-align comment-block">
+            <div class="col-lg-11">
+                <div ng-click="openModal('lg',thread)">
+                    <p style="color: white;"><b>{{thread.title}}</b></p>
+                    <p>Created by : {{thread.username}}</p>
+                </div>
+            </div>
+            <div class="col-lg-1" ng-click="">
+                <img style="width: 25px;" src="../src/img/close.png" alt="close">
+            </div>
         </div>
     </div>
-
 </div>
