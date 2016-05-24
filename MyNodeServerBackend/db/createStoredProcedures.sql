@@ -47,7 +47,7 @@ CREATE OR REPLACE FUNCTION getSessionUserLevel(session TEXT) RETURNS VARCHAR(1) 
 CREATE OR REPLACE FUNCTION closeSession(session TEXT) RETURNS VOID AS $$
 	BEGIN
 		DELETE FROM UserSessions WHERE session=sessionID;
-	END;
+	END; $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------- User Management --------------------------------------------------------
@@ -143,7 +143,7 @@ CREATE OR REPLACE FUNCTION setUserLevel(uname TEXT, newLevel VARCHAR(1), session
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION getUserLevel(uname TEXT) RETURNS BOOLEAN AS $$
+CREATE OR REPLACE FUNCTION getUserLevel(uname TEXT) RETURNS VARCHAR(1) AS $$
 	DECLARE
 		sessionStatus VARCHAR(1);
 		uLvl VARCHAR(1);
@@ -155,6 +155,7 @@ CREATE OR REPLACE FUNCTION getUserLevel(uname TEXT) RETURNS BOOLEAN AS $$
 -- Make 2 users friends
 CREATE OR REPLACE FUNCTION addFriend(uname1 TEXT, uname2 TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE
+		sessionStatus VARCHAR(1);
 		sessionUser TEXT;
 	BEGIN
 		SELECT * INTO sessionStatus FROM getSessionUser(session);
@@ -256,7 +257,7 @@ CREATE OR REPLACE FUNCTION isUserAllowedToRead(arrPath VARCHAR(255)[], session T
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO uLvl FROM getUserLevel(uname);
-		IF uLvl = 'A' THEN
+		IF uLvl='A' THEN
 			RETURN TRUE;
 		END IF;
 		SELECT ReadAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
@@ -272,7 +273,7 @@ CREATE OR REPLACE FUNCTION isUserAllowedToWrite(arrPath VARCHAR(255)[], session 
 	BEGIN
 		SELECT * INTO uname FROM getSessionUser(session);
 		SELECT * INTO uLvl FROM getUserLevel(uname);
-		IF uLvl = 'A' THEN
+		IF uLvl='A' THEN
 			RETURN TRUE;
 		END IF;
 		SELECT WriteAllowed INTO isAllowed FROM UserPermissionsOnFile upof WHERE uname=upof.username AND arrPath=upof.FPath;
@@ -474,32 +475,32 @@ CREATE OR REPLACE FUNCTION deleteCategory(catName title, session TEXT) RETURNS V
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION deleteThread(threadName title, session TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION deleteThread(threadName title, categoryName title, session TEXT) RETURNS VOID AS $$
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
 		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
 		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
-			DELETE FROM Thread t WHERE c.TTitle=catName;
+			DELETE FROM Thread t WHERE c.TTitle=threadName AND c.CTitle=categoryName;
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, postTime DATETIME, session TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, threadTitle title, postText TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
 		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
 		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
-			DELETE FROM ThreadComment tc WHERE tc.Username=uname, tc.TimeOfCreation=postTime;
+			DELETE FROM ThreadComment tc WHERE tc.Username=uname AND tc.TTitle=threadTitle AND tc.userText=postText;
 		END IF;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION deleteFileComment(uname username, postTime DATETIME, session TEXT) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION deleteFileComment(uname username, filePath VARCHAR(255)[], postText TEXT, session TEXT) RETURNS VOID AS $$
 	DECLARE
 		sessionStatus VARCHAR(1);
 	BEGIN
 		SELECT * INTO sessionStatus FROM getSessionUserLevel(session);
 		IF sessionStatus = 'A' OR sessionStatus = 'M' THEN
-			DELETE FROM FileComment fc WHERE fc.Username=uname, fc.TimeOfCreation=postTime;
+			DELETE FROM FileComment fc WHERE fc.Username=uname AND fc.FPath=filePath AND fc.userText=postText;
 		END IF;
 	END; $$ LANGUAGE plpgsql;

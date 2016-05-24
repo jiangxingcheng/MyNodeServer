@@ -79,8 +79,8 @@ CREATE TABLE Thread(
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(CTitle) REFERENCES Category(CTitle));
 CREATE INDEX ON Thread (Username);
-CREATE INDEX ON Thread (CTitle);
 CREATE INDEX ON Thread (TimeOfCreation);
+CREATE INDEX ON Thread (CTitle);
 
 
 CREATE TABLE ThreadComment(
@@ -88,10 +88,10 @@ CREATE TABLE ThreadComment(
 	TimeOfCreation TIMESTAMP NOT NULL,
 	TTitle title NOT NULL,
 	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
-	PRIMARY KEY(Username, TimeOfCreation),
+	PRIMARY KEY(Username, TTitle, userText),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(TTitle) REFERENCES Thread(TTitle));
-CREATE INDEX ON ThreadComment (TTitle);
+CREATE INDEX ON ThreadComment (TimeOfCreation);
 
 
 CREATE TABLE FileComment(
@@ -99,7 +99,7 @@ CREATE TABLE FileComment(
 	TimeOfCreation TIMESTAMP NOT NULL,
 	FPath VARCHAR(255)[] NOT NULL,
 	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
-	PRIMARY KEY(Username, TimeOfCreation),
+	PRIMARY KEY(Username, FPath, userText),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
 	FOREIGN KEY(FPath) REFERENCES File(FPath));
-CREATE INDEX ON FileComment (FPath);
+CREATE INDEX ON FileComment (TimeOfCreation);
