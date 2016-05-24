@@ -390,8 +390,13 @@ figcaption {
 
 .help-block, .error-msg {
     color: black;
-    font-size: 9 pt;
+    font-size: 9pt;
 }
+
+.form-control {
+    width: 100%;
+}
+
 /* TODO: Implement fade effect for user search text */
 /*.fade {*/
 /*opacity: 1;*/

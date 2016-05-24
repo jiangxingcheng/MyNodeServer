@@ -12,7 +12,8 @@
         <hr class="hr-fat">
         <div class="row comment-block vertical-align" ng-repeat="filecomment in filecomments">
             <div class="col-lg-11">
-                <p style="color: white;"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b></p>
+                <p style="color: white;"><b>{{filecomment.username}} :{{filecomment.timeofcreation | formatDate}} </b>
+                </p>
                 <p>{{filecomment.body}}</p>
             </div>
             <div class="col-lg-1" ng-click="">
@@ -22,24 +23,28 @@
 
     </div>
     <div class="modal-footer">
-        <form name="sumbitcomment" ng-submit="submitComment()" role="form">
-            <div class="col-lg-6">
-                <div align="left" class="form-group">
-                    <label>
-                        <input placeholder="Enter Comment" class="form-control" name="comment" type="text"
-                               ng-model="usertext"/>
-                    </label>
-                </div>
+        <form name="sumbitcomment" class="row" ng-submit="submitComment()" role="form">
+            <div align="left" class="form-group col-lg-6">
+                <input style="width: 100%;" placeholder="Enter Comment" class="form-control" name="comment" type="text"
+                       ng-model="usertext"/>
             </div>
             <div class="form-actions">
                 <div class="col-lg-6">
-                    <button type="button" class="btn btn-secondary">Submit comment</button>
+                    <button style="width: 100%;" type="button" class="btn btn-secondary">Submit comment</button>
 
 
                 </div>
             </div>
         </form>
-        <button ng-click="ok()" class="btn btn-secondary">Close</button>
-        <button ng-click="rm()" class="btn btn-danger">Delete</button>
+        <div class="row">
+            <div class="col-lg-6">
+                <button style="width: 100%;" ng-click="ok()" class="btn btn-secondary">Close</button>
+            </div>
+            <div class="col-lg-6">
+                <button style="width: 100%;" ng-click="rm()" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+
+
     </div>
 </div>
