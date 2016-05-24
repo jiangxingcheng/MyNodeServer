@@ -52,5 +52,25 @@ router.route('/delete') // workaround for cors error
 
 
     });
+router.route('/deletecomment') // workaround for cors error
+    .post(function(req,res){
+        var username = req.body.username;
+        var timeofcreation = req.body.timeofcreation;
+        console.log('Username is ' + username);
+        console.log('Timeofcreation is ' + timeofcreation);
+        var params = [username,timeofcreation];
+        db.deletethreadcomment(params,function(err,results){
+            if(err){
+                console.log('Delete thread comment error');
+                console.log(err);
+                res.status(600).send('Thread comment could not be deleted');
+            }else{
+                console.log('Delete thread comment results');
+                res.status(200).send();
+            }
+        });
+
+
+    });
 
 module.exports = router;

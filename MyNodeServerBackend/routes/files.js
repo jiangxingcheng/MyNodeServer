@@ -41,24 +41,7 @@ router.route('/')
         });
 
 
-    })
-    .delete(function(req,res){
-        //console.log('query');
-        //console.log(req.query);
-        var filepath = req.query.filepath;
-        console.log('filepath');
-        console.log(req.query.filepath);
-        sqlquery.rm(filepath,function(err,data){
-            if(err){
-                console.log(err);
-                res.status(601).send(err);
-            }else{
-                res.status(200).send("");
-            }
-        });
-
     });
-
 router.route('/filecomments')
     .get(function(req,res){
         var path = req.query.path;
@@ -101,6 +84,37 @@ router.route('/filecomments')
                 res.status(200).send();
             }
         });
+    });
+router.route('/filecommentsdelete')
+    .post(function(req,res){
+        var username = req.body.username;
+        var timeofcreation = req.body.timeofcreation;
+        db.deletefilecomment([username,timeofcreation],function(err,result){
+            if(err){
+                console.log('delete filecomments error');
+                console.log(err);
+                res.status(600).send();
+            }else{
+                console.log('delete filecomments success');
+                res.status(200).send();
+            }
+        });
+
+    });
+router.route('/filedelete')
+    .post(function(req,res){
+        var filepath = req.body.filepath;
+        console.log('filepath');
+        console.log(filepath);
+        sqlquery.rm(filepath,function(err,data){
+            if(err){
+                console.log(err);
+                res.status(601).send(err);
+            }else{
+                res.status(200).send("");
+            }
+        });
+
     });
 router.route('/mkdir')
     .post(function(req,res){

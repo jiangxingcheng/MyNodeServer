@@ -257,10 +257,10 @@ exports.touch = function(parameters, callback){
 exports.rm = function(filepath, callback){
     db.rm(filepath,function(err,results){
         if(err){
-            console.log('touch file error');
+            console.log('rm file error');
             callback(err);
         }else{
-            console.log('touch file success');
+            console.log('rm file success');
             callback(err,results);
         }
     });

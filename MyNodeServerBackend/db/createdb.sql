@@ -98,5 +98,5 @@ CREATE TABLE FileComment(
 	userText TEXT NOT NULL CHECK(LENGTH(userText) > 0),
 	PRIMARY KEY(Username, TimeOfCreation),
 	FOREIGN KEY(Username) REFERENCES UserAccount(Username) ON DELETE CASCADE,
-	FOREIGN KEY(FPath) REFERENCES File(FPath));
+	FOREIGN KEY(FPath) REFERENCES File(FPath) ON DELETE CASCADE ) ;
 CREATE INDEX ON FileComment (FPath);
