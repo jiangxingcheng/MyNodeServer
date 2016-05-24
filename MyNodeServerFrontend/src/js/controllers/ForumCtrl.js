@@ -18,4 +18,9 @@ app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout'
 
         $state.go('forum.threads', {category : category });
     };
+    //demo example of how to use createThread
+    // sqlService.createThread('mythread','schafezp','General','here is a textbody',function(response){
+    //     $log.log("Response from createThread : ");
+    //     $log.log(response);
+    // });
 }]);

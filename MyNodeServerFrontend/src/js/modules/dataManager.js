@@ -64,6 +64,18 @@ app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, 
                     );
 }]);
 
+app.factory('Threads', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
+    var url = EnvConfig.api.baseUrl + 'threads/';
+    return $resource(url,{},
+                     {
+                         //not currently implemented
+                         createThread: {method: 'POST', params: {threadtitle: '@threadtitle',username:"@username",category : '@category',textbody : '@textbody'}}
+
+                     }
+
+                    );
+}]);
+
 app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'files/';
     var filecommenturl = EnvConfig.api.baseUrl + 'files/filecomments/';

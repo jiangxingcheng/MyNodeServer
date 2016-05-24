@@ -1,4 +1,4 @@
-app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin','Files',function ($http,$log,Useraccount,Category,AuthenticateLogin,Files) {
+app.service('sqlService', ['$http','$log' ,'Useraccount','Category','AuthenticateLogin','Files','Threads',function ($http,$log,Useraccount,Category,AuthenticateLogin,Files,Threads) {
     var self = this;
     self.username = 'blank';
     self.users = ["One things","two things","three things"];
@@ -54,6 +54,15 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             callback(data);
         },function(error){
             $log.log('ERROR IN CREATE THREAD COMMENT');
+            $log.log(error);
+        });
+
+    };
+    self.createThread = function(threadtitle,username,category,textbody,callback){
+        Threads.createThread({"threadtitle":threadtitle,"username":username,"category":category,"textbody":textbody},function(data){
+            callback(data);
+        },function(error){
+            $log.log('ERROR IN CREATE THREAD');
             $log.log(error);
         });
 
