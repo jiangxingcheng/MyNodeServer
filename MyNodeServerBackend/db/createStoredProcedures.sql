@@ -290,9 +290,9 @@ CREATE OR REPLACE FUNCTION deleteCategory(catName title) RETURNS VOID AS $$
 		DELETE FROM Category c WHERE c.CTitle=catName;
 	END; $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION deleteThread(threadTitle title) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION deleteThread(threadName title) RETURNS VOID AS $$
 	BEGIN
-		DELETE FROM Thread t WHERE c.TTitle=threadName;
+		DELETE FROM Thread t WHERE t.TTitle=threadName;
 	END; $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, createTime TIMESTAMP) RETURNS VOID AS $$
