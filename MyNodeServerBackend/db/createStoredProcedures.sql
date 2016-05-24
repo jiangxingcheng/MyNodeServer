@@ -90,3 +90,20 @@ CREATE OR REPLACE FUNCTION createThreadComment(uname TEXT, threadName title, use
 	BEGIN
 		INSERT INTO ThreadComment values(uname, current_timestamp, threadName, userText);
 	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteCategory(catName title) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM Category c WHERE c.CTitle=catName;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThread(threadTitle title) RETURNS VOID AS $$
+		DELETE FROM Thread t WHERE c.TTitle=threadName;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, createTime TIMESTAMP) RETURNS VOID AS $$
+		DELETE FROM ThreadComment tc WHERE tc.Username=uname AND tc.TimeOfCreation=createTime;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteFileComment(uname username, createTime TIMESTAMP) RETURNS VOID AS $$
+		DELETE FROM FileComment fc WHERE fc.Username=uname AND fc.TimeOfCreation=createTime;
+	END; $$ LANGUAGE plpgsql;
