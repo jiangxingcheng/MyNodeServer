@@ -284,3 +284,23 @@ CREATE OR REPLACE FUNCTION getFileComments(filePath TEXT) RETURNS TABLE(Username
 		SELECT * INTO arrPath FROM convertToArrPath(filePath);
 		RETURN QUERY SELECT fc.Username, fc.TimeOfCreation, fc.userText AS Body FROM FileComment fc WHERE fc.FPath=arrPath;
 	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteCategory(catName title) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM Category c WHERE c.CTitle=catName;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThread(threadTitle title) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM Thread t WHERE c.TTitle=threadName;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteThreadComment(uname username, createTime TIMESTAMP) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM ThreadComment tc WHERE tc.Username=uname AND tc.TimeOfCreation=createTime;
+	END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION deleteFileComment(uname username, createTime TIMESTAMP) RETURNS VOID AS $$
+	BEGIN
+		DELETE FROM FileComment fc WHERE fc.Username=uname AND fc.TimeOfCreation=createTime;
+	END; $$ LANGUAGE plpgsql;
