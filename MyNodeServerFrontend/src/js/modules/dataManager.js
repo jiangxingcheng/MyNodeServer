@@ -84,7 +84,7 @@ app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'files/';
     var filecommenturl = EnvConfig.api.baseUrl + 'files/filecomments/';
     var filecommentdeleteurl = EnvConfig.api.baseUrl + 'files/filecommentsdelete/';
-    var filedeleteurl = url + 'filedelete/';
+    var filedeleteurl = EnvConfig.api.baseUrl + 'files/filedelete/';
     var mkdirurl = EnvConfig.api.baseUrl + 'files/mkdir/';
     var touchurl = EnvConfig.api.baseUrl + 'files/touch/';
     return $resource(url,{},
@@ -93,7 +93,7 @@ app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
                          getFileComments: {method: "GET",isArray:true ,url:filecommenturl,params: {path:'@path'}},
                          saveFileComment: {method: "POST", url:filecommenturl, params:{username:'@username',path:'@path',usertext:'@usertext'}},
                          deleteFileComment: {METHOD: "POST",url:filecommentdeleteurl,params:{username:'@username',timeofcreation:'@timeofcreation'}},
-                         deleteFile: {METHOD: "POST",url:filedeleteurl,params:{filepath:'@filepath'}},
+                         deleteFile: {METHOD: "GET",url:filedeleteurl,params:{filepath:'@filepath'}},
                          mkdir: {method: "POST", url:mkdirurl, params:{username:'@username',dirpath:'@dirpath'}},
                          touch: {method: "POST", url:touchurl, params:{username:'@username',filepath:'@filepath'}}
                      }
