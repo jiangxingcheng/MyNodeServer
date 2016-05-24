@@ -35,8 +35,9 @@ router.route('/')
                 res.status(200).send();
             }
         });
-    })
-    .delete(function(req,res){
+    });
+router.route('/delete') // workaround for cors error
+    .post(function(req,res){
         var threadtitle = req.body.threadtitle;
         db.deletethread(threadtitle,function(err,results){
             if(err){
