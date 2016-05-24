@@ -66,10 +66,12 @@ app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, 
 
 app.factory('Threads', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'threads/';
+    var rmurl = url + 'delete/';
     return $resource(url,{},
                      {
                          //not currently implemented
-                         createThread: {method: 'POST', params: {threadtitle: '@threadtitle',username:"@username",category : '@category',textbody : '@textbody'}}
+                         createThread: {method: 'POST', params: {threadtitle: '@threadtitle',username:"@username",category : '@category',textbody : '@textbody'}},
+                         deleteThread: {method: 'POST', url:rmurl,params: {threadtitle: '@threadtitle'}}
 
                      }
 

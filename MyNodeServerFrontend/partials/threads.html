@@ -8,7 +8,7 @@
                 <button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">Clear</button>
             </div>
             <div align="right" class="col-lg-6">
-                <button style="width: 100%;" ui-sref="forum" class="btn btn-secondary">New Thread</button>
+                <button style="width: 100%;" class="btn btn-secondary" ng-click="createthreadmodal()">New Thread</button>
             </div>
         </div>
         <hr>
@@ -24,7 +24,7 @@
                     <p>Created by : {{thread.username}}</p>
                 </div>
             </div>
-            <div class="col-lg-1" ng-click="">
+            <div class="col-lg-1" ng-click="deleteThread(thread)">
                 <img style="width: 25px;" src="../src/img/close.png" alt="close">
             </div>
         </div>

@@ -1,5 +1,6 @@
 app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout','$state','$uibModal', function ($scope,$location, $log,sqlService,$timeout,$state,$uibModal)
 {
+    var self = this;
     $scope.categories = [];
     $scope.thread = {threadOpen : false};
     $scope.parentvalue = "blah";
@@ -18,9 +19,12 @@ app.controller('ForumCtrl', ['$scope','$location','$log','sqlService','$timeout'
 
         $state.go('forum.threads', {category : category });
     };
+
     //demo example of how to use createThread
     // sqlService.createThread('mythread','schafezp','General','here is a textbody',function(response){
     //     $log.log("Response from createThread : ");
     //     $log.log(response);
     // });
+
+
 }]);

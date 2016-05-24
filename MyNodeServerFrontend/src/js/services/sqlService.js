@@ -108,6 +108,15 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
             errorcallback(error); //error handling
         });
     };
+    self.deleteThread = function(threadtitle,callback,errorcallback){
+        Threads.deleteThread({"threadtitle":threadtitle},function(data){
+            callback(data);
+        },function(error){
+            //$log.log('Error in sqlservice');
+            //$log.log(error);
+            errorcallback(error); //error handling
+        });
+    };
     self.checkIfAuthenticated = function(username,password,callback){
         self.username = username;
         $log.log('Run an authentication query ');
