@@ -88,7 +88,12 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
         });
     };
     self.rm = function(filepath,callback){
-        Files.delete({"filepath":filepath},function(response){
+        Files.deleteFile({"filepath":filepath},function(response){
+            callback(response);
+        });
+    };
+    self.deleteFileComment = function(filepath,callback){
+        Files.deleteFileComment({"filepath":filepath},function(response){
             callback(response);
         });
     };
@@ -110,6 +115,15 @@ app.service('sqlService', ['$http','$log' ,'Useraccount','Category','Authenticat
     };
     self.deleteThread = function(threadtitle,callback,errorcallback){
         Threads.deleteThread({"threadtitle":threadtitle},function(data){
+            callback(data);
+        },function(error){
+            //$log.log('Error in sqlservice');
+            //$log.log(error);
+            errorcallback(error); //error handling
+        });
+    };
+    self.deleteThreadComment = function(username,timeofcreation,callback,errorcallback){
+        Threads.deleteThreadComment({"username":username,"timeofcreation":timeofcreation},function(data){
             callback(data);
         },function(error){
             //$log.log('Error in sqlservice');

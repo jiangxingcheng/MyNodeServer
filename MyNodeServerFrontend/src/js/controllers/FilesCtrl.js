@@ -148,9 +148,10 @@ app.controller('FilesCtrl', ['$scope', '$location', '$log', 'sqlService', '$time
             self.filemodalInstance.result.then(function (result) {
                 if(result.rm){
                     $log.log('Run rm');
-                    sqlService.rm($scope.currentfilepath,function(){
-
-                    });
+                    // sqlService.rm($scope.currentfilepath,function(response){
+                    //     $log.log('response');
+                    //     $log.log(response);
+                    // });1
                 }else{
                     $log.log('exit from flemodal withoutrm');
                 }

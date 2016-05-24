@@ -67,11 +67,13 @@ app.factory('AuthenticateLogin', ['$resource', 'EnvConfig', function($resource, 
 app.factory('Threads', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'threads/';
     var rmurl = url + 'delete/';
+    var rmcommenturl = url + 'deletecomment/';
     return $resource(url,{},
                      {
                          //not currently implemented
                          createThread: {method: 'POST', params: {threadtitle: '@threadtitle',username:"@username",category : '@category',textbody : '@textbody'}},
-                         deleteThread: {method: 'POST', url:rmurl,params: {threadtitle: '@threadtitle'}}
+                         deleteThread: {method: 'POST', url:rmurl,params: {threadtitle: '@threadtitle'}},
+                         deleteThreadComment: {method: 'POST', url:rmcommenturl,params: {username: '@username',timeofcreation:'@timeofcreation'}}
 
                      }
 
@@ -81,6 +83,8 @@ app.factory('Threads', ['$resource', 'EnvConfig', function($resource, EnvConfig)
 app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
     var url = EnvConfig.api.baseUrl + 'files/';
     var filecommenturl = EnvConfig.api.baseUrl + 'files/filecomments/';
+    var filecommentdeleteurl = EnvConfig.api.baseUrl + 'files/filecommentsdelete/';
+    var filedeleteurl = url + 'filedelete/';
     var mkdirurl = EnvConfig.api.baseUrl + 'files/mkdir/';
     var touchurl = EnvConfig.api.baseUrl + 'files/touch/';
     return $resource(url,{},
@@ -88,6 +92,8 @@ app.factory('Files', ['$resource', 'EnvConfig', function($resource, EnvConfig) {
                          ls: {method: "GET",isArray:true ,params: {username:'@username',path:'@path'}},
                          getFileComments: {method: "GET",isArray:true ,url:filecommenturl,params: {path:'@path'}},
                          saveFileComment: {method: "POST", url:filecommenturl, params:{username:'@username',path:'@path',usertext:'@usertext'}},
+                         deleteFileComment: {METHOD: "POST",url:filecommentdeleteurl,params:{username:'@username',timeofcreation:'@timeofcreation'}},
+                         deleteFile: {METHOD: "POST",url:filedeleteurl,params:{filepath:'@filepath'}},
                          mkdir: {method: "POST", url:mkdirurl, params:{username:'@username',dirpath:'@dirpath'}},
                          touch: {method: "POST", url:touchurl, params:{username:'@username',filepath:'@filepath'}}
                      }

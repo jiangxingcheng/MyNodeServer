@@ -1,4 +1,4 @@
-app.controller('ThreadModalCtrl',['$scope','$uibModalInstance','loginService','sqlService','$log', function ($scope,$uibModalInstance,loginService,sqlService,$log) {
+app.controller('ThreadModalCtrl',['$scope','$uibModalInstance','loginService','sqlService','$log','Threads', function ($scope,$uibModalInstance,loginService,sqlService,$log,Threads) {
 
     $scope.ok = function () {
         $uibModalInstance.close('Close');
@@ -23,6 +23,26 @@ app.controller('ThreadModalCtrl',['$scope','$uibModalInstance','loginService','s
             });
         }else{
             $log.log('You must be logged in to comment ');
+        }
+    };
+    $scope.deleteComment = function(comment){
+        if(loginService.usertext == 'Admin' ||loginService.usertext == 'Mod'){
+            $log.log('Comment to be deleted is');
+            var username = comment.username;
+            var timeofcreation = comment.timeofcreation;
+            $log.log('Delete username : ' + username + ' timeofcreation : ' + timeofcreation);
+            sqlService.deleteThreadComment(username,timeofcreation,function(res){
+                $log.log('Comment succesfully deleted');
+                sqlService.getThreadCommentsByTitle($scope.categoryTitle, $scope.modalThread.title ,function(data){
+                    $scope.threadComments = data;
+                    $log.log('Updated threadcomments is');
+                    $log.log($scope.threadComments);
+                });
+            },function(err){
+                $log.log('Comment not succesfully deleted');
+            });
+        }else{
+            $log.log('Cannot run delete comment because of permission level');
         }
     };
 

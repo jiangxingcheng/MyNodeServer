@@ -1,4 +1,4 @@
-app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService','$log','$uibModal','loginService', function ($scope,$state,$stateParams,sqlService,$log,$uibModal,loginService)
+app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService','$log','$uibModal','loginService','$location','$anchorScroll','$timeout', function ($scope,$state,$stateParams,sqlService,$log,$uibModal,loginService,$location,$anchorScroll,$timeout)
                              {
     $scope.category = $stateParams.category;
     $log.log('Category');
@@ -11,6 +11,7 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
         $scope.threads = data;
         $log.log('Received data');
         $log.log(data);
+
 
     });
     $scope.deleteThread = function(thread){
@@ -45,11 +46,12 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
                     sqlService.createThread(threadtitle,username,category,textbody,function(status){
                         sqlService.getCategoryByTitle($scope.categoryTitle,function(data){
                             $scope.threads = data;
+                            self.createthreadmodal.close('Close');
                         });
                         console.log("Create thread status");
                         console.log(status);
                     });
-                    self.createthreadmodal.close('Close');
+
                 };
 
                 $scope.cancel = function () {
@@ -59,6 +61,17 @@ app.controller('ForumThreadCtrl', ['$scope','$state','$stateParams','sqlService'
         });
         self.createthreadmodal.result.then(function(data){
             sqlService.getCategoryByTitle($scope.categoryTitle,function(data){
+                $log.log('Update actual list');
+                $scope.threads = [];
+                $scope.threads = data;
+            });
+            $timeout(function(){
+                $location.hash('bottom');
+                $anchorScroll();
+            },100);
+        },function(){
+            sqlService.getCategoryByTitle($scope.categoryTitle,function(data){
+                $log.log('Update actual list');
                 $scope.threads = [];
                 $scope.threads = data;
             });

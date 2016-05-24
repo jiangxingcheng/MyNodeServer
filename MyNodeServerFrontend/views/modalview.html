@@ -5,7 +5,7 @@
             <p style="color: #ffffff"><b>{{threadcomment.username}} :{{threadcomment.timeofcreation | formatDate}} </b></p>
             <p>{{threadcomment.usertext}}</p>
         </div>
-        <div class="col-lg-1" ng-click="">
+        <div class="col-lg-1" ng-click="deleteComment(threadcomment)">
             <img style="width: 25px;" src="../src/img/close.png" alt="close">
         </div>
     </div>
