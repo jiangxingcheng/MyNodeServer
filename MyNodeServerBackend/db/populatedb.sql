@@ -1,6 +1,6 @@
 INSERT INTO UserAccount VALUES('dbsetup','asdfasdf','salty','A',current_timestamp,current_timestamp);
 INSERT INTO UserSessions VALUES('microsoftsucks','dbsetup',current_timestamp,current_timestamp);
-INSERT INTO FILE VALUES(ARRAY['home'],'dbsetup',current_timestamp,TRUE);
+INSERT INTO File VALUES(ARRAY['home'],'dbsetup',current_timestamp,TRUE);
 
 SELECT createUser('schafezp','changething');
 SELECT createUser('zamanmm','otherthing');

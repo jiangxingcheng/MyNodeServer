@@ -243,7 +243,7 @@ CREATE OR REPLACE FUNCTION containsPath(basePath VARCHAR(255)[], checkingPath VA
 		LOOP
 			IF basePath[loopCount]<>checkingPath[loopCount] THEN RETURN FALSE; END IF;
 			SELECT loopCount+1 INTO loopCount;
-			IF loopCount>=baseLen THEN EXIT; END IF;
+			IF loopCount>baseLen THEN EXIT; END IF;
 		END LOOP;
 		RETURN TRUE;
 	END; $$ LANGUAGE plpgsql;
