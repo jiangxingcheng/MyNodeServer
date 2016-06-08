@@ -6,9 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var app = module.exports = express();
-var dbExport = require('./dbinfo');
-var dbInstance = dbExport.dbInstance;
-app.set('db',dbInstance);
+var massive = require("massive");
+var dbinfo = require('./dbinfo');
+var massiveInstance = massive.connectSync({connectionString : dbinfo.database});
+app.set('db',massiveInstance);
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
