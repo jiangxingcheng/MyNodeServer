@@ -19,8 +19,14 @@ Then install all the bower dependencies from bower.json in MyNodeServerFrontend
 ```javascript
 bower install
 ```
-Then change the connection string in MyNodeServerBackend/dbinfo.js to be appropriate for your instance of postgres.
+Then create a connection string in MyNodeServerBackend/dbinfo.js that is of the following format
 
+```javascript
+module.exports = {
+    'database' :'postgres://DBUSERNAME:DBPASSWORD@localhost:5432/MyNodeServer' 
+}
+
+```
 ### Running
 
 Then run
